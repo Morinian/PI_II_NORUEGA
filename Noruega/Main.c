@@ -16,7 +16,7 @@ int main() {
     al_install_keyboard();
 
     //Criação do display e nomear
-    ALLEGRO_DISPLAY* display = al_create_display(800, 500);
+    ALLEGRO_DISPLAY* display = al_create_display(1000, 550);
     al_set_window_position(display, 200, 200);
     al_set_window_title(display, "Burn the witches down");
 
@@ -28,7 +28,11 @@ int main() {
     //Imagens uploads
     
     //Exemplo
-    //ALLEGRO_BITMAP* marFundo = al_load_bitmap("./marfundo.jfif");
+    ALLEGRO_BITMAP* mal = al_load_bitmap("./bruxinhaMal.png");
+    ALLEGRO_BITMAP* bem = al_load_bitmap("./bruxinha.png");
+    ALLEGRO_BITMAP* p1 = al_load_bitmap("./p1.png");
+    ALLEGRO_BITMAP* p2 = al_load_bitmap("./p2.png");
+    ALLEGRO_BITMAP* p3 = al_load_bitmap("./p3.png");
 
     //--------------------------------------------------------
     //Eventos
@@ -48,13 +52,24 @@ int main() {
         if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
             break;
         }
-       
+
+        al_draw_bitmap(mal, 200, 280, 0);
+        al_draw_bitmap(bem, 700, 280, 0);
+        al_draw_bitmap(p1, 680, 200, 0);
+        al_draw_bitmap(p2, 730, 200, 0);
+        al_draw_bitmap(p3, 780, 200, 0);
+
         al_flip_display();
     }
 
 
     //--------------------------------------------------------
     //Destruições 
+    al_destroy_font(mal);
+    al_destroy_font(bem);
+    al_destroy_font(p1);
+    al_destroy_font(p2);
+    al_destroy_font(p3);
 
     al_destroy_font(font);
     al_destroy_display(display);
