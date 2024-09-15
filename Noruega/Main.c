@@ -53,11 +53,23 @@ int main() {
             break;
         }
 
+        al_draw_text(font, al_map_rgb(255, 255, 255), 480-50, 100, 0, "A entidade lhe entrega");
+        al_draw_text(font, al_map_rgb(255, 255, 255), 500-50, 115, 0, "CLORETO DE ACETILO");
+
         al_draw_bitmap(mal, 200, 280, 0);
-        al_draw_bitmap(bem, 700, 280, 0);
+        al_draw_bitmap(bem, 720, 280, 0);
+
+        al_draw_text(font, al_map_rgb(255, 255, 255), 700, 180, 0, "A");
+        al_draw_text(font, al_map_rgb(255, 255, 255), 680, 250, 0, "agua");
         al_draw_bitmap(p1, 680, 200, 0);
-        al_draw_bitmap(p2, 730, 200, 0);
-        al_draw_bitmap(p3, 780, 200, 0);
+
+        al_draw_text(font, al_map_rgb(255, 255, 255), 770, 180, 0, "S");
+        al_draw_text(font, al_map_rgb(255, 255, 255), 745, 250, 0, "nitrato");
+        al_draw_bitmap(p2, 750, 200, 0);
+
+        al_draw_text(font, al_map_rgb(255, 255, 255), 830, 180, 0, "D");
+        al_draw_text(font, al_map_rgb(255, 255, 255), 820, 250, 0, "bromo");
+        al_draw_bitmap(p3, 820, 200, 0);
 
         al_flip_display();
     }
