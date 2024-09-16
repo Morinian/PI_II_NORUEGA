@@ -1,7 +1,2 @@
 ﻿  Main.c
-C:\Users\leapa\source\repos\Noruega\Noruega\Main.c(80,21): warning C4133: 'função': tipos incompatíveis - de 'ALLEGRO_BITMAP *' para 'ALLEGRO_FONT *'
-C:\Users\leapa\source\repos\Noruega\Noruega\Main.c(81,21): warning C4133: 'função': tipos incompatíveis - de 'ALLEGRO_BITMAP *' para 'ALLEGRO_FONT *'
-C:\Users\leapa\source\repos\Noruega\Noruega\Main.c(82,21): warning C4133: 'função': tipos incompatíveis - de 'ALLEGRO_BITMAP *' para 'ALLEGRO_FONT *'
-C:\Users\leapa\source\repos\Noruega\Noruega\Main.c(83,21): warning C4133: 'função': tipos incompatíveis - de 'ALLEGRO_BITMAP *' para 'ALLEGRO_FONT *'
-C:\Users\leapa\source\repos\Noruega\Noruega\Main.c(84,21): warning C4133: 'função': tipos incompatíveis - de 'ALLEGRO_BITMAP *' para 'ALLEGRO_FONT *'
   Noruega.vcxproj -> C:\Users\leapa\source\repos\Noruega\x64\Debug\Noruega.exe
