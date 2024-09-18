@@ -5,6 +5,7 @@
 #include <allegro5/keyboard.h>
 #include <allegro5/allegro_primitives.h>
 #include <stdio.h>
+#include "menu.h"
 
 // Função para desenhar o botão transparente
 void draw_button(ALLEGRO_FONT* font, int x, int y, int width, int height) {
@@ -27,6 +28,9 @@ int main() {
     al_install_mouse();
     al_init_primitives_addon();
 
+    //init map
+    ALLEGRO_BITMAP* background = initBackgroundImage();
+
     // Criação do display e nomear
     ALLEGRO_DISPLAY* display = al_create_display(1000, 550);
     al_set_window_position(display, 200, 200);
@@ -37,12 +41,7 @@ int main() {
     ALLEGRO_TIMER* timer = al_create_timer(1.0 / 60.0);
 
     //--------------------------------------------------------
-    // Carregar imagem de fundo
-    ALLEGRO_BITMAP* background = al_load_bitmap("./Img_Fundo_Inicio_Game.png");
-    if (!background) {
-        fprintf(stderr, "Falha ao carregar a imagem de fundo!\n");
-        return -1; // Ou qualquer outro código para encerrar o programa
-    }
+    
     // Defina a nova largura e altura da imagem de fundo
     int new_width = 1000; // Defina a largura desejada
     int new_height = 550; // Defina a altura desejada
@@ -99,10 +98,7 @@ int main() {
             al_clear_to_color(al_map_rgb(0, 0, 0)); // Limpa a tela
 
             // Desenhar o fundo redimensionado
-            al_draw_scaled_bitmap(background,
-                0, 0, al_get_bitmap_width(background), al_get_bitmap_height(background),
-                0, 0, new_width, new_height,
-                0); // Desenha a imagem de fundo redimensionada
+            menuDraw(new_width, new_height, background);
 
             // Desenhar o botão transparente
             draw_button(font, 410, 333, 195, 60);
@@ -200,7 +196,7 @@ int main() {
 
     //--------------------------------------------------------
     // Destruições
-    al_destroy_bitmap(background);
+    menuHeaderDestroy(background);
     al_destroy_bitmap(p1);
     al_destroy_bitmap(p2);
     al_destroy_bitmap(p3);
