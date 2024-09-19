@@ -1,11 +1,17 @@
-#ifndef menu
-#define menu
+#ifndef MENU_H  
 
-void menuDraw(int width, int height, ALLEGRO_BITMAP* background);
+    #define MENU_H  
 
-ALLEGRO_BITMAP* initBackgroundImage();
+    typedef struct MENU MENU;
+    struct MENU
+    {
+        ALLEGRO_BITMAP* backgroundImage;
+        void (*dawMenu)(int, int, ALLEGRO_BITMAP*);
+        void (*destroyMenu)(MENU*);
 
-void menuHeaderDestroy(ALLEGRO_BITMAP* background);
+    };
+
+    MENU * initMenu();
 
 #endif // !menu
 

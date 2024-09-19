@@ -29,7 +29,7 @@ int main() {
     al_init_primitives_addon();
 
     //init map
-    ALLEGRO_BITMAP* background = initBackgroundImage();
+    MENU* menu = initMenu();
 
     // Criação do display e nomear
     ALLEGRO_DISPLAY* display = al_create_display(1000, 550);
@@ -38,7 +38,7 @@ int main() {
 
     // Fonte e FPS
     ALLEGRO_FONT* font = al_create_builtin_font();
-    ALLEGRO_TIMER* timer = al_create_timer(1.0 / 60.0);
+    ALLEGRO_TIMER* timer = al_create_timer(1.0 / 30.0);
 
     //--------------------------------------------------------
     
@@ -98,7 +98,7 @@ int main() {
             al_clear_to_color(al_map_rgb(0, 0, 0)); // Limpa a tela
 
             // Desenhar o fundo redimensionado
-            menuDraw(new_width, new_height, background);
+            
 
             // Desenhar o botão transparente
             draw_button(font, 410, 333, 195, 60);
@@ -196,7 +196,7 @@ int main() {
 
     //--------------------------------------------------------
     // Destruições
-    menuHeaderDestroy(background);
+    menu->destroyMenu(menu);
     al_destroy_bitmap(p1);
     al_destroy_bitmap(p2);
     al_destroy_bitmap(p3);

@@ -1,17 +1,21 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
 #include <stdio.h>
-
-
-
+#include <stdlib.h>
+#include "menu.h"
 
 ALLEGRO_BITMAP * initBackgroundImage()
 {
     // Carregar imagem de fundo
     ALLEGRO_BITMAP* background;
-    return background = al_load_bitmap("./Img_Fundo_Inicio_Game.png");
+    background = al_load_bitmap("./Img_Fundo_Inicio_Game.png");
+    if (!background)
+    {
+        printf_s("Imagem de background nao alocada");
+        exit(-1);
+    }
+    return background;
 }
-
 
 void menuDraw(int width, int height, ALLEGRO_BITMAP * background)
 {
@@ -23,7 +27,23 @@ void menuDraw(int width, int height, ALLEGRO_BITMAP * background)
 }
 
 
-void menuHeaderDestroy(ALLEGRO_BITMAP * background)
+void menuHeaderDestroy(MENU* menu)
 {
-    al_destroy_bitmap(background);
+    al_destroy_bitmap(menu->backgroundImage);
+    free(menu);
+}
+
+MENU * initMenu()
+{
+    MENU * menu = (MENU *) malloc(sizeof(MENU));
+    if (!menu)
+    {
+        printf_s("Memoria nao alocada");
+        exit(-1);
+    }
+    printf_s("Memoria alocada!!");
+    menu->backgroundImage = initBackgroundImage();
+    menu->dawMenu = menuDraw;
+    menu->destroyMenu = menuHeaderDestroy;
+    return &menu;
 }
