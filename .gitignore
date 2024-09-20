@@ -4,4 +4,4 @@
 # Não ignorar as pastas e arquivos que você quer incluir
 !Noruega/
 !Noruega/**
-!/Projeto.sln
+!/Noruega.sln
