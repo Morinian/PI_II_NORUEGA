@@ -1,2 +1,7 @@
-.vs/
-packages/
+# Ignorar tudo
+*
+
+# Não ignorar as pastas e arquivos que você quer incluir
+!/src/
+!/imagens/
+!/Projeto.sln
