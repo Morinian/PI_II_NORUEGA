@@ -1,7 +1,16 @@
 # Ignorar tudo
 *
 
-# Não ignorar as pastas e arquivos que você quer incluir
+# Exceções específicas
 !Noruega/
-!Noruega/**
+!Noruega/src/
+!Noruega/src/**
+!Noruega/images/
+!Noruega/images/**
+
+# Não ignorar a solução
 !/Noruega.sln
+
+# Ignorar o arquivo vcxproj.user
+!Noruega/Noruega.vcxproj
+
