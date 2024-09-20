@@ -4,4 +4,5 @@ https://github.com/iuricode/padroes-de-commits
 
 # Documentação do Allegro
 
-[https://github.com/iuricode/padroes-de-commits](https://github.com/liballeg/allegro_wiki)
+quickstart: https://github.com/liballeg/allegro_wiki/wiki/Quickstart
+wiki: https://github.com/liballeg/allegro_wiki/wiki/Allegro-Vivace
