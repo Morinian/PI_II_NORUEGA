@@ -3,7 +3,9 @@
 #include <string.h>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
+#include "../element/element.h"
 #include "witch.h"
+
 
 ALLEGRO_BITMAP* initWitchSprite(char image_path[])
 {
@@ -42,6 +44,7 @@ WITCH * initWitch(char image_path[])
     witch->destroyWitch = destroyWitch;
     witch->coordinate_x = 200;
     witch->coordinate_y = 280;
+    witch->deck = generateChemicalDeck();
 
     return witch;
 }

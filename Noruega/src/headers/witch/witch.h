@@ -14,7 +14,7 @@
 		//-- Atributos-- //
 		enum WITCH_TYPE type;
 		ALLEGRO_BITMAP* sprite;
-		enum CHEMICAL_ELEMENTS deck[4];//Verificar se o compilador identifica essse enum, pois está em outro header
+		enum CHEMICAL_ELEMENTS * deck;//Verificar se o compilador identifica essse enum, pois está em outro header
 		int health_points;
 		int coordinate_x;
 		int coordinate_y;
