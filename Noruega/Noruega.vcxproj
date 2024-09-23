@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\headers\element\element.c" />
     <ClCompile Include="src\headers\menu\menu.c" />
     <ClCompile Include="src\headers\witch\witch.c" />
     <ClCompile Include="src\Main.c" />

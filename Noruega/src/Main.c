@@ -20,7 +20,8 @@ int main() {
 
     //Init bruxa;
     WITCH* witch = initWitch("./images/BruxinhaMal.png");
-
+    for (int i = 0; i < 4; i++)
+        printf_s("\nGerado: %i", witch->deck[i]);
     // Criação do display e nomear
     ALLEGRO_DISPLAY* display = al_create_display(1000, 550);
     al_set_window_position(display, 200, 200);
