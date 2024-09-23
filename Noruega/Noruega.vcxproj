@@ -141,10 +141,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\headers\menu\menu.c" />
+    <ClCompile Include="src\headers\witch\witch.c" />
     <ClCompile Include="src\Main.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\headers\element\element.h" />
     <ClInclude Include="src\headers\menu\menu.h" />
+    <ClInclude Include="src\headers\witch\witch.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -8,9 +8,8 @@
 !Noruega/images/
 !Noruega/images/**
 
-# Não ignorar a solução
+# Não ignorar a solução e configurações da solução
 !/Noruega.sln
-
-# Ignorar o arquivo vcxproj.user
+!Noruega/Noruega.vcxproj.filters
 !Noruega/Noruega.vcxproj
 
