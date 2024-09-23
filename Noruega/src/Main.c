@@ -6,6 +6,7 @@
 #include <allegro5/allegro_primitives.h>
 #include <stdio.h>
 #include "./headers/menu/menu.h"
+#include "./headers/witch/witch.h"
 
 int main() {
     // Inicializações
@@ -17,8 +18,8 @@ int main() {
     al_install_mouse();
     al_init_primitives_addon();
 
-    //init menu
-    MENU* menu = initMenu();
+    //Init bruxa;
+    WITCH* witch = initWitch("./images/BruxinhaMal.png");
 
     // Criação do display e nomear
     ALLEGRO_DISPLAY* display = al_create_display(1000, 550);
@@ -29,13 +30,6 @@ int main() {
     ALLEGRO_FONT* font = al_create_builtin_font();
     ALLEGRO_TIMER* timer = al_create_timer(1.0 / 30.0);
 
-    //--------------------------------------------------------
-    
-    // Defina a nova largura e altura da imagem de fundo
-    int new_width = 1000; // Defina a largura desejada
-    int new_height = 550; // Defina a altura desejada
-
-    //--------------------------------------------------------
     // Eventos
     ALLEGRO_EVENT_QUEUE* event_queue = al_create_event_queue();
     al_register_event_source(event_queue, al_get_display_event_source(display));
@@ -45,7 +39,6 @@ int main() {
     al_start_timer(timer);
 
     // Variáveis de controle de tela
-    bool on_main_menu = true; // Se estamos na tela do menu
     bool running = true;
 
     while (running) {
@@ -58,16 +51,13 @@ int main() {
 
         al_clear_to_color(al_map_rgb(0, 0, 0)); // Limpa a tela
         // Desenhar o fundo redimensionado
-        menu->dawMenu(new_width, new_height, menu->backgroundImage);
-
+        witch->dawWitch(witch);
         al_flip_display();
-      
-     
     }
 
     //--------------------------------------------------------
     // Destruições
-    menu->destroyMenu(menu);
+    witch->destroyWitch(witch);
     al_destroy_font(font);
     al_destroy_display(display);
     al_destroy_event_queue(event_queue);
