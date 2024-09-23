@@ -28,6 +28,7 @@ void drawWitch(WITCH* witch)
 void destroyWitch(WITCH * witch)
 {
     al_destroy_bitmap(witch->sprite);
+    free(witch->deck);
     free(witch);
 }
 
