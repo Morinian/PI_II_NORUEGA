@@ -19,7 +19,7 @@ int main() {
     al_init_primitives_addon();
 
     //Init bruxa;
-    WITCH* witch = initWitch("./images/BruxinhaMal.png");
+    WITCH* witch = initWitch("./images/BruxinhaMal.png", 200, 280);
     for (int i = 0; i < 4; i++)
         printf_s("\nGerado: %i", witch->deck[i]);
     // Criação do display e nomear

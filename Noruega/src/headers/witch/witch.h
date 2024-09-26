@@ -24,7 +24,7 @@
 		// atack()
 	};
 
-	WITCH* initWitch(char image_name[]);
+	WITCH* initWitch(char image_name[], int coordinate_x, int coordinate_y);
 
 #endif 
 

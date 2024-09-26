@@ -32,7 +32,7 @@ void destroyWitch(WITCH * witch)
     free(witch);
 }
 
-WITCH * initWitch(char image_path[])
+WITCH * initWitch(char image_path[], int coordinate_x, int coordinate_y)
 {
     WITCH * witch = malloc(sizeof(WITCH));
     if (!witch)
@@ -43,8 +43,8 @@ WITCH * initWitch(char image_path[])
     witch->sprite = initWitchSprite(image_path);
     witch->dawWitch = drawWitch;
     witch->destroyWitch = destroyWitch;
-    witch->coordinate_x = 200;
-    witch->coordinate_y = 280;
+    witch->coordinate_x = coordinate_x;
+    witch->coordinate_y = coordinate_y;
     witch->deck = generateChemicalDeck();
 
     return witch;
