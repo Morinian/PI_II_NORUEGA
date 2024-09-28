@@ -1,21 +1,19 @@
-//#ifndef MENU_H  
-//
-//    #define MENU_H  
-//
-//    typedef struct MENU MENU;
-//
-//    struct MENU
-//    {
-//        ALLEGRO_BITMAP* backgroundImage;
-//        ALLEGRO_BITMAP* setaImage;
-//
-//        void (*dawMenu)(int, int, ALLEGRO_BITMAP*);
-//        void (*drawSeta)(int, int, ALLEGRO_BITMAP*);
-//
-//        void (*destroyMenu)(MENU*);
-//    };
-//
-//    MENU * initMenu();
-//
-//#endif // !menu
-//
+#ifndef MAPA_H  
+
+    #define MAPA_H  
+
+    typedef struct MAPA MAPA;
+
+    struct MAPA
+    {
+        ALLEGRO_BITMAP* backgroundMap;
+
+        void (*drawMap)(int, int, ALLEGRO_BITMAP*);
+
+        void (*destroyMap)(MAPA*);
+    };
+
+    MAPA * initMapa();
+
+#endif // !mapa
+

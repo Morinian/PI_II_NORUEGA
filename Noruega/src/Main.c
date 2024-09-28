@@ -5,7 +5,10 @@
 #include <allegro5/keyboard.h>
 #include <allegro5/allegro_primitives.h>
 #include <stdio.h>
+
+//Headers
 #include "./headers/menu/menu.h"
+#include "./headers/mapa/mapa.h"
 
 int main() {
     // Inicializações
@@ -16,8 +19,9 @@ int main() {
     al_install_keyboard();
     al_init_primitives_addon();
 
-    //init menu
+    //init Headers
     MENU* menu = initMenu();
+    MAPA* mapa = initMapa();
 
     // Criação do display e nomear
     ALLEGRO_DISPLAY* display = al_create_display(1000, 550);
@@ -32,9 +36,6 @@ int main() {
     // Defina a nova largura e altura da imagem de fundo
     int new_width = 1000; // Defina a largura desejada
     int new_height = 550; // Defina a altura desejada
-
-    //Imagens
-    ALLEGRO_BITMAP* mapa = al_load_bitmap("./images/Mapa_Jogo.png");
 
     //--------------------------------------------------------
     // Eventos
@@ -74,7 +75,7 @@ int main() {
         if (screen == 1) {
 
             // Desenhar o fundo redimensionado
-            menu->dawMenu(new_width, new_height, menu->backgroundImage);
+            menu->drawMenu(new_width, new_height, menu->backgroundImage);
 
             //Movimenta a seta para cima e para baixo
             if (event.keyboard.keycode == ALLEGRO_KEY_DOWN) {
@@ -96,16 +97,16 @@ int main() {
 
             //Movimenta a seta
             if (nmenu == 1) {
-                menu->drawSeta(340, 325, menu->setaImage);
+                menu->drawArrow(340, 325, menu->arrowImage);
             }
             else if (nmenu == 2) {
-                menu->drawSeta(340, 410, menu->setaImage);
+                menu->drawArrow(340, 410, menu->arrowImage);
             }
         }
         else if (screen == 2){ //TELA DO MAPA
 
             //Desenho o mapa
-            al_draw_bitmap(mapa, 0, 0, 0);
+            mapa->drawMap(new_width, new_height, mapa->backgroundMap);
         }
         else if (screen == 3) { //TELA DO TUTORIAL
             al_draw_textf(font, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "TELA QUE VAI SER O TUTORIAL");
@@ -128,6 +129,7 @@ int main() {
 
     //Criados
     menu->destroyMenu(menu);
+    mapa->destroyMap(mapa);
 
     //Padrão
     al_destroy_font(font);
