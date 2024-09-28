@@ -34,7 +34,7 @@ int main() {
     int new_height = 550; // Defina a altura desejada
 
     //Imagens
-    ALLEGRO_BITMAP* seta = al_load_bitmap("./images/seta.png");
+    ALLEGRO_BITMAP* mapa = al_load_bitmap("./images/Mapa_Jogo.png");
 
     //--------------------------------------------------------
     // Eventos
@@ -96,12 +96,29 @@ int main() {
 
             //Movimenta a seta
             if (nmenu == 1) {
-                al_draw_bitmap(seta,340,325, 0);
+                menu->drawSeta(340, 325, menu->setaImage);
             }
             else if (nmenu == 2) {
-                al_draw_bitmap(seta,340 ,410 , 0);
+                menu->drawSeta(340, 410, menu->setaImage);
             }
-        }       
+        }
+        else if (screen == 2){ //TELA DO MAPA
+
+            //Desenho o mapa
+            al_draw_bitmap(mapa, 0, 0, 0);
+        }
+        else if (screen == 3) { //TELA DO TUTORIAL
+            al_draw_textf(font, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "TELA QUE VAI SER O TUTORIAL");
+        }
+        else if (screen == 4) { //FASE 1
+
+        }
+        else if (screen == 5) { //FASE 2
+
+        }
+        else if (screen == 6) { //FASE 3
+
+        }
      
         al_flip_display();
     }
@@ -111,9 +128,6 @@ int main() {
 
     //Criados
     menu->destroyMenu(menu);
-
-    //imgs
-    al_destroy_display(seta);
 
     //Padrão
     al_destroy_font(font);
