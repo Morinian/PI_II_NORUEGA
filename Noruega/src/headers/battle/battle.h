@@ -12,7 +12,7 @@
 		// --- funções ---//
 		void (*renderBattle)(BATTLE_PVE*);
 		void (*destroyBattle)(BATTLE_PVE*);
-		void (*play)(BATTLE_PVE*);
+		void (*play)(ALLEGRO_EVENT_QUEUE*, BATTLE_PVE*);
 	};
 
 	BATTLE_PVE* initBattlePVE(WITCH* player, WITCH* bot);

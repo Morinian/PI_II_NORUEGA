@@ -2,102 +2,116 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <allegro5/allegro.h>
+#include "../element/element.h"
 #include "../witch/witch.h"
 #include "../battle/battle.h"
+#include "../random/random.h"
 
 //void renderBattle();
 
 void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve) {
 
-	int bot_time_to_atack;
-	int timer;
+	ALLEGRO_TIMER* battle_timer = al_create_timer(1.0);
+	if (!battle_timer)
+	{
+		printf_s("\nErro! battle timer não alocado");
+		exit(-1);
+	}
+	al_register_event_source(event_queue, al_get_timer_event_source(battle_timer));
+
 	bool in_game = false;
+	//inicia o contador de rounds
+	battle_pve->round = 1;
+
 	bool bot_atacked;
-	bool player_atacked;
+	int bot_time_to_atack;
+	bool player_atacked; 
 
 	//Elemento gerado pela entidade
 	enum ChemicalElement central_element;
-
 	//Elemento escolhido pelo player
 	enum ChemicalElement chosen_deck_element = battle_pve->player->deck[0];
 
 	ALLEGRO_EVENT event;
 	while (battle_pve->player->health_points != 0 && battle_pve->bot->health_points != 0)
 	{
+		
+		//if (battle_pve->round > 1)
+		//{
+			//reporDeckElement(battle_pve->player->deck);
+			//reporDeckElement(battle_pve->bot->deck);
+		//}
+
 		bot_atacked = false;
 		player_atacked = false;
 
-		if (!in_game && battle_pve->round == 0)
-		{
-			battle_pve->player->deck = initDeck();
-			battle_pve->bot->deck = inictDeck();
-		}
-		else if (!in_game && battle_pve->round > 0)
-		{
-			reporDeckElement(battle_pve->player->deck);
-			reporDeckElement(battle_pve->bot->deck);
-		}
+		bot_time_to_atack = generateRandomIntInRange(true, 15);
+		central_element = (enum CHEMICAL_ELEMENTS) generateRandomIntInRange(false, ELEMENTS_AMOUNT);
 
-		timer = 0; //Segundos
 		in_game = true;
-		// Tranformar a função de getGeneral elemente em um gerador de número aleatório, 15 é o tempo, para pegar o resto da divisão entre 0 e 14
-		bot_time_to_atack = gerarNurmero(15);
-		central_element = generateRandomElement();
+		al_start_timer(battle_timer);
+
+		printf_s("\nround - %i", battle_pve->round);
+		printf_s("\nInicia Battle timer");
 
 		while (in_game)
 		{
-			// Fazer o timer atualizar em segundos
-			if (timer == 15 || (player_atacked && bot_atacked))
+			
+			if (al_get_timer_count(battle_timer) == 15 || (player_atacked && bot_atacked))
 			{
+				al_stop_timer(battle_timer);
+				al_set_timer_count(battle_timer, 0);
 				in_game = false;
 			}
 
 			else
 			{
-				//Tomar cuidado com Allegro event refrente a inicialização!!!
-				//Verifica se existe um evento
-				al_wait_for_event(event_queue, &event);
-
 				// Atack do player
+				al_wait_for_event(event_queue, &event);
 				if (event.type == ALLEGRO_EVENT_KEY_DOWN)
 				{
 					switch (event.keyboard.keycode)
 					{
 					case ALLEGRO_KEY_Q:
 						chosen_deck_element = battle_pve->player->deck[0];
+						printf_s("\nEsolheu o 1 elemento");
 						break;
 					case ALLEGRO_KEY_W:
 						chosen_deck_element = battle_pve->player->deck[1];
+						printf_s("\nEsolheu o 2 elemento");
 						break;
 					case ALLEGRO_KEY_A:
 						chosen_deck_element = battle_pve->player->deck[2];
+						printf_s("\nEsolheu o 3 elemento");
 						break;
 					case ALLEGRO_KEY_S:
 						chosen_deck_element = battle_pve->player->deck[3];
+						printf_s("\nEsolheu o 4 elemento");
 						break;
-					case ALLEGRO_KEY_ENTER
-						battle_pve->player->atack(battle_pve->bot, central_element);
+					case ALLEGRO_KEY_ENTER:
+						//battle_pve->player->atack(battle_pve->bot, central_element);
+						printf_s("\nPlayer Atacou");
 						player_atacked = true;
 						break;
 					}
 				}
 				// Atack do Bot
-				if (bot_time_to_atack == timer || player_atacked)
+				if ((bot_time_to_atack == al_get_timer_count(battle_timer) || player_atacked) && !bot_atacked)
 				{
-					battle_pve->bot->atack(battle_pve->player, central_element);
+					//Fazer o bot esperar para atacar, 2 segundos, caso o player tenha atacado antes
+					//battle_pve->bot->atack(battle_pve->player, central_element);
+					printf_s("\nBot Atacou");
 					bot_atacked = true;
 				}
 			}
-
 			// Talvez passar a informação de player e bot individualmente
-			battle_pve->renderBattle(battle_pve);
-
-			//incermentar o timer em segundos
-			timer += 1;
+			//battle_pve->renderBattle(battle_pve);
 		}
 		//incrementa o contador de round
 		battle_pve->round += 1;
 	}
+	//Desaloca a memória do timer da batalha
+	al_destroy_timer(battle_timer);
 }
 
 void destroyBattle(BATTLE_PVE* battle_pve)
