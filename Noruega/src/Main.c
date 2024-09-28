@@ -57,7 +57,7 @@ int main() {
     //FASE 2 -> 5
     //FASE 3 -> 6
 
-    int nphase = 1; //Numero que controla a troca das fases no mapa
+    int nphase = 0; //Numero que controla a troca das fases no mapa
     int nmenu = 1; //Numero que controla a troca de telas no menu
 
     while (running) {
@@ -107,18 +107,85 @@ int main() {
 
             //Desenho o mapa
             mapa->drawMap(new_width, new_height, mapa->backgroundMap);
+
+            //Allegro event key down lê o teclado apenas uma vez
+            if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
+                if (nphase == 3 && event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
+                    nphase += 0;
+                }
+                else if (nphase == 1 && event.keyboard.keycode == ALLEGRO_KEY_LEFT) {
+                    nphase += 0;
+                }
+                else if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
+                    nphase = nphase + 1;
+                }
+                else if (event.keyboard.keycode == ALLEGRO_KEY_LEFT) {
+                    nphase = nphase - 1;
+                }
+            }
+
+            if (nphase == 1) {
+                menu->drawArrow(305, 333, menu->arrowImage);
+            }
+            else if (nphase == 2) {
+                menu->drawArrow(675, 333, menu->arrowImage);
+            }
+            else if (nphase == 3) {
+                menu->drawArrow(490, 250, menu->arrowImage);
+            }
+
+            if (event.keyboard.keycode == ALLEGRO_KEY_ENTER) {
+                if (nphase == 1) {
+                    screen = 4; //FASE 1
+                }
+                else if (nphase == 2) {
+                    screen = 5; //FASE 2
+                }
+                else if (nphase == 3) {
+                    screen = 6; //FASE 3
+                }
+            }
+
         }
         else if (screen == 3) { //TELA DO TUTORIAL
             al_draw_textf(font, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "TELA QUE VAI SER O TUTORIAL");
+
+            //Allegro event key down lê o teclado apenas uma vez
+            if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
+                if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
+                    screen = 1;
+                }
+            }
         }
         else if (screen == 4) { //FASE 1
+            al_draw_textf(font, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "TELA QUE VAI SER a fase 1");
 
+            //Allegro event key down lê o teclado apenas uma vez
+            if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
+                if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
+                    screen = 2;
+                }
+            }
         }
         else if (screen == 5) { //FASE 2
+            al_draw_textf(font, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "TELA QUE VAI SER a fase 2");
 
+            //Allegro event key down lê o teclado apenas uma vez
+            if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
+                if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
+                    screen = 2;
+                }
+            }
         }
         else if (screen == 6) { //FASE 3
+            al_draw_textf(font, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "TELA QUE VAI SER a fase 3");
 
+            //Allegro event key down lê o teclado apenas uma vez
+            if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
+                if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
+                    screen = 2;
+                }
+            }
         }
      
         al_flip_display();
