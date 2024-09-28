@@ -4,7 +4,7 @@
 
 	int generateRandomIntInRange(bool generate_new_seed, int range);
 
-	int* generateIntArrayInRange(int array_size, int range);
+	int* generateRandomIntArrayInRange(int array_size, int range);
 
 #endif // !RANDOM_H
 

@@ -24,13 +24,10 @@
     <ClCompile Include="src\headers\witch\witch.c">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="src\headers\random\random.c">
+    <ClCompile Include="src\headers\element\element.c">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="src\headers\battle\battle.c">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClCompile>
-    <ClCompile Include="src\headers\element\element.c">
+    <ClCompile Include="src\headers\random\random.c">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
   </ItemGroup>
@@ -42,9 +39,6 @@
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
     <ClInclude Include="src\headers\witch\witch.h">
-      <Filter>Arquivos de Cabeçalho</Filter>
-    </ClInclude>
-    <ClInclude Include="src\headers\battle\battle.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
     <ClInclude Include="src\headers\random\random.h">

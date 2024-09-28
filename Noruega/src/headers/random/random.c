@@ -19,7 +19,7 @@ int generateRandomIntInRange(bool generate_new_seed, int range)
 	return rand() % range;
 }
 
-int* generateIntArrayInRange(int array_size, int range)
+int* generateRandomIntArrayInRange(int array_size, int range)
 {
 	
 	int* int_array = calloc(array_size, sizeof(int));
