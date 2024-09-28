@@ -4,8 +4,10 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
 #include "../element/element.h"
+#include "../random/random.h"
 #include "witch.h"
 
+const int DECK_SIZE = 4;
 
 ALLEGRO_BITMAP* initWitchSprite(char image_path[])
 {
@@ -45,7 +47,7 @@ WITCH * initWitch(char image_path[], int coordinate_x, int coordinate_y)
     witch->destroyWitch = destroyWitch;
     witch->coordinate_x = coordinate_x;
     witch->coordinate_y = coordinate_y;
-    witch->deck = generateChemicalDeck();
+    witch->deck = generateIntArrayInRange(4, 15);
 
     return witch;
 }

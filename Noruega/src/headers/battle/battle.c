@@ -18,6 +18,9 @@ void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve) {
 	//Elemento gerado pela entidade
 	enum ChemicalElement central_element;
 
+	//Elemento escolhido pelo player
+	enum ChemicalElement chosen_deck_element = battle_pve->player->deck[0];
+
 	ALLEGRO_EVENT event;
 	while (battle_pve->player->health_points != 0 && battle_pve->bot->health_points != 0)
 	{
@@ -61,19 +64,18 @@ void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve) {
 					switch (event.keyboard.keycode)
 					{
 					case ALLEGRO_KEY_Q:
-						battle_pve->player->deck->chosen_deck_element = 0;
+						chosen_deck_element = battle_pve->player->deck[0];
 						break;
 					case ALLEGRO_KEY_W:
-						battle_pve->player->deck->chosen_deck_element = 1;
+						chosen_deck_element = battle_pve->player->deck[1];
 						break;
 					case ALLEGRO_KEY_A:
-						battle_pve->player->deck->chosen_deck_element = 2;
+						chosen_deck_element = battle_pve->player->deck[2];
 						break;
 					case ALLEGRO_KEY_S:
-						battle_pve->player->deck->chosen_deck_element = 3;
+						chosen_deck_element = battle_pve->player->deck[3];
 						break;
-						//Não sei se esse é o nome da tecla no allegro
-					case ALLEGRO_KEY_ENTER:
+					case ALLEGRO_KEY_ENTER
 						battle_pve->player->atack(battle_pve->bot, central_element);
 						player_atacked = true;
 						break;

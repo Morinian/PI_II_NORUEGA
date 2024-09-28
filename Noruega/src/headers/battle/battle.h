@@ -15,6 +15,6 @@
 		void (*play)(BATTLE_PVE*);
 	};
 
-	BATTLE_PVE* initBattlePVE(WITCH* player, WITCH bot);
+	BATTLE_PVE* initBattlePVE(WITCH* player, WITCH* bot);
 #endif // !BATTLE_H
 

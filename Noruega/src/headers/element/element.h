@@ -21,6 +21,6 @@
 		Ag
 	};
 
-	enum CHEMICAL_ELEMENTS * generateChemicalDeck();
+	extern const int ELEMENTS_AMOUNT;
 
 #endif

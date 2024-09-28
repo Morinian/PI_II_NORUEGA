@@ -1,6 +1,8 @@
 #ifndef WITCH_H
 	#define WITCH_H
 	
+	extern const int DECK_SIZE;
+
 	enum WITCH_TYPE
 	{
 		WATER,
