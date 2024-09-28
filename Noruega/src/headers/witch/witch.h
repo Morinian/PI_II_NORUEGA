@@ -16,17 +16,17 @@
 		//-- Atributos-- //
 		enum WITCH_TYPE type;
 		ALLEGRO_BITMAP* sprite;
-		enum CHEMICAL_ELEMENTS * deck;//Verificar se o compilador identifica essse enum, pois está em outro header
+		enum CHEMICAL_ELEMENTS * deck;
 		int health_points;
 		int coordinate_x;
 		int coordinate_y;
 		//-- Funções --// Criar função para mudar a imagem?
-		void (*dawWitch)(WITCH*);
+		void (*drawWitch)(WITCH*);
 		void (*destroyWitch)(WITCH*);
 		// atack()
 	};
 
-	WITCH* initWitch(char image_name[], int coordinate_x, int coordinate_y);
+	WITCH* initWitch(char image_path[], int coordinate_x, int coordinate_y, int health_points, enum WITCH_TYPE type);
 
 #endif 
 
