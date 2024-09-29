@@ -49,13 +49,17 @@ int main() {
     // Variáveis de controle de tela
     bool running = true;
 
-    int screen = 1; //Numero que controla as telas principais
-    //MENU -> 1
-    //MAPA -> 2
-    //TUTORIAL -> 3
-    //FASE 1 -> 4
-    //FASE 2 -> 5
-    //FASE 3 -> 6
+    enum screen {
+        MENU,
+        MAPA,
+        TUTORIAL,
+        FASE1,
+        FASE2,
+        FASE3
+    };
+
+    // Variável que controla a tela
+    enum screen screen = MENU;
 
     int nphase = 1; //Numero que controla a troca das fases no mapa
     int nmenu = 1; //Numero que controla a troca de telas no menu
@@ -72,7 +76,7 @@ int main() {
         al_clear_to_color(al_map_rgb(0, 0, 0));// Limpa a tela
 
         //MENU PRINCIPAL
-        if (screen == 1) {
+        if (screen == MENU) {
 
             // Desenhar o fundo redimensionado
             menu->drawMenu(new_width, new_height, menu->backgroundImage);
@@ -88,10 +92,10 @@ int main() {
             //Enter para decidir para onde vai
             if (event.keyboard.keycode == ALLEGRO_KEY_ENTER) {
                 if (nmenu == 1) {
-                    screen = 2; // MANDA PARA O MAPA
+                    screen = MAPA; // MANDA PARA O MAPA
                 }
                 else if (nmenu == 2) {
-                    screen = 3; // MANDA PARA O TUTORIAL
+                    screen = TUTORIAL; // MANDA PARA O TUTORIAL
                 }
             }
 
@@ -103,21 +107,21 @@ int main() {
                 menu->drawArrow(340, 410, menu->arrowImage);
             }
         }
-        else if (screen == 2){ //TELA DO MAPA
+        else if (screen == MAPA){ 
 
             //Desenho o mapa
             mapa->drawMap(new_width, new_height, mapa->backgroundMap);
         }
-        else if (screen == 3) { //TELA DO TUTORIAL
+        else if (screen == TUTORIAL) { 
             al_draw_textf(font, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "TELA QUE VAI SER O TUTORIAL");
         }
-        else if (screen == 4) { //FASE 1
+        else if (screen == FASE1) { 
 
         }
-        else if (screen == 5) { //FASE 2
+        else if (screen == FASE2) { 
 
         }
-        else if (screen == 6) { //FASE 3
+        else if (screen == FASE3) { 
 
         }
      
