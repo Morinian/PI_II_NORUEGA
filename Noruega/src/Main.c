@@ -22,8 +22,8 @@ int main() {
     //Init bruxa;
     WITCH* player = initWitch("./images/BruxinhaMal.png", 200, 280, 500, WATER);
     WITCH* bot = initWitch("./images/Bruxinha.png", 200, 280, 350, FIRE);
-    //for (int i = 0; i < 4; i++)
-        //printf_s("\nGerado: %i", player->deck[i]);
+    for (int i = 0; i < 4; i++)
+        printf_s("  Gerado: %i   ", player->deck[i]);
 
     //init battle
     BATTLE_PVE * battle_pve = initBattlePVE(player, bot);

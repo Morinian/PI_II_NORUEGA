@@ -33,7 +33,7 @@ void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve) {
 	enum ChemicalElement chosen_deck_element = battle_pve->player->deck[0];
 
 	ALLEGRO_EVENT event;
-	while (battle_pve->player->health_points != 0 && battle_pve->bot->health_points != 0)
+	while (battle_pve->player->health_points > 0 && battle_pve->bot->health_points > 0)
 	{
 		
 		//if (battle_pve->round > 1)
@@ -74,23 +74,32 @@ void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve) {
 					{
 					case ALLEGRO_KEY_Q:
 						chosen_deck_element = battle_pve->player->deck[0];
-						printf_s("\nEsolheu o 1 elemento");
+						printf_s("\nEscolheu o 1 elemento");
 						break;
 					case ALLEGRO_KEY_W:
 						chosen_deck_element = battle_pve->player->deck[1];
-						printf_s("\nEsolheu o 2 elemento");
+						printf_s("\nEscolheu o 2 elemento");
 						break;
 					case ALLEGRO_KEY_A:
 						chosen_deck_element = battle_pve->player->deck[2];
-						printf_s("\nEsolheu o 3 elemento");
+						printf_s("\nEscolheu o 3 elemento");
 						break;
 					case ALLEGRO_KEY_S:
 						chosen_deck_element = battle_pve->player->deck[3];
 						printf_s("\nEsolheu o 4 elemento");
 						break;
 					case ALLEGRO_KEY_ENTER:
-						//battle_pve->player->atack(battle_pve->bot, central_element);
-						printf_s("\nPlayer Atacou");
+						printf_s("\n\n\nPlayer Atacou");
+						printf_s("\nANTES ---- Vida player: %i Mult: %f || Vida Bot: %i Mult: %f",
+							battle_pve->player->health_points, battle_pve->player->damage_received_multiplier,
+							battle_pve->bot->health_points, battle_pve->bot->damage_received_multiplier);
+						
+						battle_pve->player->atack(battle_pve->player, battle_pve->bot, 
+							chosen_deck_element,central_element);
+
+						printf_s("\nDEPOIS ---- Vida player: %i Mult: %f || Vida Bot: %i Mult: %f",
+							battle_pve->player->health_points, battle_pve->player->damage_received_multiplier,
+							battle_pve->bot->health_points, battle_pve->bot->damage_received_multiplier);
 						player_atacked = true;
 						break;
 					}

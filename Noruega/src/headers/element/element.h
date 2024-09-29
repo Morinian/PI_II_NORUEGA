@@ -4,12 +4,14 @@
 	
 	enum MIX_RESULTS
 	{
+		//Vida
 		COMPATIBLE,
-		//Cinco tipos de incompatibilidades
+		//Dano
 		ACID_BASE,
 		REDOX,
-		WATER_REACTIVITY,
 		TOXIC_COMPOUND_FORMATION,
+		//Status
+		WATER_REACTIVITY,
 		METAL_REACTIVITY
 	};
 

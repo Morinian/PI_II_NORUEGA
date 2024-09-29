@@ -43,7 +43,7 @@ void atack(WITCH* attacker, WITCH* target,
     {
         if (target->damage_received_multiplier < 1.8)
         {
-            printf_s("\nDefesa do oponente diminuida");
+            printf_s("\nDefesa do oponente diminuida em 20%");
             target->damage_received_multiplier += 0.2;
         }
         else
@@ -53,7 +53,7 @@ void atack(WITCH* attacker, WITCH* target,
     {
         if (attacker->damage_received_multiplier > 0.2)
         {
-            printf_s("\nDefesa do atacante aumentada");
+            printf_s("\nDefesa do atacante aumentada em 20%");
             attacker->damage_received_multiplier -= 0.2;
         }
         else
