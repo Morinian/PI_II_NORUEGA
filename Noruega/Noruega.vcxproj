@@ -140,10 +140,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\headers\mapa\mapa.c" />
     <ClCompile Include="src\headers\menu\menu.c" />
     <ClCompile Include="src\Main.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\headers\mapa\mapa.h" />
     <ClInclude Include="src\headers\menu\menu.h" />
   </ItemGroup>
   <ItemGroup>

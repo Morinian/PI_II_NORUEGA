@@ -17,6 +17,19 @@ ALLEGRO_BITMAP * initBackgroundImage()
     return background;
 }
 
+ALLEGRO_BITMAP* initArrowImage()
+{
+    // Carregar imagem da seta
+    ALLEGRO_BITMAP* arrow;
+    arrow = al_load_bitmap("./images/seta.png");
+    if (!arrow)
+    {
+        printf_s("\nImagem da seta nao alocada");
+        exit(-1);
+    }
+    return arrow;
+}
+
 void menuDraw(int width, int height, ALLEGRO_BITMAP * background)
 {
     // Desenhar o fundo redimensionado
@@ -26,10 +39,16 @@ void menuDraw(int width, int height, ALLEGRO_BITMAP * background)
         0); // Desenha a imagem de fundo redimensionada
 }
 
+void menuArrowDraw(int width, int height, ALLEGRO_BITMAP* seta)
+{
+    // Desenhar a seta
+    al_draw_bitmap(seta, width, height, 0);
+}
 
 void menuHeaderDestroy(MENU* menu)
 {
     al_destroy_bitmap(menu->backgroundImage);
+    al_destroy_bitmap(menu->arrowImage);
     free(menu);
 }
 
@@ -42,8 +61,13 @@ MENU * initMenu()
         exit(-1);
     }
     printf_s("Memoria alocada!!");
+
     menu->backgroundImage = initBackgroundImage();
-    menu->dawMenu = menuDraw;
+    menu->arrowImage = initArrowImage();
+
+    menu->drawMenu = menuDraw;
+    menu->drawArrow = menuArrowDraw;
+
     menu->destroyMenu = menuHeaderDestroy;
     return menu;
 }

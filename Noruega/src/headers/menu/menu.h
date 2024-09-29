@@ -7,7 +7,11 @@
     struct MENU
     {
         ALLEGRO_BITMAP* backgroundImage;
-        void (*dawMenu)(int, int, ALLEGRO_BITMAP*);
+        ALLEGRO_BITMAP* arrowImage;
+
+        void (*drawMenu)(int, int, ALLEGRO_BITMAP*);
+        void (*drawArrow)(int, int, ALLEGRO_BITMAP*);
+
         void (*destroyMenu)(MENU*);
     };
 
