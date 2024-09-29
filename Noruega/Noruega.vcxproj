@@ -141,6 +141,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\headers\battle\battle.c" />
+    <ClCompile Include="src\headers\battle\battle_map\battle_map.c" />
     <ClCompile Include="src\headers\element\element.c" />
     <ClCompile Include="src\headers\menu\menu.c" />
     <ClCompile Include="src\headers\random\random.c" />
@@ -149,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\headers\battle\battle.h" />
+    <ClInclude Include="src\headers\battle\battle_map\battle_map.h" />
     <ClInclude Include="src\headers\element\element.h" />
     <ClInclude Include="src\headers\menu\menu.h" />
     <ClInclude Include="src\headers\random\random.h" />

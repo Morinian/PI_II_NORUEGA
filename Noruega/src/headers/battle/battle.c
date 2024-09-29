@@ -64,7 +64,7 @@ void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve) {
 				in_game = false;
 			}
 
-			else
+			else if(!player_atacked)
 			{
 				// Atack do player
 				al_wait_for_event(event_queue, &event);

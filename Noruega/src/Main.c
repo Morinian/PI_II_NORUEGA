@@ -8,6 +8,8 @@
 #include "./headers/menu/menu.h"
 #include "./headers/witch/witch.h"
 #include "./headers/battle/battle.h"
+//import temporario para teste
+#include "./headers/battle/battle_map/battle_map.h"
 
 int main() {
     // Inicializações
@@ -20,16 +22,21 @@ int main() {
     al_init_primitives_addon();
 
     //Init bruxa;
-    WITCH* player = initWitch("./images/BruxinhaMal.png", 200, 280, 500, WATER);
-    WITCH* bot = initWitch("./images/Bruxinha.png", 200, 280, 350, FIRE);
-    for (int i = 0; i < 4; i++)
-        printf_s("  Gerado: %i   ", player->deck[i]);
+    //WITCH* player = initWitch("./images/BruxinhaMal.png", 200, 280, 500, WATER);
+    //WITCH* bot = initWitch("./images/Bruxinha.png", 200, 280, 350, FIRE);
+    //for (int i = 0; i < 4; i++)
+       // printf_s("  Gerado: %i   ", player->deck[i]);
 
     //init battle
-    BATTLE_PVE * battle_pve = initBattlePVE(player, bot);
+    //BATTLE_PVE * battle_pve = initBattlePVE(player, bot);
+    BATTLE_MAP * battle_map = initBattleMap("./images/batalha_cenario/battle_background.png",
+                                            "./images/batalha_cenario/footer_background.png",
+                                            "./images/batalha_cenario/entity_shadow.png",
+                                            "./images/batalha_cenario/element_parchment.png",
+                                            "./images/batalha_cenario/mix_parchment.png");
 
     // Criação do display e nomear
-    ALLEGRO_DISPLAY* display = al_create_display(1000, 550);
+    ALLEGRO_DISPLAY* display = al_create_display(1300, 850);
     al_set_window_position(display, 200, 200);
     al_set_window_title(display, "Burn the witches down");
 
@@ -45,11 +52,27 @@ int main() {
     al_register_event_source(event_queue, al_get_mouse_event_source());
     al_start_timer(timer);
 
-    battle_pve->play(event_queue, battle_pve);
+    bool running = true;
+    int display_width = al_get_display_width(display);
+    int  display_height = al_get_display_height(display);
 
+    while (running) {
+        ALLEGRO_EVENT event;
+        al_wait_for_event(event_queue, &event);
+
+        if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
+            running = false;
+        }
+
+        //al_clear_to_color(al_map_rgb(0, 0, 0)); // Limpa a tela
+        //battle_pve->play(event_queue, battle_pve);
+        battle_map->drawBattleMap(battle_map, display_width, display_height, 1);
+    }
+    
     //--------------------------------------------------------
     // Destruições
-    battle_pve->destroyBattle(battle_pve);
+    //battle_pve->destroyBattle(battle_pve);
+    battle_map->destroyBattleMap(battle_map);
     al_destroy_font(font);
     al_destroy_display(display);
     al_destroy_event_queue(event_queue);
