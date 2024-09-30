@@ -13,7 +13,7 @@
 		//Background do texto que mostra o efeito da mistura dos elementos
 		ALLEGRO_BITMAP* mix_parchment;
 			//-- Funções -- //
-		void (*drawBattleMap)(BATTLE_MAP *, int, int, int);
+		void (*drawBattleMap)(BATTLE_MAP *, int);
 		void (*destroyBattleMap)(BATTLE_MAP*);
 	};
 

@@ -1,0 +1,2 @@
+const int DISPLAY_WIDTH = 1300;
+const int DISPLAY_HEIGHT = 850;

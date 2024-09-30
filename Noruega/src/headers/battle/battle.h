@@ -7,14 +7,14 @@
 	{
 		// Round está declaro na struct pois será utilizado posteriormente para o Score (ideia de replay)
 		int round;
+		BATTLE_MAP* battle_map;
 		WITCH* player;
 		WITCH* bot;
 		// --- funções ---//
-		void (*renderBattle)(BATTLE_PVE*);
 		void (*destroyBattle)(BATTLE_PVE*);
 		void (*play)(ALLEGRO_EVENT_QUEUE*, BATTLE_PVE*);
 	};
 
-	BATTLE_PVE* initBattlePVE(WITCH* player, WITCH* bot);
+	BATTLE_PVE* initBattlePVE(WITCH* player, WITCH* bot, BATTLE_MAP* battle_map);
 #endif // !BATTLE_H
 

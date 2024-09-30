@@ -2,12 +2,17 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <allegro5/allegro.h>
+#include "../battle/battle_map/battle_map.h"
 #include "../element/element.h"
 #include "../witch/witch.h"
 #include "../battle/battle.h"
 #include "../random/random.h"
 
-//void renderBattle();
+void renderBattle(BATTLE_MAP* battle_map, int chosen_element)
+{
+	battle_map->drawBattleMap(battle_map, chosen_element);
+	al_flip_display();
+}
 
 void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve) {
 
@@ -31,8 +36,12 @@ void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve) {
 	enum ChemicalElement central_element;
 	//Elemento escolhido pelo player
 	enum ChemicalElement chosen_deck_element = battle_pve->player->deck[0];
+	//Posição do elemento no deck
+	int chosen_deck_element_position = 0;
 
 	ALLEGRO_EVENT event;
+	renderBattle(battle_pve->battle_map, chosen_deck_element);
+	bool re_render = false;
 	while (battle_pve->player->health_points > 0 && battle_pve->bot->health_points > 0)
 	{
 		
@@ -74,19 +83,27 @@ void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve) {
 					{
 					case ALLEGRO_KEY_Q:
 						chosen_deck_element = battle_pve->player->deck[0];
+						chosen_deck_element_position = 0;
 						printf_s("\nEscolheu o 1 elemento");
+						re_render = true;
 						break;
 					case ALLEGRO_KEY_W:
 						chosen_deck_element = battle_pve->player->deck[1];
+						chosen_deck_element_position = 1;
 						printf_s("\nEscolheu o 2 elemento");
+						re_render = true;
 						break;
 					case ALLEGRO_KEY_A:
 						chosen_deck_element = battle_pve->player->deck[2];
+						chosen_deck_element_position = 2;
 						printf_s("\nEscolheu o 3 elemento");
+						re_render = true;
 						break;
 					case ALLEGRO_KEY_S:
 						chosen_deck_element = battle_pve->player->deck[3];
+						chosen_deck_element_position = 3;
 						printf_s("\nEsolheu o 4 elemento");
+						re_render = true;
 						break;
 					case ALLEGRO_KEY_ENTER:
 						printf_s("\n\n\nPlayer Atacou");
@@ -103,6 +120,12 @@ void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve) {
 						player_atacked = true;
 						break;
 					}
+					if (re_render)
+					{
+						//O load da imagem está demorando d+
+						renderBattle(battle_pve->battle_map, chosen_deck_element_position);
+						re_render = false;
+					}
 				}
 				// Atack do Bot
 				if ((bot_time_to_atack == al_get_timer_count(battle_timer) || player_atacked) && !bot_atacked)
@@ -113,8 +136,6 @@ void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve) {
 					bot_atacked = true;
 				}
 			}
-			// Talvez passar a informação de player e bot individualmente
-			//battle_pve->renderBattle(battle_pve);
 		}
 		//incrementa o contador de round
 		battle_pve->round += 1;
@@ -127,16 +148,18 @@ void destroyBattle(BATTLE_PVE* battle_pve)
 {
 	battle_pve->player->destroyWitch(battle_pve->player);
 	battle_pve->bot->destroyWitch(battle_pve->bot);
+	battle_pve->battle_map->destroyBattleMap(battle_pve->battle_map);
 	free(battle_pve);
 }
 
 //WITCH DEVE SER ALOCADA INTERNAMENTE OU PASSADA VIA PARAMETRO? 
-BATTLE_PVE* initBattlePVE(WITCH* player, WITCH* bot)
+BATTLE_PVE* initBattlePVE(WITCH* player, WITCH* bot, BATTLE_MAP* battle_map)
 {
 	BATTLE_PVE* battle_pve = malloc(sizeof(BATTLE_PVE));
+	battle_pve->battle_map = battle_map;
 	battle_pve->player = player;
 	battle_pve->bot = bot;
 	battle_pve->destroyBattle = destroyBattle;
-	//battle_pve->renderBattle = renderBattle;
 	battle_pve->play = play;
+	return battle_pve;
 }
