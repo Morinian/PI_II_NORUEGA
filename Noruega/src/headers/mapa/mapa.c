@@ -38,10 +38,10 @@ MAPA * initMapa()
     MAPA * mapa = (MAPA *) malloc(sizeof(MAPA));
     if (!mapa)
     {
-        printf_s("Memoria nao alocada");
+        printf_s("Memoria nao alocada mapa \n");
         exit(-1);
     }
-    printf_s("Memoria alocada!!");
+    printf_s("Memoria alocada mapa!! \n");
 
     mapa->backgroundMap = initBackgroundMapImage();
     mapa->drawMap = mapaDraw;

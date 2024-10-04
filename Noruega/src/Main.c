@@ -9,6 +9,10 @@
 //Headers
 #include "./headers/menu/menu.h"
 #include "./headers/mapa/mapa.h"
+#include "./headers/tutorial/tutorial.h"
+#include "./headers/fases/fase1/fase1.h"
+#include "./headers/fases/fase2/fase2.h"
+#include "./headers/fases/fase3/fase3.h"
 
 int main() {
     // Inicializações
@@ -22,6 +26,10 @@ int main() {
     //init Headers
     MENU* menu = initMenu();
     MAPA* mapa = initMapa();
+    TUTORIAL* tutorial = initTutorial();
+    FASE1* fase1 = initFase1();
+    FASE2* fase2 = initFase2();
+    FASE3* fase3 = initFase3();
 
     // Criação do display e nomear
     ALLEGRO_DISPLAY* display = al_create_display(1000, 550);
@@ -37,6 +45,9 @@ int main() {
     int new_width = 1000; // Defina a largura desejada
     int new_height = 550; // Defina a altura desejada
 
+    int width_fase = 1048-220; //display nas fases
+    int height_fase = 904-220; //display nas fases
+
     //--------------------------------------------------------
     // Eventos
     ALLEGRO_EVENT_QUEUE* event_queue = al_create_event_queue();
@@ -49,7 +60,7 @@ int main() {
     // Variáveis de controle de tela
     bool running = true;
 
-    enum screen {
+    enum screen { 
         MENU,
         MAPA,
         TUTORIAL,
@@ -61,6 +72,7 @@ int main() {
     // Variável que controla a tela
     enum screen screen = MENU;
 
+    int ntutorial = 0; //Numero que controla a troca das fases no mapa
     int nphase = 0; //Numero que controla a troca das fases no mapa
     int nmenu = 1; //Numero que controla a troca de telas no menu
 
@@ -96,6 +108,7 @@ int main() {
                 }
                 else if (nmenu == 2) {
                     screen = TUTORIAL; 
+                    ntutorial = 1;
                 }
             }
 
@@ -126,6 +139,9 @@ int main() {
                 else if (event.keyboard.keycode == ALLEGRO_KEY_LEFT) {
                     nphase = nphase - 1;
                 }
+                else if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
+                    screen = MAPA;
+                }
             }
 
             if (nphase == 1) {
@@ -152,42 +168,80 @@ int main() {
 
         }
         else if (screen == TUTORIAL) { 
-            al_draw_textf(font, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "TELA QUE VAI SER O TUTORIAL");
+            // Desenhar o fundo redimensionado
+            menu->drawMenu(new_width, new_height, menu->backgroundImage);
 
             //Allegro event key down lê o teclado apenas uma vez
             if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
                 if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
                     screen = MENU;
                 }
+                else if (ntutorial == 3 && event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
+                    ntutorial += 0;
+                }
+                else if (ntutorial == 1 && event.keyboard.keycode == ALLEGRO_KEY_LEFT) {
+                    ntutorial += 0;
+                }
+                else if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
+                    ntutorial = ntutorial + 1;
+                }
+                else if (event.keyboard.keycode == ALLEGRO_KEY_LEFT) {
+                    ntutorial = ntutorial - 1;
+                }
             }
+
+            //Desenha os cards do tutorial
+            tutorial->cardDraw(112, 0, tutorial->cardTutorial1, tutorial->cardTutorial2, tutorial->cardTutorial3,ntutorial);
+
         }
         else if (screen == FASE1) {
+            //Redimensionar o display
+            al_resize_display(display, width_fase, height_fase);
+
+            fase1->drawFase1(width_fase, height_fase, fase1->backgroundFase1);
+
             al_draw_textf(font, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "TELA QUE VAI SER a fase 1");
 
             //Allegro event key down lê o teclado apenas uma vez
             if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
                 if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
                     screen = MAPA;
+                    //Redimensionar o display
+                    al_resize_display(display, new_width, new_height);
                 }
             }
         }
         else if (screen == FASE2) { 
+            //Redimensionar o display
+            al_resize_display(display, width_fase, height_fase);
+
+            fase2->drawFase2(width_fase, height_fase, fase2->backgroundFase2);
+
             al_draw_textf(font, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "TELA QUE VAI SER a fase 2");
 
             //Allegro event key down lê o teclado apenas uma vez
             if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
                 if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
                     screen = MAPA;
+                    //Redimensionar o display
+                    al_resize_display(display, new_width, new_height);
                 }
             }
         }
         else if (screen == FASE3) { 
+            //Redimensionar o display
+            al_resize_display(display, width_fase, height_fase);
+
+            fase3->drawFase3(width_fase, height_fase, fase3->backgroundFase3);
+
             al_draw_textf(font, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "TELA QUE VAI SER a fase 3");
 
             //Allegro event key down lê o teclado apenas uma vez
             if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
                 if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
                     screen = MAPA;
+                    //Redimensionar o display
+                    al_resize_display(display, new_width, new_height);
                 }
             }
         }
@@ -201,6 +255,10 @@ int main() {
     //Criados
     menu->destroyMenu(menu);
     mapa->destroyMap(mapa);
+    tutorial->destroyMap(tutorial);
+    fase1->destroyFase1(fase1);
+    fase2->destroyFase2(fase2);
+    fase3->destroyFase3(fase3);
 
     //Padrão
     al_destroy_font(font);
