@@ -140,7 +140,7 @@ int main() {
                     nphase = nphase - 1;
                 }
                 else if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
-                    screen = MAPA;
+                    screen = MENU;
                 }
             }
 

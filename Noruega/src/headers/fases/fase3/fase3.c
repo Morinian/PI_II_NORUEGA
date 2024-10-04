@@ -42,7 +42,7 @@ FASE3 * initFase3()
         printf_s("Memoria nao alocada fase 3 \n");
         exit(-1);
     }
-    printf_s("Memoria alocada fase 3 \n!!");
+    printf_s("Memoria alocada fase 3!! \n");
 
     fase3->backgroundFase3 = initBackgroundFase3();
     fase3->drawFase3 = fase3Draw;

@@ -42,7 +42,7 @@ FASE2 * initFase2()
         printf_s("Memoria nao alocada fase 2 \n");
         exit(-1);
     }
-    printf_s("Memoria alocada fase 2 \n!!");
+    printf_s("Memoria alocada fase 2!! \n");
 
     fase2->backgroundFase2 = initBackgroundFase2();
     fase2->drawFase2 = fase2Draw;
