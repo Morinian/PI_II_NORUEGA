@@ -141,6 +141,7 @@ int main() {
                 }
                 else if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
                     screen = MENU;
+                    nphase = -1;
                 }
             }
 
