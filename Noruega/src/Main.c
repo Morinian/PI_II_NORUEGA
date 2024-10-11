@@ -75,6 +75,7 @@ int main() {
     int ntutorial = 0; //Numero que controla a troca das fases no mapa
     int nphase = 0; //Numero que controla a troca das fases no mapa
     int nmenu = 1; //Numero que controla a troca de telas no menu
+    int nlore = 0; //Numero que controla a troca das img lore
 
     while (running) {
 
@@ -141,6 +142,7 @@ int main() {
                 }
                 else if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
                     screen = MENU;
+                    nphase = -1;
                 }
             }
 
@@ -243,6 +245,10 @@ int main() {
                     //Redimensionar o display
                     al_resize_display(display, new_width, new_height);
                 }
+                /*else if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
+                    nlore = nlore + 1;
+                }
+                tutorial->loreDraw(112, 0, tutorial->cardTutorial1, tutorial->cardTutorial2, tutorial->cardTutorial3, ntutorial);*/
             }
         }
      
