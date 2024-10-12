@@ -52,7 +52,8 @@ ALLEGRO_BITMAP* initCardEntidadeLore1()
 {
     // Carregar imagem de fundo
     ALLEGRO_BITMAP* cardEntidade1;
-    cardEntidade1 = al_load_bitmap("./images/card1.png");
+    cardEntidade1 = al_load_bitmap("./images/entidade1.png");
+
     if (!cardEntidade1)
     {
         printf_s("\nImagem de cardEntidade1 nao alocada");
@@ -65,7 +66,7 @@ ALLEGRO_BITMAP* initCardEntidadeLore2()
 {
     // Carregar imagem de fundo
     ALLEGRO_BITMAP* cardEntidade2;
-    cardEntidade2 = al_load_bitmap("./images/card2.png");
+    cardEntidade2 = al_load_bitmap("./images/entidade2.png");
     if (!cardEntidade2)
     {
         printf_s("\nImagem de cardEntidade2 nao alocada");
@@ -78,7 +79,7 @@ ALLEGRO_BITMAP* initCardEntidadeLore3()
 {
     // Carregar imagem de fundo
     ALLEGRO_BITMAP* cardEntidade3;
-    cardEntidade3 = al_load_bitmap("./images/card3.png");
+    cardEntidade3 = al_load_bitmap("./images/entidade3.png");
     if (!cardEntidade3)
     {
         printf_s("\nImagem de cardEntidade3 nao alocada");
@@ -90,7 +91,7 @@ ALLEGRO_BITMAP* initCardEntidadeLore4()
 {
     // Carregar imagem de fundo
     ALLEGRO_BITMAP* cardEntidade4;
-    cardEntidade4 = al_load_bitmap("./images/card1.png");
+    cardEntidade4 = al_load_bitmap("./images/entidade4.png");
     if (!cardEntidade4)
     {
         printf_s("\nImagem de cardEntidade4 nao alocada");
@@ -103,7 +104,7 @@ ALLEGRO_BITMAP* initCardEntidadeLore5()
 {
     // Carregar imagem de fundo
     ALLEGRO_BITMAP* cardEntidade5;
-    cardEntidade5 = al_load_bitmap("./images/card2.png");
+    cardEntidade5 = al_load_bitmap("./images/entidade5.png");
     if (!cardEntidade5)
     {
         printf_s("\nImagem de cardEntidade5 nao alocada");
@@ -116,7 +117,7 @@ ALLEGRO_BITMAP* initCardEntidadeLore6()
 {
     // Carregar imagem de fundo
     ALLEGRO_BITMAP* cardEntidade6;
-    cardEntidade6 = al_load_bitmap("./images/card3.png");
+    cardEntidade6 = al_load_bitmap("./images/entidade6.png");
     if (!cardEntidade6)
     {
         printf_s("\nImagem de cardEntidade6 nao alocada");
@@ -141,22 +142,40 @@ void cardDraw(int width, int height, ALLEGRO_BITMAP * cardTutorial1, ALLEGRO_BIT
 void loreDraw(int width, int height, ALLEGRO_BITMAP* cardLore1, ALLEGRO_BITMAP* cardLore2, ALLEGRO_BITMAP* cardLore3, ALLEGRO_BITMAP* cardLore4, ALLEGRO_BITMAP* cardLore5, ALLEGRO_BITMAP* cardLore6, int number) {
 
     if (number == 1) {
-        al_draw_bitmap(cardLore1, width, height, 0);
+        al_draw_scaled_bitmap(cardLore1,
+            0, 0, al_get_bitmap_width(cardLore1), al_get_bitmap_height(cardLore1),
+            0, 0, width, height,
+            0);
     }
     else if (number == 2) {
-        al_draw_bitmap(cardLore2, width, height, 0);
+        al_draw_scaled_bitmap(cardLore2,
+            0, 0, al_get_bitmap_width(cardLore2), al_get_bitmap_height(cardLore2),
+            0, 0, width, height,
+            0);
     }
     else if (number == 3) {
-        al_draw_bitmap(cardLore3, width, height, 0);
+        al_draw_scaled_bitmap(cardLore3,
+            0, 0, al_get_bitmap_width(cardLore3), al_get_bitmap_height(cardLore3),
+            0, 0, width, height,
+            0);
     }
     else if (number == 4) {
-        al_draw_bitmap(cardLore4, width, height, 0);
+        al_draw_scaled_bitmap(cardLore4,
+            0, 0, al_get_bitmap_width(cardLore4), al_get_bitmap_height(cardLore4),
+            0, 0, width, height,
+            0);
     }
     else if (number == 5) {
-        al_draw_bitmap(cardLore5, width, height, 0);
+        al_draw_scaled_bitmap(cardLore5,
+            0, 0, al_get_bitmap_width(cardLore5), al_get_bitmap_height(cardLore5),
+            0, 0, width, height,
+            0);
     }
     else if (number == 6) {
-        al_draw_bitmap(cardLore6, width, height, 0);
+        al_draw_scaled_bitmap(cardLore6,
+            0, 0, al_get_bitmap_width(cardLore6), al_get_bitmap_height(cardLore6),
+            0, 0, width, height,
+            0);
     }
 
 }

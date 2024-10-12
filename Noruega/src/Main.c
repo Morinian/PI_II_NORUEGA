@@ -75,7 +75,7 @@ int main() {
     int ntutorial = 0; //Numero que controla a troca das fases no mapa
     int nphase = 0; //Numero que controla a troca das fases no mapa
     int nmenu = 1; //Numero que controla a troca de telas no menu
-    int nlore = 0; //Numero que controla a troca das img lore
+    int nlore = 1; //Numero que controla a troca das img lore
 
     while (running) {
 
@@ -235,6 +235,7 @@ int main() {
             al_resize_display(display, width_fase, height_fase);
 
             fase3->drawFase3(width_fase, height_fase, fase3->backgroundFase3);
+            tutorial->loreDraw(width_fase, height_fase, tutorial->cardEntidade1, tutorial->cardEntidade2, tutorial->cardEntidade3, tutorial->cardEntidade4, tutorial->cardEntidade5, tutorial->cardEntidade6, nlore);
 
             al_draw_textf(font, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "TELA QUE VAI SER a fase 3");
 
@@ -245,10 +246,9 @@ int main() {
                     //Redimensionar o display
                     al_resize_display(display, new_width, new_height);
                 }
-                /*else if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
+                else if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
                     nlore = nlore + 1;
                 }
-                tutorial->loreDraw(112, 0, tutorial->cardTutorial1, tutorial->cardTutorial2, tutorial->cardTutorial3, ntutorial);*/
             }
         }
      
