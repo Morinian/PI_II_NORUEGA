@@ -31,22 +31,19 @@ int main() {
     FASE2* fase2 = initFase2();
     FASE3* fase3 = initFase3();
 
+    //--------------------------------------------------------
+    // Defina a nova largura e altura da imagem de fundo
+    int width = 1350; // Defina a largura desejada
+    int height = 850; // Defina a altura desejada
+
     // Criação do display e nomear
-    ALLEGRO_DISPLAY* display = al_create_display(1000, 550);
+    ALLEGRO_DISPLAY* display = al_create_display(width, height);
     al_set_window_position(display, 200, 200);
     al_set_window_title(display, "Burn the witches down");
 
     // Fonte e FPS
     ALLEGRO_FONT* font = al_create_builtin_font();
     ALLEGRO_TIMER* timer = al_create_timer(1.0 / 30.0);
-
-    //--------------------------------------------------------
-    // Defina a nova largura e altura da imagem de fundo
-    int new_width = 1000; // Defina a largura desejada
-    int new_height = 550; // Defina a altura desejada
-
-    int width_fase = 1048-220; //display nas fases
-    int height_fase = 904-220; //display nas fases
 
     //--------------------------------------------------------
     // Eventos
@@ -60,6 +57,7 @@ int main() {
     // Variáveis de controle de tela
     bool running = true;
 
+    //Cada tela
     enum screen { 
         MENU,
         MAPA,
@@ -69,8 +67,18 @@ int main() {
         FASE3
     };
 
+    //Bloqueador de fase
+    enum phaseBlock {
+        BLOCK,
+        PHASE2UNLOCKED,
+        PHASE3UNLOCKED
+    };
+
     // Variável que controla a tela
     enum screen screen = MENU;
+
+    // Variável Bloqueador de fase
+    enum phaseBlock phaseBlock = BLOCK;
 
     int ntutorial = 0; //Numero que controla a troca das fases no mapa
     int nphase = 0; //Numero que controla a troca das fases no mapa
@@ -92,7 +100,7 @@ int main() {
         if (screen == MENU) {
 
             // Desenhar o fundo redimensionado
-            menu->drawMenu(new_width, new_height, menu->backgroundImage);
+            menu->drawMenu(width, height, menu->backgroundImage);
 
             //Movimenta a seta para cima e para baixo
             if (event.keyboard.keycode == ALLEGRO_KEY_DOWN) {
@@ -124,7 +132,7 @@ int main() {
         else if (screen == MAPA){
 
             //Desenho o mapa
-            mapa->drawMap(new_width, new_height, mapa->backgroundMap);
+            mapa->drawMap(width, height, mapa->backgroundMap);
 
             //Allegro event key down lê o teclado apenas uma vez
             if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
@@ -165,13 +173,14 @@ int main() {
                 }
                 else if (nphase == 3) {
                     screen = FASE3;
+                    nlore = 1;
                 }
             }
 
         }
         else if (screen == TUTORIAL) { 
             // Desenhar o fundo redimensionado
-            menu->drawMenu(new_width, new_height, menu->backgroundImage);
+            menu->drawMenu(width, height, menu->backgroundImage);
 
             //Allegro event key down lê o teclado apenas uma vez
             if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
@@ -198,9 +207,9 @@ int main() {
         }
         else if (screen == FASE1) {
             //Redimensionar o display
-            al_resize_display(display, width_fase, height_fase);
+            al_resize_display(display, width, height);
 
-            fase1->drawFase1(width_fase, height_fase, fase1->backgroundFase1);
+            fase1->drawFase1(width, height, fase1->backgroundFase1);
 
             al_draw_textf(font, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "TELA QUE VAI SER a fase 1");
 
@@ -209,15 +218,15 @@ int main() {
                 if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
                     screen = MAPA;
                     //Redimensionar o display
-                    al_resize_display(display, new_width, new_height);
+                    al_resize_display(display, width, height);
                 }
             }
         }
         else if (screen == FASE2) { 
             //Redimensionar o display
-            al_resize_display(display, width_fase, height_fase);
+            al_resize_display(display, width, height);
 
-            fase2->drawFase2(width_fase, height_fase, fase2->backgroundFase2);
+            fase2->drawFase2(width, height, fase2->backgroundFase2);
 
             al_draw_textf(font, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "TELA QUE VAI SER a fase 2");
 
@@ -226,16 +235,16 @@ int main() {
                 if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
                     screen = MAPA;
                     //Redimensionar o display
-                    al_resize_display(display, new_width, new_height);
+                    al_resize_display(display, width, height);
                 }
             }
         }
         else if (screen == FASE3) { 
             //Redimensionar o display
-            al_resize_display(display, width_fase, height_fase);
+            al_resize_display(display, width, height);
 
-            fase3->drawFase3(width_fase, height_fase, fase3->backgroundFase3);
-            tutorial->loreDraw(width_fase, height_fase, tutorial->cardEntidade1, tutorial->cardEntidade2, tutorial->cardEntidade3, tutorial->cardEntidade4, tutorial->cardEntidade5, tutorial->cardEntidade6, nlore);
+            fase3->drawFase3(width, height, fase3->backgroundFase3);
+            tutorial->loreDraw(width, height, tutorial->cardEntidade1, tutorial->cardEntidade2, tutorial->cardEntidade3, tutorial->cardEntidade4, tutorial->cardEntidade5, tutorial->cardEntidade6, nlore);
 
             al_draw_textf(font, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "TELA QUE VAI SER a fase 3");
 
@@ -244,7 +253,7 @@ int main() {
                 if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
                     screen = MAPA;
                     //Redimensionar o display
-                    al_resize_display(display, new_width, new_height);
+                    al_resize_display(display, width, height);
                 }
                 else if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
                     nlore = nlore + 1;
