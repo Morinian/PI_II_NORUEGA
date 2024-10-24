@@ -17,6 +17,32 @@ ALLEGRO_BITMAP * initBackgroundMapImage()
     return backgroundMap;
 }
 
+ALLEGRO_BITMAP* initUnlockedPhase2()
+{
+    // Carregar imagem de fundo
+    ALLEGRO_BITMAP* unlockedPhase2Image;
+    unlockedPhase2Image = al_load_bitmap("./images/Mapa_Jogo.png");
+    if (!unlockedPhase2Image)
+    {
+        printf_s("\nImagem de unlockedPhase2Image nao alocada");
+        exit(-1);
+    }
+    return unlockedPhase2Image;
+}
+
+ALLEGRO_BITMAP* initUnlockedPhase3()
+{
+    // Carregar imagem de fundo
+    ALLEGRO_BITMAP* unlockedPhase3Image;
+    unlockedPhase3Image = al_load_bitmap("./images/Mapa_Jogo.png");
+    if (!unlockedPhase3Image)
+    {
+        printf_s("\nImagem de unlockedPhase3Image nao alocada");
+        exit(-1);
+    }
+    return unlockedPhase3Image;
+}
+
 void mapaDraw(int width, int height, ALLEGRO_BITMAP * backgroundMap)
 {
     // Desenhar o fundo redimensionado
@@ -30,6 +56,8 @@ void mapaHeaderDestroy(MAPA* mapa)
 {
     //Destruir criações
     al_destroy_bitmap(mapa->backgroundMap);
+    al_destroy_bitmap(mapa->unlockedPhase2Image);
+    al_destroy_bitmap(mapa->unlockedPhase3Image);
     free(mapa);
 }
 
@@ -44,6 +72,8 @@ MAPA * initMapa()
     printf_s("Memoria alocada mapa!! \n");
 
     mapa->backgroundMap = initBackgroundMapImage();
+    mapa->unlockedPhase2Image = initUnlockedPhase2();
+    mapa->unlockedPhase3Image = initUnlockedPhase3();
     mapa->drawMap = mapaDraw;
     mapa->destroyMap = mapaHeaderDestroy;
     return mapa;
