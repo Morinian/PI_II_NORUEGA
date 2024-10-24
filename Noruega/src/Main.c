@@ -100,7 +100,15 @@ int main() {
         if (screen == MENU) {
 
             // Desenhar o fundo redimensionado
-            menu->drawMenu(width, height, menu->backgroundImage);
+            if (phaseBlock == BLOCK) {
+                menu->drawMenu(width, height, menu->backgroundImage);
+            }
+            else if (phaseBlock == PHASE2UNLOCKED) {
+                menu->drawMenu(width, height, menu->backgroundImage);
+            }
+            else if (phaseBlock == PHASE3UNLOCKED) {
+                menu->drawMenu(width, height, menu->backgroundImage);
+            }
 
             //Movimenta a seta para cima e para baixo
             if (event.keyboard.keycode == ALLEGRO_KEY_DOWN) {
