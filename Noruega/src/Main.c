@@ -33,12 +33,12 @@ int main() {
 
     //--------------------------------------------------------
     // Defina a nova largura e altura da imagem de fundo
-    int width = 1350; // Defina a largura desejada
-    int height = 850; // Defina a altura desejada
+    int width = 1200; // Defina a largura desejada
+    int height = 700; // Defina a altura desejada
 
     // Criação do display e nomear
     ALLEGRO_DISPLAY* display = al_create_display(width, height);
-    al_set_window_position(display, 200, 200);
+    al_set_window_position(display, 80, 30);
     al_set_window_title(display, "Burn the witches down");
 
     // Fonte e FPS
@@ -74,6 +74,12 @@ int main() {
         PHASE3UNLOCKED
     };
 
+    //Fases completadas
+    int phaseComplete = 0;
+    //0->fase um incompleta
+    //1->fase um completa
+    //2->fase dois completa
+
     // Variável que controla a tela
     enum screen screen = MENU;
 
@@ -93,7 +99,7 @@ int main() {
         if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
             running = false;
         }
-
+        
         al_clear_to_color(al_map_rgb(0, 0, 0));// Limpa a tela
 
         //MENU PRINCIPAL
@@ -131,16 +137,17 @@ int main() {
 
             //Movimenta a seta
             if (nmenu == 1) {
-                menu->drawArrow(340, 325, menu->arrowImage);
+                menu->drawArrow(400, 415, menu->arrowImage);
             }
             else if (nmenu == 2) {
-                menu->drawArrow(340, 410, menu->arrowImage);
+                menu->drawArrow(400, 520, menu->arrowImage);
             }
         }
         else if (screen == MAPA){
 
             //Desenho o mapa
             mapa->drawMap(width, height, mapa->backgroundMap);
+            mapa->drawShadowPhase(width, height, mapa->unlockedPhase2Image, mapa->unlockedPhase3Image, phaseComplete);
 
             //Allegro event key down lê o teclado apenas uma vez
             if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
@@ -163,23 +170,23 @@ int main() {
             }
 
             if (nphase == 1) {
-                menu->drawArrow(305, 333, menu->arrowImage);
+                menu->drawArrow(365, 425, menu->arrowImage);
             }
             else if (nphase == 2) {
-                menu->drawArrow(675, 333, menu->arrowImage);
+                menu->drawArrow(810, 425, menu->arrowImage);
             }
             else if (nphase == 3) {
-                menu->drawArrow(490, 250, menu->arrowImage);
+                menu->drawArrow(580, 330, menu->arrowImage);
             }
 
             if (event.keyboard.keycode == ALLEGRO_KEY_ENTER) {
                 if (nphase == 1) {
                     screen = FASE1; 
                 }
-                else if (nphase == 2) {
+                else if (nphase == 2 && phaseComplete == 1) {
                     screen = FASE2; 
                 }
-                else if (nphase == 3) {
+                else if (nphase == 3 && phaseComplete == 2) {
                     screen = FASE3;
                     nlore = 1;
                 }
@@ -224,9 +231,8 @@ int main() {
             //Allegro event key down lê o teclado apenas uma vez
             if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
                 if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
+                    phaseComplete = 1;
                     screen = MAPA;
-                    //Redimensionar o display
-                    al_resize_display(display, width, height);
                 }
             }
         }
@@ -241,9 +247,8 @@ int main() {
             //Allegro event key down lê o teclado apenas uma vez
             if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
                 if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
+                    phaseComplete = 2;
                     screen = MAPA;
-                    //Redimensionar o display
-                    al_resize_display(display, width, height);
                 }
             }
         }
@@ -252,7 +257,7 @@ int main() {
             al_resize_display(display, width, height);
 
             fase3->drawFase3(width, height, fase3->backgroundFase3);
-            tutorial->loreDraw(width, height, tutorial->cardEntidade1, tutorial->cardEntidade2, tutorial->cardEntidade3, tutorial->cardEntidade4, tutorial->cardEntidade5, tutorial->cardEntidade6, nlore);
+            tutorial->loreDraw(width, height, tutorial->cardEntidade1, tutorial->cardEntidade3, tutorial->cardEntidade4, tutorial->cardEntidade5, nlore);
 
             al_draw_textf(font, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "TELA QUE VAI SER a fase 3");
 
@@ -260,8 +265,6 @@ int main() {
             if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
                 if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
                     screen = MAPA;
-                    //Redimensionar o display
-                    al_resize_display(display, width, height);
                 }
                 else if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
                     nlore = nlore + 1;

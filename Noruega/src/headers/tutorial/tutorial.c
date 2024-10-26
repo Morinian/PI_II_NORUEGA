@@ -113,33 +113,21 @@ ALLEGRO_BITMAP* initCardEntidadeLore5()
     return cardEntidade5;
 }
 
-ALLEGRO_BITMAP* initCardEntidadeLore6()
-{
-    // Carregar imagem de fundo
-    ALLEGRO_BITMAP* cardEntidade6;
-    cardEntidade6 = al_load_bitmap("./images/entidade6.png");
-    if (!cardEntidade6)
-    {
-        printf_s("\nImagem de cardEntidade6 nao alocada");
-        exit(-1);
-    }
-    return cardEntidade6;
-}
-
 void cardDraw(int width, int height, ALLEGRO_BITMAP * cardTutorial1, ALLEGRO_BITMAP* cardTutorial2, ALLEGRO_BITMAP* cardTutorial3, int number)
 {
+
     if (number == 1) {
-        al_draw_bitmap(cardTutorial1, width, height, 0);
+        al_draw_bitmap(cardTutorial1, width+110, height+70, 0);
     }
     else if (number == 2) {
-        al_draw_bitmap(cardTutorial2, width, height, 0);
+        al_draw_bitmap(cardTutorial2, width+110, height+70, 0);
     }
     else if (number == 3) {
-        al_draw_bitmap(cardTutorial3, width, height, 0);
+        al_draw_bitmap(cardTutorial3, width+110, height+70, 0);
     }
 }
 
-void loreDraw(int width, int height, ALLEGRO_BITMAP* cardLore1, ALLEGRO_BITMAP* cardLore2, ALLEGRO_BITMAP* cardLore3, ALLEGRO_BITMAP* cardLore4, ALLEGRO_BITMAP* cardLore5, ALLEGRO_BITMAP* cardLore6, int number) {
+void loreDraw(int width, int height, ALLEGRO_BITMAP* cardLore1, ALLEGRO_BITMAP* cardLore3, ALLEGRO_BITMAP* cardLore4, ALLEGRO_BITMAP* cardLore5, int number) {
 
     if (number == 1) {
         al_draw_scaled_bitmap(cardLore1,
@@ -148,32 +136,20 @@ void loreDraw(int width, int height, ALLEGRO_BITMAP* cardLore1, ALLEGRO_BITMAP* 
             0);
     }
     else if (number == 2) {
-        al_draw_scaled_bitmap(cardLore2,
-            0, 0, al_get_bitmap_width(cardLore2), al_get_bitmap_height(cardLore2),
-            0, 0, width, height,
-            0);
-    }
-    else if (number == 3) {
         al_draw_scaled_bitmap(cardLore3,
             0, 0, al_get_bitmap_width(cardLore3), al_get_bitmap_height(cardLore3),
             0, 0, width, height,
             0);
     }
-    else if (number == 4) {
+    else if (number == 3) {
         al_draw_scaled_bitmap(cardLore4,
-            0, 0, al_get_bitmap_width(cardLore4), al_get_bitmap_height(cardLore4),
+            0, 0, al_get_bitmap_width(cardLore4), al_get_bitmap_height(cardLore3),
             0, 0, width, height,
             0);
     }
-    else if (number == 5) {
+    else if (number == 4) {
         al_draw_scaled_bitmap(cardLore5,
-            0, 0, al_get_bitmap_width(cardLore5), al_get_bitmap_height(cardLore5),
-            0, 0, width, height,
-            0);
-    }
-    else if (number == 6) {
-        al_draw_scaled_bitmap(cardLore6,
-            0, 0, al_get_bitmap_width(cardLore6), al_get_bitmap_height(cardLore6),
+            0, 0, al_get_bitmap_width(cardLore5), al_get_bitmap_height(cardLore4),
             0, 0, width, height,
             0);
     }
@@ -188,11 +164,9 @@ void tutorialHeaderDestroy(TUTORIAL* tutorial)
     al_destroy_bitmap(tutorial->cardTutorial3);
 
     al_destroy_bitmap(tutorial->cardEntidade1);
-    al_destroy_bitmap(tutorial->cardEntidade2);
     al_destroy_bitmap(tutorial->cardEntidade3);
     al_destroy_bitmap(tutorial->cardEntidade4);
     al_destroy_bitmap(tutorial->cardEntidade5);
-    al_destroy_bitmap(tutorial->cardEntidade6);
     free(tutorial);
 }
 
@@ -211,11 +185,9 @@ TUTORIAL * initTutorial()
     tutorial->cardTutorial3 = initCardTutorial3();
 
     tutorial->cardEntidade1 = initCardEntidadeLore1();
-    tutorial->cardEntidade2 = initCardEntidadeLore2();
     tutorial->cardEntidade3 = initCardEntidadeLore3();
     tutorial->cardEntidade4 = initCardEntidadeLore4();
     tutorial->cardEntidade5 = initCardEntidadeLore5();
-    tutorial->cardEntidade6 = initCardEntidadeLore6();
 
     tutorial->cardDraw = cardDraw;
     tutorial->loreDraw = loreDraw;
