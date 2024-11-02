@@ -223,8 +223,6 @@ int main() {
 
         }
         else if (screen == FASE1) {
-            //Redimensionar o display
-            al_resize_display(display, width, height);
 
             fase1->drawFase1(width, height, fase1->backgroundFase1);
 
@@ -240,9 +238,6 @@ int main() {
         }
         else if (screen == FASE2) { 
 
-            //Redimensionar o display
-           // al_resize_display(display, width, height);
-
             fase2->drawFase2(width, height, fase2->backgroundFase2);
 
             al_draw_textf(font, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "TELA QUE VAI SER a fase 2");
@@ -256,9 +251,6 @@ int main() {
             }
         }
         else if (screen == FASE3) { 
-
-            //Redimensionar o display
-            //al_resize_display(display, width, height);
 
             fase3->drawFase3(width, height, fase3->backgroundFase3);
             tutorial->loreDraw(width, height, tutorial->cardEntidade1, tutorial->cardEntidade3, tutorial->cardEntidade4, tutorial->cardEntidade5, nlore);
