@@ -15,7 +15,7 @@
 #include "./headers/fases/fase3/fase3.h"
 
 int main() {
-    // InicializaÁıes
+    // Inicializa√ß√µes
     al_init();
     al_init_font_addon();
     al_init_ttf_addon();
@@ -36,7 +36,7 @@ int main() {
     int width = 1200; // Defina a largura desejada
     int height = 700; // Defina a altura desejada
 
-    // CriaÁ„o do display e nomear
+    // Cria√ß√£o do display e nomear
     ALLEGRO_DISPLAY* display = al_create_display(width, height);
     al_set_window_position(display, 80, 30);
     al_set_window_title(display, "Burn the witches down");
@@ -54,11 +54,11 @@ int main() {
     al_start_timer(timer);
 
     //----------------------------------------------------
-    // Vari·veis de controle de tela
+    // Vari√°veis de controle de tela
     bool running = true;
 
     //Cada tela
-    enum screen { 
+    enum screen {
         MENU,
         MAPA,
         TUTORIAL,
@@ -80,10 +80,10 @@ int main() {
     //1->fase um completa
     //2->fase dois completa
 
-    // Vari·vel que controla a tela
+    // Vari√°vel que controla a tela
     enum screen screen = MENU;
 
-    // Vari·vel Bloqueador de fase
+    // Vari√°vel Bloqueador de fase
     enum phaseBlock phaseBlock = BLOCK;
 
     int ntutorial = 0; //Numero que controla a troca das fases no mapa
@@ -143,13 +143,14 @@ int main() {
                 menu->drawArrow(400, 520, menu->arrowImage);
             }
         }
+      
         else if (screen == MAPA){
-
+          
             //Desenho o mapa
             mapa->drawMap(width, height, mapa->backgroundMap);
             mapa->drawShadowPhase(width, height, mapa->unlockedPhase2Image, mapa->unlockedPhase3Image, phaseComplete);
 
-            //Allegro event key down lÍ o teclado apenas uma vez
+            //Allegro event key down l√™ o teclado apenas uma vez
             if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
                 if (nphase == 3 && event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
                     nphase += 0;
@@ -194,10 +195,11 @@ int main() {
 
         }
         else if (screen == TUTORIAL) { 
+          
             // Desenhar o fundo redimensionado
             menu->drawMenu(width, height, menu->backgroundImage);
 
-            //Allegro event key down lÍ o teclado apenas uma vez
+            //Allegro event key down l√™ o teclado apenas uma vez
             if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
                 if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
                     screen = MENU;
@@ -228,7 +230,7 @@ int main() {
 
             al_draw_textf(font, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "TELA QUE VAI SER a fase 1");
 
-            //Allegro event key down lÍ o teclado apenas uma vez
+            //Allegro event key down l√™ o teclado apenas uma vez
             if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
                 if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
                     phaseComplete = 1;
@@ -237,14 +239,15 @@ int main() {
             }
         }
         else if (screen == FASE2) { 
+
             //Redimensionar o display
-            al_resize_display(display, width, height);
+           // al_resize_display(display, width, height);
 
             fase2->drawFase2(width, height, fase2->backgroundFase2);
 
             al_draw_textf(font, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "TELA QUE VAI SER a fase 2");
 
-            //Allegro event key down lÍ o teclado apenas uma vez
+            //Allegro event key down l√™ o teclado apenas uma vez
             if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
                 if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
                     phaseComplete = 2;
@@ -253,15 +256,16 @@ int main() {
             }
         }
         else if (screen == FASE3) { 
+
             //Redimensionar o display
-            al_resize_display(display, width, height);
+            //al_resize_display(display, width, height);
 
             fase3->drawFase3(width, height, fase3->backgroundFase3);
             tutorial->loreDraw(width, height, tutorial->cardEntidade1, tutorial->cardEntidade3, tutorial->cardEntidade4, tutorial->cardEntidade5, nlore);
 
             al_draw_textf(font, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "TELA QUE VAI SER a fase 3");
 
-            //Allegro event key down lÍ o teclado apenas uma vez
+            //Allegro event key down l√™ o teclado apenas uma vez
             if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
                 if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
                     screen = MAPA;
@@ -276,7 +280,7 @@ int main() {
     }
 
     //--------------------------------------------------------
-    // DestruiÁıes
+    // Destrui√ß√µes
 
     //Criados
     menu->destroyMenu(menu);
@@ -286,7 +290,7 @@ int main() {
     fase2->destroyFase2(fase2);
     fase3->destroyFase3(fase3);
 
-    //Padr„o
+    //Padr√£o
     al_destroy_font(font);
     al_destroy_display(display);
     al_destroy_event_queue(event_queue);
