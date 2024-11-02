@@ -13,6 +13,7 @@
 #include "./headers/fases/fase1/fase1.h"
 #include "./headers/fases/fase2/fase2.h"
 #include "./headers/fases/fase3/fase3.h"
+#include "./headers/witch/witch.h"
 
 int main() {
     // Inicializações
@@ -31,6 +32,12 @@ int main() {
     FASE2* fase2 = initFase2();
     FASE3* fase3 = initFase3();
 
+    //init Bruxas
+    WITCH* player = initWitch("./images/bruxas/bruxa.png", 230, 180, 350, FIRE);
+    WITCH* bruxa1 = initWitch("./images/bruxas/inimigo1.png", 860, 180, 350, FIRE);
+    WITCH* bruxa2 = initWitch("./images/bruxas/inimigo2.png", 860, 140, 350, FIRE);
+    WITCH* entidade = initWitch("./images/bruxas/entidade.png", 860, 0, 350, FIRE);
+
     //--------------------------------------------------------
     // Defina a nova largura e altura da imagem de fundo
     int width = 1200; // Defina a largura desejada
@@ -41,10 +48,9 @@ int main() {
     al_set_window_position(display, 80, 30);
     al_set_window_title(display, "Burn the witches down");
 
-    // Fonte e FPS
-    ALLEGRO_FONT* font = al_create_builtin_font();
+    // FPS
     ALLEGRO_TIMER* timer = al_create_timer(1.0 / 30.0);
-
+   
     //--------------------------------------------------------
     // Eventos
     ALLEGRO_EVENT_QUEUE* event_queue = al_create_event_queue();
@@ -226,7 +232,8 @@ int main() {
 
             fase1->drawFase1(width, height, fase1->backgroundFase1);
 
-            al_draw_textf(font, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "TELA QUE VAI SER a fase 1");
+            player->drawWitch(player,125,250);
+            bruxa1->drawWitch(bruxa1,160,250);
 
             //Allegro event key down lê o teclado apenas uma vez
             if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
@@ -240,7 +247,8 @@ int main() {
 
             fase2->drawFase2(width, height, fase2->backgroundFase2);
 
-            al_draw_textf(font, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "TELA QUE VAI SER a fase 2");
+            player->drawWitch(player,125,250);
+            bruxa2>drawWitch(bruxa2,205,296);
 
             //Allegro event key down lê o teclado apenas uma vez
             if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
@@ -255,7 +263,10 @@ int main() {
             fase3->drawFase3(width, height, fase3->backgroundFase3);
             tutorial->loreDraw(width, height, tutorial->cardEntidade1, tutorial->cardEntidade3, tutorial->cardEntidade4, tutorial->cardEntidade5, nlore);
 
-            al_draw_textf(font, al_map_rgb(255, 255, 255), 400, 300, ALLEGRO_ALIGN_CENTER, "TELA QUE VAI SER a fase 3");
+            if (nlore > 4) {
+                player->drawWitch(player, 125, 250);
+                entidade > drawWitch(entidade,253,396);
+            }
 
             //Allegro event key down lê o teclado apenas uma vez
             if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
@@ -266,8 +277,7 @@ int main() {
                     nlore = nlore + 1;
                 }
             }
-        }
-     
+        }     
         al_flip_display();
     }
 
@@ -281,9 +291,12 @@ int main() {
     fase1->destroyFase1(fase1);
     fase2->destroyFase2(fase2);
     fase3->destroyFase3(fase3);
+    player->destroyWitch(player);
+    entidade->destroyWitch(entidade);
+    bruxa1->destroyWitch(bruxa1);
+    bruxa2->destroyWitch(bruxa2);
 
     //Padrão
-    al_destroy_font(font);
     al_destroy_display(display);
     al_destroy_event_queue(event_queue);
     al_destroy_timer(timer);
