@@ -24,7 +24,8 @@
 		enum WITCH_TYPE type;
 		ALLEGRO_BITMAP* sprite;
 		enum CHEMICAL_ELEMENTS * deck;
-		int health_points;
+		int health_points;//vida que diminui durante a luta
+		int base_health;//É a vida base/máxima da bruxa, ela não muda
 		float damage_received_multiplier;
 		int coordinate_x;
 		int coordinate_y;

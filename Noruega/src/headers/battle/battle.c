@@ -2,20 +2,45 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <allegro5/allegro.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
+#include <allegro5/allegro_primitives.h>
 #include "../battle/battle_map/battle_map.h"
 #include "../element/element.h"
 #include "../witch/witch.h"
 #include "../battle/battle.h"
 #include "../random/random.h"
 
-void renderBattle(BATTLE_MAP* battle_map, int chosen_element)
+void renderBattle(BATTLE_MAP* battle_map, int chosen_element, int round, int timer, 
+	ALLEGRO_FONT* font, BATTLE_PVE* battle_pve, enum CHEMICAL_ELEMENTS central_element)
 {
 	battle_map->drawBattleMap(battle_map, chosen_element);
+	al_draw_textf(font, al_map_rgba_f(0, 0, 1, 0.5), 650, 250, ALLEGRO_ALIGN_CENTER, "%d", central_element);
+
+	//Desenha o player, sua barra de vida e seus status
+	float inicial_x_player_bar = 100;
+	float health_player_bar_size = inicial_x_player_bar + (250.0 * (battle_pve->player->health_points / (float)battle_pve->player->base_health));
+	battle_pve->player->drawWitch(battle_pve->player);
+	al_draw_textf(font, al_map_rgb(255, 255, 255), 50, 15, ALLEGRO_ALIGN_CENTER, "%d", battle_pve->player->health_points);
+	al_draw_textf(font, al_map_rgb(255, 255, 255), 100, 75, ALLEGRO_ALIGN_CENTER, "MDR - %.1f", battle_pve->player->damage_received_multiplier);
+	al_draw_filled_rectangle(inicial_x_player_bar, 15, health_player_bar_size, 50, al_map_rgba_f(1, 0, 0, 0.5));
+
+	//Desenha o bot, sua barra de vida e seus status
+	float inicial_x_bot_bar = 950;
+	float health_bot_bar_size = 950 + (250.0 * (battle_pve->bot->health_points / (float)battle_pve->bot->base_health));
+	battle_pve->bot->drawWitch(battle_pve->bot);
+	al_draw_textf(font, al_map_rgb(255, 255, 255), 1250, 15, ALLEGRO_ALIGN_CENTER, "%d", battle_pve->bot->health_points);
+	al_draw_textf(font, al_map_rgb(255, 255, 255), 1200, 75, ALLEGRO_ALIGN_CENTER, "MDR - %.1f", battle_pve->bot->damage_received_multiplier);
+	al_draw_filled_rectangle(inicial_x_bot_bar, 15, health_bot_bar_size, 50, al_map_rgba_f(1, 0, 0, 0.5));
+
+	//Desenha o estado da partida (round e timer do round)
+	al_draw_textf(font, al_map_rgb(255, 255, 255), 650, 15, ALLEGRO_ALIGN_CENTER, "Round - %d", round);
+	al_draw_textf(font, al_map_rgb(255, 255, 255), 650, 75, ALLEGRO_ALIGN_CENTER, "%d", timer);
 	al_flip_display();
 }
 
-void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve) {
-
+void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve, ALLEGRO_FONT* font) 
+{
 	ALLEGRO_TIMER* battle_timer = al_create_timer(1.0);
 	if (!battle_timer)
 	{
@@ -40,8 +65,7 @@ void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve) {
 	int chosen_deck_element_position = 0;
 
 	ALLEGRO_EVENT event;
-	renderBattle(battle_pve->battle_map, chosen_deck_element);
-	bool re_render = false;
+	
 	while (battle_pve->player->health_points > 0 && battle_pve->bot->health_points > 0)
 	{
 		
@@ -58,6 +82,8 @@ void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve) {
 		central_element = (enum CHEMICAL_ELEMENTS) generateRandomIntInRange(false, ELEMENTS_AMOUNT);
 
 		in_game = true;
+		bool render = false;
+		int current_time = 0;
 		al_start_timer(battle_timer);
 
 		printf_s("\nround - %i", battle_pve->round);
@@ -65,18 +91,33 @@ void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve) {
 
 		while (in_game)
 		{
-			
-			if (al_get_timer_count(battle_timer) == 15 || (player_atacked && bot_atacked))
+			al_wait_for_event(event_queue, &event);
+			/*Atualiza a flag de renderização quando o timer que acionou o evento
+			não é o timer do round, mas sim o timer do FPS */
+			current_time = al_get_timer_count(battle_timer);
+			if (event.type == ALLEGRO_EVENT_TIMER)
+			{
+				if (event.timer.source != current_time)
+					render = true;
+			}
+			/*Renderiza apenas quando timer do FPS atualizou e quando não
+			tem nenhum outro evento para ser processado*/
+			if (render && al_is_event_queue_empty(event_queue))
+			{
+				renderBattle(battle_pve->battle_map, chosen_deck_element_position, 
+					battle_pve->round, current_time, font, battle_pve, central_element);
+				render = false;
+			}
+
+			if (current_time == 15 || (player_atacked && bot_atacked))
 			{
 				al_stop_timer(battle_timer);
 				al_set_timer_count(battle_timer, 0);
 				in_game = false;
 			}
-
 			else if(!player_atacked)
 			{
 				// Atack do player
-				al_wait_for_event(event_queue, &event);
 				if (event.type == ALLEGRO_EVENT_KEY_DOWN)
 				{
 					switch (event.keyboard.keycode)
@@ -85,25 +126,21 @@ void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve) {
 						chosen_deck_element = battle_pve->player->deck[0];
 						chosen_deck_element_position = 0;
 						printf_s("\nEscolheu o 1 elemento");
-						re_render = true;
 						break;
 					case ALLEGRO_KEY_W:
 						chosen_deck_element = battle_pve->player->deck[1];
 						chosen_deck_element_position = 1;
 						printf_s("\nEscolheu o 2 elemento");
-						re_render = true;
 						break;
 					case ALLEGRO_KEY_A:
 						chosen_deck_element = battle_pve->player->deck[2];
 						chosen_deck_element_position = 2;
 						printf_s("\nEscolheu o 3 elemento");
-						re_render = true;
 						break;
 					case ALLEGRO_KEY_S:
 						chosen_deck_element = battle_pve->player->deck[3];
 						chosen_deck_element_position = 3;
 						printf_s("\nEsolheu o 4 elemento");
-						re_render = true;
 						break;
 					case ALLEGRO_KEY_ENTER:
 						printf_s("\n\n\nPlayer Atacou");
@@ -119,12 +156,6 @@ void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve) {
 							battle_pve->bot->health_points, battle_pve->bot->damage_received_multiplier);
 						player_atacked = true;
 						break;
-					}
-					if (re_render)
-					{
-						//O load da imagem está demorando d+
-						renderBattle(battle_pve->battle_map, chosen_deck_element_position);
-						re_render = false;
 					}
 				}
 				// Atack do Bot

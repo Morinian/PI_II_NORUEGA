@@ -36,12 +36,19 @@ void atack(WITCH* attacker, WITCH* target,
     
     if (chemical_reaction == COMPATIBLE)
     {
-        printf_s("\nO Atacante ganhou mais 10 de vida");
-        attacker->health_points += 10;
+        if (attacker->base_health > attacker->health_points)
+        {
+            printf_s("\nO Atacante ganhou mais 15 de vida");
+            attacker->health_points += 15;
+        }
+        else
+        {
+            printf_s("\nA vida do Atacante ja esta no maximo");
+        }
     }
     else if (chemical_reaction == METAL_REACTIVITY)
     {
-        if (target->damage_received_multiplier < 1.8)
+        if (target->damage_received_multiplier <= 1.8)
         {
             printf_s("\nDefesa do oponente diminuida em 20 PORCENTO");
             target->damage_received_multiplier += 0.2;
@@ -51,7 +58,7 @@ void atack(WITCH* attacker, WITCH* target,
     }
     else if (chemical_reaction == WATER_REACTIVITY)
     {
-        if (attacker->damage_received_multiplier > 0.2)
+        if (attacker->damage_received_multiplier >= 0.2)
         {
             printf_s("\nDefesa do atacante aumentada em 20 PORCENTO");
             attacker->damage_received_multiplier -= 0.2;
@@ -107,6 +114,7 @@ WITCH * initWitch(char image_path[], int coordinate_x, int coordinate_y, int hea
     witch->coordinate_y = coordinate_y;
     witch->damage_received_multiplier = 1.0;
     witch->health_points = health_points;
+    witch->base_health = health_points;
     witch->type = type;
     witch->deck = (enum CHEMICAL_ELEMENTS *) generateRandomIntArrayInRange(DECK_SIZE, ELEMENTS_AMOUNT);
     witch->atack = atack;

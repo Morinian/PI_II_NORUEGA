@@ -24,8 +24,8 @@ int main() {
     al_init_primitives_addon();
 
     //Init bruxa;
-    WITCH* player = initWitch("./images/bruxas/BruxinhaMal.png", 200, 280, 500, WATER);
-    WITCH* bot = initWitch("./images/bruxas/Bruxinha.png", 200, 280, 350, FIRE);
+    WITCH* player = initWitch("./images/bruxas/BruxinhaMal.png", 200, 370, 500, WATER);
+    WITCH* bot = initWitch("./images/bruxas/Bruxinha.png", 900, 370, 350, FIRE);
     for (int i = 0; i < 4; i++)
        printf_s("  Gerado: %i   ", player->deck[i]);
 
@@ -44,7 +44,8 @@ int main() {
     al_set_window_title(display, "Burn the witches down");
 
     // Fonte e FPS
-    ALLEGRO_FONT* font = al_create_builtin_font();
+    ALLEGRO_FONT* small_font = al_load_font("./fonts/PaytoneOne-Regular.ttf", 16, 0);
+    ALLEGRO_FONT* large_font = al_load_font("./fonts/PaytoneOne-Regular.ttf", 32, 0);
     ALLEGRO_TIMER* timer = al_create_timer(1.0 / 30.0);
 
     // Eventos
@@ -62,19 +63,19 @@ int main() {
     while (running) {
         ALLEGRO_EVENT event;
         al_wait_for_event(event_queue, &event);
-
         if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
             running = false;
         }
 
         //al_clear_to_color(al_map_rgb(0, 0, 0)); // Limpa a tela
-        battle_pve->play(event_queue, battle_pve);
+        battle_pve->play(event_queue, battle_pve, large_font);
     }
     
     //--------------------------------------------------------
     // Destruições
     battle_pve->destroyBattle(battle_pve);
-    al_destroy_font(font);
+    al_destroy_font(small_font);
+    al_destroy_font(large_font);
     al_destroy_display(display);
     al_destroy_event_queue(event_queue);
     al_destroy_timer(timer);
