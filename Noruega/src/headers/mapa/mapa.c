@@ -17,6 +17,32 @@ ALLEGRO_BITMAP * initBackgroundMapImage()
     return backgroundMap;
 }
 
+ALLEGRO_BITMAP* initUnlockedPhase2()
+{
+    // Carregar imagem de fundo
+    ALLEGRO_BITMAP* unlockedPhase2Image;
+    unlockedPhase2Image = al_load_bitmap("./images/SombraFase2.png");
+    if (!unlockedPhase2Image)
+    {
+        printf_s("\nImagem de unlockedPhase2Image nao alocada");
+        exit(-1);
+    }
+    return unlockedPhase2Image;
+}
+
+ALLEGRO_BITMAP* initUnlockedPhase3()
+{
+    // Carregar imagem de fundo
+    ALLEGRO_BITMAP* unlockedPhase3Image;
+    unlockedPhase3Image = al_load_bitmap("./images/SombraFase3.png");
+    if (!unlockedPhase3Image)
+    {
+        printf_s("\nImagem de unlockedPhase3Image nao alocada");
+        exit(-1);
+    }
+    return unlockedPhase3Image;
+}
+
 void mapaDraw(int width, int height, ALLEGRO_BITMAP * backgroundMap)
 {
     // Desenhar o fundo redimensionado
@@ -26,10 +52,23 @@ void mapaDraw(int width, int height, ALLEGRO_BITMAP * backgroundMap)
         0); // Desenha a imagem de fundo redimensionada
 }
 
+void drawShadowPhase(int width, int height, ALLEGRO_BITMAP* unlockedPhase2Image, ALLEGRO_BITMAP* unlockedPhase3Image,int phaseComplete)
+{
+    if (phaseComplete == 0) {
+        al_draw_bitmap(unlockedPhase2Image, 730, 425, 0);
+        al_draw_bitmap(unlockedPhase3Image, 450, 225, 0);
+    }
+    else if (phaseComplete == 1) {
+        al_draw_bitmap(unlockedPhase3Image, 450, 225, 0);
+    }
+}
+
 void mapaHeaderDestroy(MAPA* mapa)
 {
     //Destruir criações
     al_destroy_bitmap(mapa->backgroundMap);
+    al_destroy_bitmap(mapa->unlockedPhase2Image);
+    al_destroy_bitmap(mapa->unlockedPhase3Image);
     free(mapa);
 }
 
@@ -38,13 +77,16 @@ MAPA * initMapa()
     MAPA * mapa = (MAPA *) malloc(sizeof(MAPA));
     if (!mapa)
     {
-        printf_s("Memoria nao alocada");
+        printf_s("Memoria nao alocada mapa \n");
         exit(-1);
     }
-    printf_s("Memoria alocada!!");
+    printf_s("Memoria alocada mapa!! \n");
 
     mapa->backgroundMap = initBackgroundMapImage();
+    mapa->unlockedPhase2Image = initUnlockedPhase2();
+    mapa->unlockedPhase3Image = initUnlockedPhase3();
     mapa->drawMap = mapaDraw;
+    mapa->drawShadowPhase = drawShadowPhase;
     mapa->destroyMap = mapaHeaderDestroy;
     return mapa;
 }

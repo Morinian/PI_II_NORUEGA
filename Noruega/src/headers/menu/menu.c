@@ -36,7 +36,8 @@ void menuDraw(int width, int height, ALLEGRO_BITMAP * background)
     al_draw_scaled_bitmap(background,
         0, 0, al_get_bitmap_width(background), al_get_bitmap_height(background),
         0, 0, width, height,
-        0); // Desenha a imagem de fundo redimensionada
+        0); 
+    // Desenha a imagem de fundo redimensionada
 }
 
 void menuArrowDraw(int width, int height, ALLEGRO_BITMAP* seta)
@@ -57,10 +58,10 @@ MENU * initMenu()
     MENU * menu = (MENU *) malloc(sizeof(MENU));
     if (!menu)
     {
-        printf_s("Memoria nao alocada");
+        printf_s("Memoria nao alocada menu \n");
         exit(-1);
     }
-    printf_s("Memoria alocada!!");
+    printf_s("Memoria alocada menu!! \n");
 
     menu->backgroundImage = initBackgroundImage();
     menu->arrowImage = initArrowImage();

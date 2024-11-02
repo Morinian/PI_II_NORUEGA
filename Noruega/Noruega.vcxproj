@@ -140,13 +140,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\headers\fases\fase1\fase1.c" />
+    <ClCompile Include="src\headers\fases\fase2\fase2.c" />
+    <ClCompile Include="src\headers\fases\fase3\fase3.c" />
     <ClCompile Include="src\headers\mapa\mapa.c" />
     <ClCompile Include="src\headers\menu\menu.c" />
+    <ClCompile Include="src\headers\tutorial\tutorial.c" />
     <ClCompile Include="src\Main.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\headers\fases\fase1\fase1.h" />
+    <ClInclude Include="src\headers\fases\fase2\fase2.h" />
+    <ClInclude Include="src\headers\fases\fase3\fase3.h" />
     <ClInclude Include="src\headers\mapa\mapa.h" />
     <ClInclude Include="src\headers\menu\menu.h" />
+    <ClInclude Include="src\headers\tutorial\tutorial.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
