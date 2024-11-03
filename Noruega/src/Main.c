@@ -36,7 +36,9 @@ int main() {
     WITCH* player = initWitch("./images/bruxas/bruxa.png", 230, 180, 350, FIRE);
     WITCH* bruxa1 = initWitch("./images/bruxas/inimigo1.png", 860, 180, 350, FIRE);
     WITCH* bruxa2 = initWitch("./images/bruxas/inimigo2.png", 860, 140, 350, FIRE);
-    WITCH* entidade = initWitch("./images/bruxas/entidade.png", 860, 0, 350, FIRE);
+    WITCH* inimigo3 = initWitch("./images/bruxas/inimigo3.png", 860, 0, 350, FIRE);
+    WITCH* entidadePrin = initWitch("./images/bruxas/entidadePrin.png", 500, 20, 350, FIRE);
+    WITCH* entidadeSec = initWitch("./images/bruxas/entidadeSec.png", 500, 20, 350, FIRE);
 
     //--------------------------------------------------------
     // Defina a nova largura e altura da imagem de fundo
@@ -231,9 +233,10 @@ int main() {
         else if (screen == FASE1) {
 
             fase1->drawFase1(width, height, fase1->backgroundFase1);
-
+            
+            entidadePrin->drawWitch(entidadePrin, 220, 296);
             player->drawWitch(player,125,250);
-            bruxa1->drawWitch(bruxa1,160,250);
+            bruxa1->drawWitch(bruxa1,160,292);
 
             //Allegro event key down lê o teclado apenas uma vez
             if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
@@ -247,6 +250,7 @@ int main() {
 
             fase2->drawFase2(width, height, fase2->backgroundFase2);
 
+            entidadePrin->drawWitch(entidadePrin, 220, 296);
             player->drawWitch(player,125,250);
             bruxa2>drawWitch(bruxa2,205,296);
 
@@ -264,8 +268,9 @@ int main() {
             tutorial->loreDraw(width, height, tutorial->cardEntidade1, tutorial->cardEntidade3, tutorial->cardEntidade4, tutorial->cardEntidade5, nlore);
 
             if (nlore > 4) {
+                entidadeSec->drawWitch(entidadeSec, 184, 294);
                 player->drawWitch(player, 125, 250);
-                entidade > drawWitch(entidade,253,396);
+                inimigo3 > drawWitch(inimigo3,253,396);
             }
 
             //Allegro event key down lê o teclado apenas uma vez
@@ -292,7 +297,7 @@ int main() {
     fase2->destroyFase2(fase2);
     fase3->destroyFase3(fase3);
     player->destroyWitch(player);
-    entidade->destroyWitch(entidade);
+    inimigo3->destroyWitch(inimigo3);
     bruxa1->destroyWitch(bruxa1);
     bruxa2->destroyWitch(bruxa2);
 
