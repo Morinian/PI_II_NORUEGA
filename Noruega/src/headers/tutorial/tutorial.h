@@ -15,8 +15,12 @@
         ALLEGRO_BITMAP* cardEntidade4;
         ALLEGRO_BITMAP* cardEntidade5;
 
+        ALLEGRO_BITMAP* book;
+        ALLEGRO_BITMAP* bookAnima;
+
         void (*cardDraw)(int, int, ALLEGRO_BITMAP*, ALLEGRO_BITMAP*, ALLEGRO_BITMAP*,int);
         void (*loreDraw)(int, int, ALLEGRO_BITMAP*, ALLEGRO_BITMAP*, ALLEGRO_BITMAP*, ALLEGRO_BITMAP*, int);
+        void (*bookDraw)(ALLEGRO_BITMAP*, ALLEGRO_BITMAP*, int*, int, int, int, int, int);
         void (*destroyMap)(TUTORIAL*);
     };
 

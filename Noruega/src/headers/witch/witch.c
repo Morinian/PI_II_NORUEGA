@@ -8,6 +8,7 @@
 #include "witch.h"
 
 const int DECK_SIZE = 4;
+
 /*
 enum DAMAGE_STRENGTH getDamageStrenght(enum MIX_RESULTS chemical_reaction,
     enum WITCH_TYPE witch_type)

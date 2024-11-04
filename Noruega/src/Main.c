@@ -40,8 +40,8 @@ int main() {
     WITCH* entidadePrin = initWitch("./images/bruxas/entidadePrin.png", 500, 20, 350, FIRE);
     WITCH* entidadeSec = initWitch("./images/bruxas/entidadeSec.png", 500, 20, 350, FIRE);
 
-    //--------------------------------------------------------
-    // Defina a nova largura e altura da imagem de fundo
+    //------------------------------------------------------------
+    // Defina a nova largura e altura da imagem de fundo e display
     int width = 1200; // Defina a largura desejada
     int height = 700; // Defina a altura desejada
 
@@ -69,6 +69,7 @@ int main() {
     enum screen {
         MENU,
         MAPA,
+        LIVRO,
         TUTORIAL,
         FASE1,
         FASE2,
@@ -98,6 +99,9 @@ int main() {
     int nphase = 0; //Numero que controla a troca das fases no mapa
     int nmenu = 1; //Numero que controla a troca de telas no menu
     int nlore = 1; //Numero que controla a troca das img lore
+    int nbook = 1;//Numero que controla a troca das img do livro
+    int play = 0; // disparo da animação do livro
+
 
     while (running) {
 
@@ -107,39 +111,43 @@ int main() {
         if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
             running = false;
         }
-        
+
         al_clear_to_color(al_map_rgb(0, 0, 0));// Limpa a tela
 
         //MENU PRINCIPAL
         if (screen == MENU) {
 
-            // Desenhar o fundo redimensionado
-            if (phaseBlock == BLOCK) {
-                menu->drawMenu(width, height, menu->backgroundImage);
-            }
-            else if (phaseBlock == PHASE2UNLOCKED) {
-                menu->drawMenu(width, height, menu->backgroundImage);
-            }
-            else if (phaseBlock == PHASE3UNLOCKED) {
-                menu->drawMenu(width, height, menu->backgroundImage);
-            }
+            //Menu completo img e livro -------------------------
+            menu->drawMenu(width, height, menu->backgroundImage);
+            menu->drawBookMenu(1050, 10, menu->bookMenuImage);
 
             //Movimenta a seta para cima e para baixo
-            if (event.keyboard.keycode == ALLEGRO_KEY_DOWN) {
-                nmenu = 2;
-            }
-            else if (event.keyboard.keycode == ALLEGRO_KEY_UP) {
-                nmenu = 1;
+            if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
+                if (nmenu == 3 && event.keyboard.keycode == ALLEGRO_KEY_DOWN) {
+                    nmenu += 0;
+                }
+                else if (nmenu == 1 && event.keyboard.keycode == ALLEGRO_KEY_UP) {
+                    nmenu += 0;
+                }
+                else if (event.keyboard.keycode == ALLEGRO_KEY_DOWN) {
+                    nmenu = nmenu + 1;
+                }
+                else if (event.keyboard.keycode == ALLEGRO_KEY_UP) {
+                    nmenu = nmenu - 1;
+                }
             }
 
             //Enter para decidir para onde vai
             if (event.keyboard.keycode == ALLEGRO_KEY_ENTER) {
                 if (nmenu == 1) {
-                    screen = MAPA; 
+                    screen = MAPA;
                 }
                 else if (nmenu == 2) {
-                    screen = TUTORIAL; 
+                    screen = TUTORIAL;
                     ntutorial = 1;
+                }
+                else if (nmenu == 3) {
+                    screen = LIVRO;
                 }
             }
 
@@ -150,8 +158,10 @@ int main() {
             else if (nmenu == 2) {
                 menu->drawArrow(400, 520, menu->arrowImage);
             }
+            else if (nmenu == 3) {
+                menu->drawArrow(980, 30, menu->arrowImage);
+            }
         }
-      
         else if (screen == MAPA){
           
             //Desenho o mapa
@@ -200,12 +210,31 @@ int main() {
                     nlore = 1;
                 }
             }
+        }
+        else if (screen == LIVRO) {
 
+            //Menu completo img e livro -------------------------
+            menu->drawMenu(width, height, menu->backgroundImage);
+            menu->drawBookMenu(1050, 10, menu->bookMenuImage);
+
+            //Desenha o livro junto com a animação
+            tutorial->bookDraw(tutorial->bookAnima, tutorial->book, &play, nbook, 1095, 687, 80, 0);
+
+            if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
+                if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
+                    screen = MENU;
+                    nbook = 0;
+                }
+                else if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
+                    play = 1;
+                }
+            }
         }
         else if (screen == TUTORIAL) { 
           
-            // Desenhar o fundo redimensionado
+            //Menu completo img e livro -------------------------
             menu->drawMenu(width, height, menu->backgroundImage);
+            menu->drawBookMenu(1050, 10, menu->bookMenuImage);
 
             //Allegro event key down lê o teclado apenas uma vez
             if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
@@ -296,6 +325,7 @@ int main() {
     fase1->destroyFase1(fase1);
     fase2->destroyFase2(fase2);
     fase3->destroyFase3(fase3);
+
     player->destroyWitch(player);
     inimigo3->destroyWitch(inimigo3);
     bruxa1->destroyWitch(bruxa1);
