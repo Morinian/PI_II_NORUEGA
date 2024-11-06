@@ -129,21 +129,33 @@ ALLEGRO_BITMAP* initBook()
     return book;
 }
 
-ALLEGRO_BITMAP* initBookAnima()
+ALLEGRO_BITMAP* initBookAnimaR()
 {
-    ALLEGRO_BITMAP* bookAnima;
-    bookAnima = al_load_bitmap("./images/Livro/LivroAbertoAnima.png");
-    if (!bookAnima)
+    ALLEGRO_BITMAP* bookAnimaR;
+    bookAnimaR = al_load_bitmap("./images/Livro/LivroAbertoAnimaDir.png");
+    if (!bookAnimaR)
     {
-        printf_s("\nImagem de bookAnima nao alocada");
+        printf_s("\nImagem de LivroAbertoAnimaDir nao alocada");
         exit(-1);
     }
-    return bookAnima;
+    return bookAnimaR;
+}
+
+ALLEGRO_BITMAP* initBookAnimaL()
+{
+    ALLEGRO_BITMAP* bookAnimaL;
+    bookAnimaL = al_load_bitmap("./images/Livro/LivroAbertoAnimaEsq.png");
+    if (!bookAnimaL)
+    {
+        printf_s("\nImagem de LivroAbertoAnimaDir nao alocada");
+        exit(-1);
+    }
+    return bookAnimaL;
 }
 
 //FUNÇÕES DE DRAW ---------------------------------------------
 
-void bookDraw(ALLEGRO_BITMAP* bookAnima, ALLEGRO_BITMAP* book, int *play, int nbook, int frame_width, int frame_height,int coordinate_x, int coordinate_y)
+void bookDraw(ALLEGRO_BITMAP* bookAnimaR, ALLEGRO_BITMAP* bookAnimaL , ALLEGRO_BITMAP* book, int *play, int nbook, int frame_width, int frame_height,int coordinate_x, int coordinate_y)
 {
 
     if (*play == 0) {
@@ -168,7 +180,17 @@ void bookDraw(ALLEGRO_BITMAP* bookAnima, ALLEGRO_BITMAP* book, int *play, int nb
             frameBook = 0;
             *play = 0;
         }
-        al_draw_bitmap_region(bookAnima, frame_width * (int)frameBook, 0, frame_width, frame_height, coordinate_x, coordinate_y-9, 0);
+        al_draw_bitmap_region(bookAnimaR, frame_width * (int)frameBook, 0, frame_width, frame_height, coordinate_x, coordinate_y-9, 0);
+
+    }
+    else if (*play == 2) {
+
+        frameBook += 0.3f;
+        if (frameBook > 5) {
+            frameBook = 0;
+            *play = 0;
+        }
+        al_draw_bitmap_region(bookAnimaL, frame_width * (int)frameBook, 0, frame_width, frame_height, coordinate_x, coordinate_y - 9, 0);
 
     }
 
@@ -230,7 +252,8 @@ void tutorialHeaderDestroy(TUTORIAL* tutorial)
     al_destroy_bitmap(tutorial->cardEntidade5);
 
     al_destroy_bitmap(tutorial->book);
-    al_destroy_bitmap(tutorial->bookAnima);
+    al_destroy_bitmap(tutorial->bookAnimaR);
+    al_destroy_bitmap(tutorial->bookAnimaL);
     free(tutorial);
 }
 
@@ -255,7 +278,8 @@ TUTORIAL* initTutorial()
     tutorial->cardEntidade5 = initCardEntidadeLore5();
 
     tutorial->book = initBook();
-    tutorial->bookAnima = initBookAnima();
+    tutorial->bookAnimaR = initBookAnimaR();
+    tutorial->bookAnimaL = initBookAnimaL();
 
     //Draw
     tutorial->cardDraw = cardDraw;

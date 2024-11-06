@@ -218,7 +218,7 @@ int main() {
             menu->drawBookMenu(1050, 10, menu->bookMenuImage);
 
             //Desenha o livro junto com a animação
-            tutorial->bookDraw(tutorial->bookAnima, tutorial->book, &play, nbook, 1095, 687, 80, 0);
+            tutorial->bookDraw(tutorial->bookAnimaR, tutorial->bookAnimaL, tutorial->book, &play, nbook, 1095, 687, 80, 0);
 
             if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
                 if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
@@ -227,6 +227,9 @@ int main() {
                 }
                 else if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
                     play = 1;
+                }
+                else if (event.keyboard.keycode == ALLEGRO_KEY_LEFT) {
+                    play = 2;
                 }
             }
         }
