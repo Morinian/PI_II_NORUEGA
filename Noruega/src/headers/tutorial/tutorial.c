@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include "tutorial.h"
 
+//Animação book
+float frameBook = 0.f;
 
 //IMAGENS PARA O TUTORIAL NO INCIO ---------------------------
 
@@ -113,17 +115,115 @@ ALLEGRO_BITMAP* initCardEntidadeLore5()
     return cardEntidade5;
 }
 
-void cardDraw(int width, int height, ALLEGRO_BITMAP * cardTutorial1, ALLEGRO_BITMAP* cardTutorial2, ALLEGRO_BITMAP* cardTutorial3, int number)
+//IMAGENS PARA O LIVRO
+
+ALLEGRO_BITMAP* initBook1()
+{
+    ALLEGRO_BITMAP* book1;
+    book1 = al_load_bitmap("./images/Livro/frame1.png");
+    if (!book1)
+    {
+        printf_s("\nImagem de book1 nao alocada");
+        exit(-1);
+    }
+    return book1;
+}
+
+ALLEGRO_BITMAP* initBook2()
+{
+    ALLEGRO_BITMAP* book2;
+    book2 = al_load_bitmap("./images/Livro/frame2.png");
+    if (!book2)
+    {
+        printf_s("\nImagem de book2 nao alocada");
+        exit(-1);
+    }
+    return book2;
+}
+
+ALLEGRO_BITMAP* initBookAnimaR()
+{
+    ALLEGRO_BITMAP* bookAnimaR;
+    bookAnimaR = al_load_bitmap("./images/Livro/LivroAbertoAnimaDir.png");
+    if (!bookAnimaR)
+    {
+        printf_s("\nImagem de LivroAbertoAnimaDir nao alocada");
+        exit(-1);
+    }
+    return bookAnimaR;
+}
+
+ALLEGRO_BITMAP* initBookAnimaL()
+{
+    ALLEGRO_BITMAP* bookAnimaL;
+    bookAnimaL = al_load_bitmap("./images/Livro/LivroAbertoAnimaEsq.png");
+    if (!bookAnimaL)
+    {
+        printf_s("\nImagem de LivroAbertoAnimaDir nao alocada");
+        exit(-1);
+    }
+    return bookAnimaL;
+}
+
+//FUNÇÕES DE DRAW ---------------------------------------------
+
+void bookDraw(ALLEGRO_BITMAP* bookAnimaR, ALLEGRO_BITMAP* bookAnimaL , ALLEGRO_BITMAP* book1, ALLEGRO_BITMAP* book2, int *play, int nbook, int frame_width, int frame_height,int coordinate_x, int coordinate_y)
+{
+
+    if (*play == 0) {
+
+        if (nbook == 1) {
+            al_draw_bitmap(book1, coordinate_x, coordinate_y , 0);
+        }else if (nbook == 2) {
+            al_draw_bitmap(book2, coordinate_x, coordinate_y, 0);
+        }else if (nbook == 3) {
+            al_draw_bitmap(book2, coordinate_x, coordinate_y, 0);
+        }else if (nbook == 4) {
+            al_draw_bitmap(book2, coordinate_x, coordinate_y, 0);
+        }else if (nbook == 5) {
+            al_draw_bitmap(book1, coordinate_x, coordinate_y, 0);
+        }
+       
+    }else if (*play == 1) {
+
+            frameBook += 0.3f;
+            if (frameBook > 5) {
+                frameBook = 0;
+                *play = 0;
+            }
+            al_draw_bitmap_region(bookAnimaR, frame_width * (int)frameBook, 0, frame_width, frame_height, coordinate_x, coordinate_y - 9, 0);
+
+
+    }else if (*play == 2) {
+
+        if (nbook > 1) {
+            frameBook += 0.3f;
+            if (frameBook > 5) {
+                frameBook = 0;
+                *play = 0;
+            }
+            al_draw_bitmap_region(bookAnimaL, frame_width * (int)frameBook, 0, frame_width, frame_height, coordinate_x, coordinate_y - 9, 0);
+        }
+        else {
+
+            al_draw_bitmap(book1, coordinate_x, coordinate_y, 0);
+            *play = 0;
+        }
+    }
+
+}
+
+void cardDraw(int width, int height, ALLEGRO_BITMAP* cardTutorial1, ALLEGRO_BITMAP* cardTutorial2, ALLEGRO_BITMAP* cardTutorial3, int number)
 {
 
     if (number == 1) {
-        al_draw_bitmap(cardTutorial1, width+110, height+70, 0);
+        al_draw_bitmap(cardTutorial1, width + 110, height + 70, 0);
     }
     else if (number == 2) {
-        al_draw_bitmap(cardTutorial2, width+110, height+70, 0);
+        al_draw_bitmap(cardTutorial2, width + 110, height + 70, 0);
     }
     else if (number == 3) {
-        al_draw_bitmap(cardTutorial3, width+110, height+70, 0);
+        al_draw_bitmap(cardTutorial3, width + 110, height + 70, 0);
     }
 }
 
@@ -167,12 +267,17 @@ void tutorialHeaderDestroy(TUTORIAL* tutorial)
     al_destroy_bitmap(tutorial->cardEntidade3);
     al_destroy_bitmap(tutorial->cardEntidade4);
     al_destroy_bitmap(tutorial->cardEntidade5);
+
+    al_destroy_bitmap(tutorial->book1);
+    al_destroy_bitmap(tutorial->book2);
+    al_destroy_bitmap(tutorial->bookAnimaR);
+    al_destroy_bitmap(tutorial->bookAnimaL);
     free(tutorial);
 }
 
-TUTORIAL * initTutorial()
+TUTORIAL* initTutorial()
 {
-    TUTORIAL * tutorial = (TUTORIAL *) malloc(sizeof(TUTORIAL));
+    TUTORIAL* tutorial = (TUTORIAL*)malloc(sizeof(TUTORIAL));
     if (!tutorial)
     {
         printf_s("Memoria nao alocada tutorial \n");
@@ -180,6 +285,7 @@ TUTORIAL * initTutorial()
     }
     printf_s("Memoria alocada tutorial!! \n");
 
+    // Inits
     tutorial->cardTutorial1 = initCardTutorial1();
     tutorial->cardTutorial2 = initCardTutorial2();
     tutorial->cardTutorial3 = initCardTutorial3();
@@ -189,8 +295,15 @@ TUTORIAL * initTutorial()
     tutorial->cardEntidade4 = initCardEntidadeLore4();
     tutorial->cardEntidade5 = initCardEntidadeLore5();
 
+    tutorial->book1 = initBook1();
+    tutorial->book2 = initBook2();
+    tutorial->bookAnimaR = initBookAnimaR();
+    tutorial->bookAnimaL = initBookAnimaL();
+
+    //Draw
     tutorial->cardDraw = cardDraw;
     tutorial->loreDraw = loreDraw;
+    tutorial->bookDraw = bookDraw;
 
     tutorial->destroyMap = tutorialHeaderDestroy;
     return tutorial;
