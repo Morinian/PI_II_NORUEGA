@@ -3,21 +3,21 @@
 #include <string.h>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
-//#include "../element/element.h"
-//#include "../random/random.h"
+#include "../element/element.h"
+#include "../random/random.h"
+
 #include "witch.h"
 
 const int DECK_SIZE = 4;
 
-/*
 enum DAMAGE_STRENGTH getDamageStrenght(enum MIX_RESULTS chemical_reaction,
-    enum WITCH_TYPE witch_type)
+        enum WITCH_TYPE witch_type)
 {
     if ((witch_type == FIRE && chemical_reaction == ACID_BASE) ||
         (witch_type == WATER && (chemical_reaction == REDOX ||
             chemical_reaction == TOXIC_COMPOUND_FORMATION)))
         return SUPER_EFFECTIVE;
-
+  
     if ((witch_type == WATER && chemical_reaction == ACID_BASE) ||
         (witch_type == FIRE && chemical_reaction == REDOX) ||
         (witch_type == GROUND && chemical_reaction == TOXIC_COMPOUND_FORMATION))
@@ -29,36 +29,43 @@ enum DAMAGE_STRENGTH getDamageStrenght(enum MIX_RESULTS chemical_reaction,
         return NOT_EFFECTIVE;
 }
 
-void atack(WITCH* attacker, WITCH* target,
-    enum CHEMICAL_ELEMENTS chosen_element,
-    enum CHEMICAL_ELEMENTS central_element)
+void atack(WITCH* attacker, WITCH* target, 
+        enum CHEMICAL_ELEMENTS chosen_element,
+        enum CHEMICAL_ELEMENTS central_element)
 {
     enum MIX_RESULTS chemical_reaction = mixElements(chosen_element, central_element);
-
+    
     if (chemical_reaction == COMPATIBLE)
     {
-        printf_s("\nO Atacante ganhou mais 10 de vida");
-        attacker->health_points += 10;
+        if (attacker->base_health > attacker->health_points)
+        {
+            printf_s("\nO Atacante ganhou mais 15 de vida");
+            attacker->health_points += 15;
+        }
+        else
+        {
+            printf_s("\nA vida do Atacante ja esta no maximo");
+        }
     }
     else if (chemical_reaction == METAL_REACTIVITY)
     {
-        if (target->damage_received_multiplier < 1.8)
+        if (target->damage_received_multiplier <= 1.8)
         {
             printf_s("\nDefesa do oponente diminuida em 20 PORCENTO");
             target->damage_received_multiplier += 0.2;
         }
         else
-            printf_s("\nNão é possível abaixar mais a defesa do oponente");
+            printf_s("\nNÃ£o Ã© possÃ­vel abaixar mais a defesa do oponente");
     }
     else if (chemical_reaction == WATER_REACTIVITY)
     {
-        if (attacker->damage_received_multiplier > 0.2)
+        if (attacker->damage_received_multiplier >= 0.2)
         {
             printf_s("\nDefesa do atacante aumentada em 20 PORCENTO");
             attacker->damage_received_multiplier -= 0.2;
         }
         else
-            printf_s("\nNão é possível aumentar mais a defesa do atacante");
+            printf_s("\nNÃ£o Ã© possÃ­vel aumentar mais a defesa do atacante");
     }
     else
     {
@@ -66,9 +73,11 @@ void atack(WITCH* attacker, WITCH* target,
         target->health_points -= damage;
         printf_s("\nDano causado pelo atacante no oponente: %i", damage);
     }
-}*/
 
-//ANIMAÇÃO bruxa
+}
+
+
+//ANIMAÃ‡ÃƒO bruxa
 float frame = 0.f;
 
 ALLEGRO_BITMAP* initWitchSprite(char image_path[])
@@ -102,12 +111,13 @@ void destroyWitch(WITCH* witch)
     free(witch);
 }
 
+
 WITCH* initWitch(char image_path[], int coordinate_x, int coordinate_y, int health_points, enum WITCH_TYPE type)
 {
     WITCH* witch = malloc(sizeof(WITCH));
     if (!witch)
     {
-        printf_s("Memória de WITCH não alocada no INIT");
+        printf_s("MemÃ³ria de WITCH nÃ£o alocada no INIT");
         exit(-1);
     }
     witch->sprite = initWitchSprite(image_path);
@@ -117,8 +127,9 @@ WITCH* initWitch(char image_path[], int coordinate_x, int coordinate_y, int heal
     witch->coordinate_y = coordinate_y;
     witch->damage_received_multiplier = 1.0;
     witch->health_points = health_points;
+    witch->base_health = health_points;
     witch->type = type;
-    //witch->deck = (enum CHEMICAL_ELEMENTS*)generateRandomIntArrayInRange(DECK_SIZE, ELEMENTS_AMOUNT);
-    //witch->atack = atack;
+    witch->deck = (enum CHEMICAL_ELEMENTS *) generateRandomIntArrayInRange(DECK_SIZE, ELEMENTS_AMOUNT);
+    witch->atack = atack;
     return witch;
 }

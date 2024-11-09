@@ -6,14 +6,19 @@
 #include <allegro5/allegro_primitives.h>
 #include <stdio.h>
 
-//Headers
+#include "./headers/battle/battle_map/battle_map.h"
+#include "./headers/general/general.h"
 #include "./headers/menu/menu.h"
+#include "./headers/witch/witch.h"
+#include "./headers/battle/battle.h"
+//import temporario para teste
 #include "./headers/mapa/mapa.h"
 #include "./headers/tutorial/tutorial.h"
 #include "./headers/fases/fase1/fase1.h"
 #include "./headers/fases/fase2/fase2.h"
 #include "./headers/fases/fase3/fase3.h"
 #include "./headers/witch/witch.h"
+
 
 int main() {
     // Inicializações
@@ -23,7 +28,6 @@ int main() {
     al_init_image_addon();
     al_install_keyboard();
     al_init_primitives_addon();
-
     //init Headers
     MENU* menu = initMenu();
     MAPA* mapa = initMapa();
@@ -62,9 +66,12 @@ int main() {
     al_register_event_source(event_queue, al_get_keyboard_event_source());
     al_start_timer(timer);
 
+
     //----------------------------------------------------
     // Variáveis de controle de tela
     bool running = true;
+    int display_width = al_get_display_width(display);
+    int  display_height = al_get_display_height(display);
 
     //Cada tela
     enum screen {
@@ -108,7 +115,6 @@ int main() {
 
         ALLEGRO_EVENT event;
         al_wait_for_event(event_queue, &event);
-
         if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
             running = false;
         }
@@ -327,8 +333,9 @@ int main() {
         }     
         al_flip_display();
     }
-
+    
     //--------------------------------------------------------
+
     // Destruições
 
     //Criados

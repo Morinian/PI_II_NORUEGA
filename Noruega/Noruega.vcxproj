@@ -140,6 +140,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\headers\battle\battle.c" />
+    <ClCompile Include="src\headers\battle\battle_map\battle_map.c" />
+    <ClCompile Include="src\headers\element\element.c" />
+    <ClCompile Include="src\headers\general\general.c" />
+    <ClCompile Include="src\headers\random\random.c" />
     <ClCompile Include="src\headers\fases\fase1\fase1.c" />
     <ClCompile Include="src\headers\fases\fase2\fase2.c" />
     <ClCompile Include="src\headers\fases\fase3\fase3.c" />
@@ -150,6 +155,11 @@
     <ClCompile Include="src\Main.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\headers\battle\battle.h" />
+    <ClInclude Include="src\headers\battle\battle_map\battle_map.h" />
+    <ClInclude Include="src\headers\element\element.h" />
+    <ClInclude Include="src\headers\general\general.h" />
+    <ClInclude Include="src\headers\random\random.h" />
     <ClInclude Include="src\headers\fases\fase1\fase1.h" />
     <ClInclude Include="src\headers\fases\fase2\fase2.h" />
     <ClInclude Include="src\headers\fases\fase3\fase3.h" />
