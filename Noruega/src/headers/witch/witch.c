@@ -5,6 +5,7 @@
 #include <allegro5/allegro_image.h>
 #include "../element/element.h"
 #include "../random/random.h"
+
 #include "witch.h"
 
 const int DECK_SIZE = 4;
@@ -16,7 +17,7 @@ enum DAMAGE_STRENGTH getDamageStrenght(enum MIX_RESULTS chemical_reaction,
         (witch_type == WATER && (chemical_reaction == REDOX ||
             chemical_reaction == TOXIC_COMPOUND_FORMATION)))
         return SUPER_EFFECTIVE;
-    
+  
     if ((witch_type == WATER && chemical_reaction == ACID_BASE) ||
         (witch_type == FIRE && chemical_reaction == REDOX) ||
         (witch_type == GROUND && chemical_reaction == TOXIC_COMPOUND_FORMATION))
@@ -54,7 +55,7 @@ void atack(WITCH* attacker, WITCH* target,
             target->damage_received_multiplier += 0.2;
         }
         else
-            printf_s("\nNão é possível abaixar mais a defesa do oponente");
+            printf_s("\nNÃ£o Ã© possÃ­vel abaixar mais a defesa do oponente");
     }
     else if (chemical_reaction == WATER_REACTIVITY)
     {
@@ -64,7 +65,7 @@ void atack(WITCH* attacker, WITCH* target,
             attacker->damage_received_multiplier -= 0.2;
         }
         else
-            printf_s("\nNão é possível aumentar mais a defesa do atacante");
+            printf_s("\nNÃ£o Ã© possÃ­vel aumentar mais a defesa do atacante");
     }
     else
     {
@@ -72,13 +73,19 @@ void atack(WITCH* attacker, WITCH* target,
         target->health_points -= damage;
         printf_s("\nDano causado pelo atacante no oponente: %i", damage);
     }
+
 }
+
+
+//ANIMAÃ‡ÃƒO bruxa
+float frame = 0.f;
 
 ALLEGRO_BITMAP* initWitchSprite(char image_path[])
 {
     // Carregar o sprite da bruxa
     ALLEGRO_BITMAP* sprite;
     sprite = al_load_bitmap(image_path);
+
     if (!sprite)
     {
         printf_s("\nImagem da Bruxa nao alocada");
@@ -87,24 +94,30 @@ ALLEGRO_BITMAP* initWitchSprite(char image_path[])
     return sprite;
 }
 
-void drawWitch(WITCH* witch)
+void drawWitch(WITCH* witch, int frame_width ,int frame_height)
 {
-    al_draw_bitmap(witch->sprite, witch->coordinate_x, witch->coordinate_y, 0);
+    frame += 0.02f;
+    if (frame > 2) {
+        frame = 0;
+    }
+    al_draw_bitmap_region(witch->sprite, frame_width * (int)frame, 0, frame_width, frame_height, witch->coordinate_x, witch->coordinate_y, 0);
+
 }
 
-void destroyWitch(WITCH * witch)
+void destroyWitch(WITCH* witch)
 {
     al_destroy_bitmap(witch->sprite);
     free(witch->deck);
     free(witch);
 }
 
-WITCH * initWitch(char image_path[], int coordinate_x, int coordinate_y, int health_points, enum WITCH_TYPE type)
+
+WITCH* initWitch(char image_path[], int coordinate_x, int coordinate_y, int health_points, enum WITCH_TYPE type)
 {
-    WITCH * witch = malloc(sizeof(WITCH));
+    WITCH* witch = malloc(sizeof(WITCH));
     if (!witch)
     {
-        printf_s("Memória de WITCH não alocada no INIT");
+        printf_s("MemÃ³ria de WITCH nÃ£o alocada no INIT");
         exit(-1);
     }
     witch->sprite = initWitchSprite(image_path);

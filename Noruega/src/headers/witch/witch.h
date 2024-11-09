@@ -25,11 +25,11 @@
 		ALLEGRO_BITMAP* sprite;
 		enum CHEMICAL_ELEMENTS * deck;
 		int health_points;//vida que diminui durante a luta
-		int base_health;//… a vida base/m·xima da bruxa, ela n„o muda
+		int base_health;//√â a vida base/m√°xima da bruxa, ela n√£o muda
 		float damage_received_multiplier;
 		int coordinate_x;
 		int coordinate_y;
-		//-- FunÁıes --// Criar funÁ„o para mudar a imagem?
+		//-- Fun√ß√µes --// Criar fun√ß√£o para mudar a imagem?
 		void (*drawWitch)(WITCH*);
 		void (*destroyWitch)(WITCH*);
 		// atack()
@@ -37,6 +37,3 @@
 	};
 
 	WITCH* initWitch(char image_path[], int coordinate_x, int coordinate_y, int health_points, enum WITCH_TYPE type);
-
-#endif 
-
