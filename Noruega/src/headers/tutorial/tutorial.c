@@ -117,16 +117,28 @@ ALLEGRO_BITMAP* initCardEntidadeLore5()
 
 //IMAGENS PARA O LIVRO
 
-ALLEGRO_BITMAP* initBook()
+ALLEGRO_BITMAP* initBook1()
 {
-    ALLEGRO_BITMAP* book;
-    book = al_load_bitmap("./images/Livro/frame1.png");
-    if (!book)
+    ALLEGRO_BITMAP* book1;
+    book1 = al_load_bitmap("./images/Livro/frame1.png");
+    if (!book1)
     {
-        printf_s("\nImagem de book nao alocada");
+        printf_s("\nImagem de book1 nao alocada");
         exit(-1);
     }
-    return book;
+    return book1;
+}
+
+ALLEGRO_BITMAP* initBook2()
+{
+    ALLEGRO_BITMAP* book2;
+    book2 = al_load_bitmap("./images/Livro/frame2.png");
+    if (!book2)
+    {
+        printf_s("\nImagem de book2 nao alocada");
+        exit(-1);
+    }
+    return book2;
 }
 
 ALLEGRO_BITMAP* initBookAnimaR()
@@ -155,43 +167,48 @@ ALLEGRO_BITMAP* initBookAnimaL()
 
 //FUNÇÕES DE DRAW ---------------------------------------------
 
-void bookDraw(ALLEGRO_BITMAP* bookAnimaR, ALLEGRO_BITMAP* bookAnimaL , ALLEGRO_BITMAP* book, int *play, int nbook, int frame_width, int frame_height,int coordinate_x, int coordinate_y)
+void bookDraw(ALLEGRO_BITMAP* bookAnimaR, ALLEGRO_BITMAP* bookAnimaL , ALLEGRO_BITMAP* book1, ALLEGRO_BITMAP* book2, int *play, int nbook, int frame_width, int frame_height,int coordinate_x, int coordinate_y)
 {
 
     if (*play == 0) {
 
         if (nbook == 1) {
-            al_draw_bitmap(book, coordinate_x, coordinate_y , 0);
+            al_draw_bitmap(book1, coordinate_x, coordinate_y , 0);
         }else if (nbook == 2) {
-            al_draw_bitmap(book, coordinate_x, coordinate_y, 0);
+            al_draw_bitmap(book2, coordinate_x, coordinate_y, 0);
         }else if (nbook == 3) {
-            al_draw_bitmap(book, coordinate_x, coordinate_y, 0);
+            al_draw_bitmap(book2, coordinate_x, coordinate_y, 0);
         }else if (nbook == 4) {
-            al_draw_bitmap(book, coordinate_x, coordinate_y, 0);
+            al_draw_bitmap(book2, coordinate_x, coordinate_y, 0);
         }else if (nbook == 5) {
-            al_draw_bitmap(book, coordinate_x, coordinate_y, 0);
+            al_draw_bitmap(book1, coordinate_x, coordinate_y, 0);
         }
        
-    }
-    else if (*play == 1) {
+    }else if (*play == 1) {
 
-        frameBook += 0.3f;
-        if (frameBook > 5) {
-            frameBook = 0;
+            frameBook += 0.3f;
+            if (frameBook > 5) {
+                frameBook = 0;
+                *play = 0;
+            }
+            al_draw_bitmap_region(bookAnimaR, frame_width * (int)frameBook, 0, frame_width, frame_height, coordinate_x, coordinate_y - 9, 0);
+
+
+    }else if (*play == 2) {
+
+        if (nbook > 1) {
+            frameBook += 0.3f;
+            if (frameBook > 5) {
+                frameBook = 0;
+                *play = 0;
+            }
+            al_draw_bitmap_region(bookAnimaL, frame_width * (int)frameBook, 0, frame_width, frame_height, coordinate_x, coordinate_y - 9, 0);
+        }
+        else {
+
+            al_draw_bitmap(book1, coordinate_x, coordinate_y, 0);
             *play = 0;
         }
-        al_draw_bitmap_region(bookAnimaR, frame_width * (int)frameBook, 0, frame_width, frame_height, coordinate_x, coordinate_y-9, 0);
-
-    }
-    else if (*play == 2) {
-
-        frameBook += 0.3f;
-        if (frameBook > 5) {
-            frameBook = 0;
-            *play = 0;
-        }
-        al_draw_bitmap_region(bookAnimaL, frame_width * (int)frameBook, 0, frame_width, frame_height, coordinate_x, coordinate_y - 9, 0);
-
     }
 
 }
@@ -251,7 +268,8 @@ void tutorialHeaderDestroy(TUTORIAL* tutorial)
     al_destroy_bitmap(tutorial->cardEntidade4);
     al_destroy_bitmap(tutorial->cardEntidade5);
 
-    al_destroy_bitmap(tutorial->book);
+    al_destroy_bitmap(tutorial->book1);
+    al_destroy_bitmap(tutorial->book2);
     al_destroy_bitmap(tutorial->bookAnimaR);
     al_destroy_bitmap(tutorial->bookAnimaL);
     free(tutorial);
@@ -277,7 +295,8 @@ TUTORIAL* initTutorial()
     tutorial->cardEntidade4 = initCardEntidadeLore4();
     tutorial->cardEntidade5 = initCardEntidadeLore5();
 
-    tutorial->book = initBook();
+    tutorial->book1 = initBook1();
+    tutorial->book2 = initBook2();
     tutorial->bookAnimaR = initBookAnimaR();
     tutorial->bookAnimaL = initBookAnimaL();
 

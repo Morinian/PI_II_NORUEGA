@@ -52,6 +52,7 @@ int main() {
 
     // FPS
     ALLEGRO_TIMER* timer = al_create_timer(1.0 / 30.0);
+    ALLEGRO_FONT* font = al_create_builtin_font();
    
     //--------------------------------------------------------
     // Eventos
@@ -218,7 +219,8 @@ int main() {
             menu->drawBookMenu(1050, 10, menu->bookMenuImage);
 
             //Desenha o livro junto com a animação
-            tutorial->bookDraw(tutorial->bookAnimaR, tutorial->bookAnimaL, tutorial->book, &play, nbook, 1095, 687, 80, 0);
+            tutorial->bookDraw(tutorial->bookAnimaR, tutorial->bookAnimaL, tutorial->book1, tutorial->book2, &play, nbook, 1095, 687, 80, 0);
+            al_draw_textf(font, al_map_rgb(255, 255, 255), 50, 100, ALLEGRO_ALIGN_CENTER, "%d", nbook);
 
             if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
                 if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
@@ -227,9 +229,17 @@ int main() {
                 }
                 else if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
                     play = 1;
+
+                    if (nbook < 5) {
+                        nbook++;
+                    }
                 }
                 else if (event.keyboard.keycode == ALLEGRO_KEY_LEFT) {
                     play = 2;
+
+                    if (nbook > 1) {
+                        nbook--;
+                    }
                 }
             }
         }
