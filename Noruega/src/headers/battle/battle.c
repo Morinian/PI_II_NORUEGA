@@ -12,12 +12,18 @@
 #include "../random/random.h"
 #include "../general/general.h";
 
+const char* nome[15] = {
+	"HCl", "NaOH", "H2SO4", "KMnO4", "H2O2", "Cl2", "NH3", "NaClO", "Na", "Mg", "Al", "HNO3", "Fe", "Cu", "Ag"
+};
+
 void renderBattle(BATTLE_MAP* battle_map, int chosen_element, int round, int timer, 
 	ALLEGRO_FONT* font, BATTLE_PVE* battle_pve, enum CHEMICAL_ELEMENTS central_element)
 {
 	al_clear_to_color(al_map_rgb(0, 0, 0));// Limpa a tela
 	battle_map->drawBattleMap(battle_map, chosen_element);
-	al_draw_textf(font, al_map_rgba_f(0, 0, 1, 0.5), 650, 250, ALLEGRO_ALIGN_CENTER, "%d", central_element);
+
+	//Desenha o elemento da entidade
+	al_draw_textf(font, al_map_rgba_f(0, 0, 1, 0.5), 650, 250, ALLEGRO_ALIGN_CENTER, "%s", nome[central_element]);
 
 	//Desenha o player, sua barra de vida e seus status
 	float inicial_x_player_bar = 100;
