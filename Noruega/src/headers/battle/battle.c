@@ -10,6 +10,7 @@
 #include "../witch/witch.h"
 #include "../battle/battle.h"
 #include "../random/random.h"
+#include "../general/general.h";
 
 void renderBattle(BATTLE_MAP* battle_map, int chosen_element, int round, int timer, 
 	ALLEGRO_FONT* font, BATTLE_PVE* battle_pve, enum CHEMICAL_ELEMENTS central_element)
@@ -21,7 +22,7 @@ void renderBattle(BATTLE_MAP* battle_map, int chosen_element, int round, int tim
 	//Desenha o player, sua barra de vida e seus status
 	float inicial_x_player_bar = 100;
 	float health_player_bar_size = inicial_x_player_bar + (250.0 * (battle_pve->player->health_points / (float)battle_pve->player->base_health));
-	battle_pve->player->drawWitch(battle_pve->player, 125, 250);
+	battle_pve->player->drawWitch(battle_pve->player);
 	al_draw_textf(font, al_map_rgb(255, 255, 255), 50, 15, ALLEGRO_ALIGN_CENTER, "%d", battle_pve->player->health_points);
 	al_draw_textf(font, al_map_rgb(255, 255, 255), 100, 75, ALLEGRO_ALIGN_CENTER, "MDR - %.1f", battle_pve->player->damage_received_multiplier);
 	al_draw_filled_rectangle(inicial_x_player_bar, 15, health_player_bar_size, 50, al_map_rgba_f(1, 0, 0, 0.5));
@@ -29,7 +30,7 @@ void renderBattle(BATTLE_MAP* battle_map, int chosen_element, int round, int tim
 	//Desenha o bot, sua barra de vida e seus status
 	float inicial_x_bot_bar = 950;
 	float health_bot_bar_size = 950 + (250.0 * (battle_pve->bot->health_points / (float)battle_pve->bot->base_health));
-	//battle_pve->bot->drawWitch(battle_pve->bot);
+	battle_pve->bot->drawWitch(battle_pve->bot);
 	al_draw_textf(font, al_map_rgb(255, 255, 255), 1250, 15, ALLEGRO_ALIGN_CENTER, "%d", battle_pve->bot->health_points);
 	al_draw_textf(font, al_map_rgb(255, 255, 255), 1200, 75, ALLEGRO_ALIGN_CENTER, "MDR - %.1f", battle_pve->bot->damage_received_multiplier);
 	al_draw_filled_rectangle(inicial_x_bot_bar, 15, health_bot_bar_size, 50, al_map_rgba_f(1, 0, 0, 0.5));
@@ -47,11 +48,7 @@ void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve, ALLEGRO_FONT
 	//Cria a variavel que guarda o timer do round e o timer do round
 	int current_time;
 	ALLEGRO_TIMER* battle_timer = al_create_timer(1.0);
-	if (!battle_timer)
-	{
-		printf_s("\nErro! battle timer não alocado");
-		exit(-1);
-	}
+	must_init(battle_timer, "battle timer");
 	al_register_event_source(event_queue, al_get_timer_event_source(battle_timer));
 	
 	//inicia o contador de rounds e flag que verifica se o round está acontecendo

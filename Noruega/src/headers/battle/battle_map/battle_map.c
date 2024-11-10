@@ -21,11 +21,7 @@ ALLEGRO_BITMAP* initScenarioImage(char image_path[])
 	// Carrega uma imagem do cenário na memória
 	ALLEGRO_BITMAP* image;
 	image = al_load_bitmap(image_path);
-	if (!image)
-	{
-		printf_s("\nImagem de Battle Map nao alocada");
-		exit(-1);
-	}
+	must_init(image, "Imagem de Battle Map");
 	return image;
 }
 

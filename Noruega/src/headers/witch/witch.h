@@ -29,8 +29,9 @@
 		float damage_received_multiplier;
 		int coordinate_x;
 		int coordinate_y;
+		int* sprite_frames;
 		//-- Funções --// Criar função para mudar a imagem?
-		void (*drawWitch)(WITCH*, int, int);
+		void (*drawWitch)(WITCH*);
 		void (*destroyWitch)(WITCH*);
 		// atack()
 		void (*atack)(WITCH*, WITCH*, enum CHEMICAL_ELEMENTS, enum CHEMICAL_ELEMENTS);

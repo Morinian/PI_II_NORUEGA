@@ -3,6 +3,7 @@
 #include <time.h>
 #include <stdbool.h>
 #include "random.h"
+#include "../general/general.h"
 
 
 int generateRandomIntInRange(bool generate_new_seed, int range)
@@ -23,11 +24,7 @@ int* generateRandomIntArrayInRange(int array_size, int range)
 {
 	
 	int* int_array = calloc(array_size, sizeof(int));
-	if (!int_array)
-	{
-		printf_s("Memória do array de ints in range não alocada");
-		exit(-1);
-	}
+	must_init(int_array, "array de ints in range");
 	for (int i = 0; i < array_size; i++)
 	{	
 		if(i == 0)

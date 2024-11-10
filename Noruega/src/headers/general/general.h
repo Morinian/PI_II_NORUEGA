@@ -5,5 +5,7 @@
 	extern const int DISPLAY_WIDTH;
 	extern const int DISPLAY_HEIGHT;
 
+	void must_init(bool test, const char* description);
+
 #endif // !GENERAL_H
 

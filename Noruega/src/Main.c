@@ -28,6 +28,7 @@ int main() {
     al_init_image_addon();
     al_install_keyboard();
     al_init_primitives_addon();
+
     //init Headers
     MENU* menu = initMenu();
     MAPA* mapa = initMapa();
@@ -37,8 +38,8 @@ int main() {
     FASE3* fase3 = initFase3();
 
     //init Bruxas
-    WITCH* player = initWitch("./images/bruxas/bruxa.png", 200, 370, 500, FIRE);
-    WITCH* bot = initWitch("./images/bruxas/inimigo1.png", 900, 370, 350, WATER);
+    WITCH* player = initWitch("./images/bruxas/bruxa.png", 200, 340, 500, FIRE);
+    WITCH* bot = initWitch("./images/bruxas/inimigo1.png", 900, 340, 350, WATER);
 
     /*
     WITCH* player = initWitch("./images/bruxas/bruxa.png", 230, 180, 350, FIRE);
@@ -327,13 +328,17 @@ int main() {
             }
         }
         else if (screen == FASE1) {
-            printf("\n\nFASE 1\n\n");
+
+            player->sprite_frames[0] = 125; 
+            player->sprite_frames[1] = 250;
+            bot->sprite_frames[0] = 160;
+            bot->sprite_frames[1] = 292;
+
             al_resize_display(display, DISPLAY_WIDTH, DISPLAY_HEIGHT);
             battle_pve->play(event_queue, battle_pve, large_font);
             al_resize_display(display, width, height);
             phaseComplete = 1;
             screen = MAPA;
-                
         }
         else if (screen == FASE2) { 
 

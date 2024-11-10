@@ -6,6 +6,7 @@
 #include "../element/element.h"
 #include "../random/random.h"
 #include "witch.h"
+#include "../general/general.h"
 
 const int DECK_SIZE = 4;
 
@@ -76,50 +77,43 @@ void atack(WITCH* attacker, WITCH* target,
 }
 
 
-//ANIMAÇÃO bruxa
-float frame = 0.f;
-
 ALLEGRO_BITMAP* initWitchSprite(char image_path[])
 {
     // Carregar o sprite da bruxa
     ALLEGRO_BITMAP* sprite;
     sprite = al_load_bitmap(image_path);
-
-    if (!sprite)
-    {
-        printf_s("\nImagem da Bruxa nao alocada");
-        exit(-1);
-    }
+    must_init(sprite, "Imagem da Bruxa");
     return sprite;
 }
 
-void drawWitch(WITCH* witch, int frame_width , int frame_height)
+//ANIMAÇÃO bruxa
+float frame = 0.f;
+void drawWitch(WITCH* witch)
 {
-    frame += 0.02f;
+    frame += 0.1f;
     if (frame > 2) {
         frame = 0;
     }
-    al_draw_bitmap_region(witch->sprite, frame_width * (int)frame, 0, frame_width, frame_height, witch->coordinate_x, witch->coordinate_y, 0);
-
+    al_draw_bitmap_region(witch->sprite, witch->sprite_frames[0] * (int)frame, 0,
+        witch->sprite_frames[0], witch->sprite_frames[1], witch->coordinate_x, witch->coordinate_y, 0);
 }
 
 void destroyWitch(WITCH* witch)
 {
     al_destroy_bitmap(witch->sprite);
     free(witch->deck);
+    free(witch->sprite_frames);
     free(witch);
 }
 
 
-WITCH* initWitch(char image_path[], int coordinate_x, int coordinate_y, int health_points,
-    enum WITCH_TYPE type)
+WITCH* initWitch(char image_path[], int coordinate_x, int coordinate_y, int health_points, enum WITCH_TYPE type)
 {
     WITCH* witch = malloc(sizeof(WITCH));
-    if (!witch)
-    {
-        printf_s("Memória de WITCH não alocada no INIT");
-        exit(-1);
-    }
+    must_init(witch, "WITCH");
+    int* sprite_frames = calloc(2, sizeof(int));
+
+    witch->sprite_frames = sprite_frames;
     witch->sprite = initWitchSprite(image_path);
     witch->drawWitch = drawWitch;
     witch->destroyWitch = destroyWitch;
