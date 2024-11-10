@@ -11,7 +11,7 @@
 #include "./headers/menu/menu.h"
 #include "./headers/witch/witch.h"
 #include "./headers/battle/battle.h"
-//import temporario para teste
+
 #include "./headers/mapa/mapa.h"
 #include "./headers/tutorial/tutorial.h"
 #include "./headers/fases/fase1/fase1.h"
@@ -54,7 +54,7 @@ int main() {
     al_set_window_position(display, 80, 30);
     al_set_window_title(display, "Burn the witches down");
 
-    // FPS
+    // FPS e Fonts
     ALLEGRO_TIMER* timer = al_create_timer(1.0 / 30.0);
     ALLEGRO_FONT* font = al_create_builtin_font();
    

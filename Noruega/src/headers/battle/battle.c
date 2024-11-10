@@ -41,6 +41,9 @@ void renderBattle(BATTLE_MAP* battle_map, int chosen_element, int round, int tim
 
 void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve, ALLEGRO_FONT* font) 
 {
+
+	//Cria a variavel que guarda o timer do round e o timer do round
+	int current_time;
 	ALLEGRO_TIMER* battle_timer = al_create_timer(1.0);
 	if (!battle_timer)
 	{
@@ -48,11 +51,12 @@ void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve, ALLEGRO_FONT
 		exit(-1);
 	}
 	al_register_event_source(event_queue, al_get_timer_event_source(battle_timer));
-
-	bool in_game = false;
-	//inicia o contador de rounds
+	
+	//inicia o contador de rounds e flag que verifica se o round está acontecendo
 	battle_pve->round = 1;
+	bool in_game = false;
 
+	//flags de atack do player e bot
 	bool bot_atacked;
 	int bot_time_to_atack;
 	bool player_atacked; 
@@ -75,23 +79,26 @@ void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve, ALLEGRO_FONT
 			//reporDeckElement(battle_pve->bot->deck);
 		//}
 
+		//Inicia as flags de atack do player e do bot para o round
 		bot_atacked = false;
 		player_atacked = false;
-
 		bot_time_to_atack = generateRandomIntInRange(true, 15);
+
+		//Gera um elemento da entidade para o novo round
 		central_element = (enum CHEMICAL_ELEMENTS) generateRandomIntInRange(false, ELEMENTS_AMOUNT);
 
+		//Inicializa flag de novo round, variavel de renderização e timer do round
 		in_game = true;
 		bool render = false;
-		int current_time = 0;
 		al_start_timer(battle_timer);
 
-		printf_s("\nround - %i", battle_pve->round);
-		printf_s("\nInicia Battle timer");
+		//Zera a variavel que guarda o timer do round, para o inicio de um novo round
+		current_time = 0;
 
 		while (in_game)
 		{
 			al_wait_for_event(event_queue, &event);
+
 			/*Atualiza a flag de renderização quando o timer que acionou o evento
 			não é o timer do round, mas sim o timer do FPS */
 			current_time = al_get_timer_count(battle_timer);
@@ -109,57 +116,62 @@ void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve, ALLEGRO_FONT
 				render = false;
 			}
 
+			//------------------------------------------------------------
+			// Lógica de atack do Player e Bot, durante o round 
 			if (current_time == 15 || (player_atacked && bot_atacked))
 			{
 				al_stop_timer(battle_timer);
 				al_set_timer_count(battle_timer, 0);
 				in_game = false;
 			}
-			else if(!player_atacked)
+			else
 			{
 				// Atack do player
-				if (event.type == ALLEGRO_EVENT_KEY_DOWN)
-				{
-					switch (event.keyboard.keycode)
+				if (!player_atacked)
+				{ 
+					if (event.type == ALLEGRO_EVENT_KEY_DOWN)
 					{
-					case ALLEGRO_KEY_Q:
-						chosen_deck_element = battle_pve->player->deck[0];
-						chosen_deck_element_position = 0;
-						printf_s("\nEscolheu o 1 elemento");
-						break;
-					case ALLEGRO_KEY_W:
-						chosen_deck_element = battle_pve->player->deck[1];
-						chosen_deck_element_position = 1;
-						printf_s("\nEscolheu o 2 elemento");
-						break;
-					case ALLEGRO_KEY_A:
-						chosen_deck_element = battle_pve->player->deck[2];
-						chosen_deck_element_position = 2;
-						printf_s("\nEscolheu o 3 elemento");
-						break;
-					case ALLEGRO_KEY_S:
-						chosen_deck_element = battle_pve->player->deck[3];
-						chosen_deck_element_position = 3;
-						printf_s("\nEsolheu o 4 elemento");
-						break;
-					case ALLEGRO_KEY_ENTER:
-						printf_s("\n\n\nPlayer Atacou");
-						printf_s("\nANTES ---- Vida player: %i Mult: %f || Vida Bot: %i Mult: %f",
-							battle_pve->player->health_points, battle_pve->player->damage_received_multiplier,
-							battle_pve->bot->health_points, battle_pve->bot->damage_received_multiplier);
+						switch (event.keyboard.keycode)
+						{
+						case ALLEGRO_KEY_Q:
+							chosen_deck_element = battle_pve->player->deck[0];
+							chosen_deck_element_position = 0;
+							printf_s("\nEscolheu o 1 elemento");
+							break;
+						case ALLEGRO_KEY_W:
+							chosen_deck_element = battle_pve->player->deck[1];
+							chosen_deck_element_position = 1;
+							printf_s("\nEscolheu o 2 elemento");
+							break;
+						case ALLEGRO_KEY_A:
+							chosen_deck_element = battle_pve->player->deck[2];
+							chosen_deck_element_position = 2;
+							printf_s("\nEscolheu o 3 elemento");
+							break;
+						case ALLEGRO_KEY_S:
+							chosen_deck_element = battle_pve->player->deck[3];
+							chosen_deck_element_position = 3;
+							printf_s("\nEscolheu o 4 elemento");
+							break;
+						case ALLEGRO_KEY_ENTER:
+							printf_s("\n\n\nPlayer Atacou");
+							printf_s("\nANTES ---- Vida player: %i Mult: %f || Vida Bot: %i Mult: %f",
+								battle_pve->player->health_points, battle_pve->player->damage_received_multiplier,
+								battle_pve->bot->health_points, battle_pve->bot->damage_received_multiplier);
 						
-						battle_pve->player->atack(battle_pve->player, battle_pve->bot, 
-							chosen_deck_element,central_element);
+							battle_pve->player->atack(battle_pve->player, battle_pve->bot, 
+								chosen_deck_element,central_element);
 
-						printf_s("\nDEPOIS ---- Vida player: %i Mult: %f || Vida Bot: %i Mult: %f",
-							battle_pve->player->health_points, battle_pve->player->damage_received_multiplier,
-							battle_pve->bot->health_points, battle_pve->bot->damage_received_multiplier);
-						player_atacked = true;
-						break;
+							printf_s("\nDEPOIS ---- Vida player: %i Mult: %f || Vida Bot: %i Mult: %f",
+								battle_pve->player->health_points, battle_pve->player->damage_received_multiplier,
+								battle_pve->bot->health_points, battle_pve->bot->damage_received_multiplier);
+							player_atacked = true;
+							break;
+						}
 					}
 				}
 				// Atack do Bot
-				if ((bot_time_to_atack == al_get_timer_count(battle_timer) || player_atacked) && !bot_atacked)
+				if ((bot_time_to_atack == current_time || player_atacked) && !bot_atacked)
 				{
 					//Fazer o bot esperar para atacar, 2 segundos, caso o player tenha atacado antes
 					//battle_pve->bot->atack(battle_pve->player, central_element);
@@ -183,7 +195,6 @@ void destroyBattle(BATTLE_PVE* battle_pve)
 	free(battle_pve);
 }
 
-//WITCH DEVE SER ALOCADA INTERNAMENTE OU PASSADA VIA PARAMETRO? 
 BATTLE_PVE* initBattlePVE(WITCH* player, WITCH* bot, BATTLE_MAP* battle_map)
 {
 	BATTLE_PVE* battle_pve = malloc(sizeof(BATTLE_PVE));
