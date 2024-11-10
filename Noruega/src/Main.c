@@ -169,6 +169,7 @@ int main() {
                 }
                 else if (nmenu == 3) {
                     screen = LIVRO;
+                    nbook = 1;
                 }
             }
 
@@ -258,7 +259,6 @@ int main() {
             if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
                 if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
                     screen = MENU;
-                    nbook = 0;
                 }
                 else if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
                     play = 1;
@@ -284,7 +284,7 @@ int main() {
                 menu->drawBookMenu(1050, 10, menu->bookMenuImage);
 
                 //Desenha o livro junto com a animação
-                tutorial->bookDraw(tutorial->bookAnimaR, tutorial->bookAnimaL, tutorial->book1, tutorial->book2, &play, nbook, 1095, 687, 80, 0);
+                tutorial->bookDraw(tutorial->bookAnimaR, tutorial->bookAnimaL, tutorial->book1, tutorial->book2, tutorial->book3, tutorial->book4, tutorial->book5, &play, nbook, 1095, 687, 80, 0);
                 al_draw_textf(font, al_map_rgb(255, 255, 255), 50, 100, ALLEGRO_ALIGN_CENTER, "%d", nbook);
 
                 al_flip_display();
@@ -345,7 +345,7 @@ int main() {
             fase2->drawFase2(width, height, fase2->backgroundFase2);
 
             //entidadePrin->drawWitch(entidadePrin, 220, 296);
-            player->drawWitch(player,125,250);
+            //player->drawWitch(player,125,250);
             //bruxa2>drawWitch(bruxa2,205,296);
 
             //Allegro event key down lê o teclado apenas uma vez
@@ -363,7 +363,7 @@ int main() {
 
             if (nlore > 4) {
                 //entidadeSec->drawWitch(entidadeSec, 184, 294);
-                player->drawWitch(player, 125, 250);
+                //player->drawWitch(player, 125, 250);
                 //inimigo3 > drawWitch(inimigo3,253,396);
             }
 
