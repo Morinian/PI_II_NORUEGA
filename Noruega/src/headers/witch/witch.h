@@ -37,3 +37,4 @@
 	};
 
 	WITCH* initWitch(char image_path[], int coordinate_x, int coordinate_y, int health_points, enum WITCH_TYPE type);
+#endif

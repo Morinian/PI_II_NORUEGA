@@ -8,7 +8,7 @@ ALLEGRO_BITMAP * initBackgroundImage()
 {
     // Carregar imagem de fundo
     ALLEGRO_BITMAP* background;
-    background = al_load_bitmap("./images/Img_Fundo_Inicio_Game.png");
+    background = al_load_bitmap("./images/menu/Img_Fundo_Inicio_Game.png");
     if (!background)
     {
         printf_s("\nImagem de background nao alocada");

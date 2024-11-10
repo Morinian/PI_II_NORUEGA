@@ -5,7 +5,6 @@
 #include <allegro5/allegro_image.h>
 #include "../element/element.h"
 #include "../random/random.h"
-
 #include "witch.h"
 
 const int DECK_SIZE = 4;
