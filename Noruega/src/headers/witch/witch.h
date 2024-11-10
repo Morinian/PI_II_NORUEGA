@@ -30,7 +30,7 @@
 		int coordinate_x;
 		int coordinate_y;
 		//-- Funções --// Criar função para mudar a imagem?
-		void (*drawWitch)(WITCH*);
+		void (*drawWitch)(WITCH*, int, int);
 		void (*destroyWitch)(WITCH*);
 		// atack()
 		void (*atack)(WITCH*, WITCH*, enum CHEMICAL_ELEMENTS, enum CHEMICAL_ELEMENTS);

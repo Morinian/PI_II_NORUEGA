@@ -93,7 +93,7 @@ ALLEGRO_BITMAP* initWitchSprite(char image_path[])
     return sprite;
 }
 
-void drawWitch(WITCH* witch, int frame_width ,int frame_height)
+void drawWitch(WITCH* witch, int frame_width , int frame_height)
 {
     frame += 0.02f;
     if (frame > 2) {
@@ -111,7 +111,8 @@ void destroyWitch(WITCH* witch)
 }
 
 
-WITCH* initWitch(char image_path[], int coordinate_x, int coordinate_y, int health_points, enum WITCH_TYPE type)
+WITCH* initWitch(char image_path[], int coordinate_x, int coordinate_y, int health_points,
+    enum WITCH_TYPE type)
 {
     WITCH* witch = malloc(sizeof(WITCH));
     if (!witch)

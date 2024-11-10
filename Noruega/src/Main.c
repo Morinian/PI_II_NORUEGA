@@ -37,12 +37,25 @@ int main() {
     FASE3* fase3 = initFase3();
 
     //init Bruxas
+    WITCH* player = initWitch("./images/bruxas/bruxa.png", 200, 370, 500, FIRE);
+    WITCH* bot = initWitch("./images/bruxas/inimigo1.png", 900, 370, 350, WATER);
+
+    /*
     WITCH* player = initWitch("./images/bruxas/bruxa.png", 230, 180, 350, FIRE);
     WITCH* bruxa1 = initWitch("./images/bruxas/inimigo1.png", 860, 180, 350, FIRE);
     WITCH* bruxa2 = initWitch("./images/bruxas/inimigo2.png", 860, 140, 350, FIRE);
     WITCH* inimigo3 = initWitch("./images/bruxas/inimigo3.png", 860, 0, 350, FIRE);
     WITCH* entidadePrin = initWitch("./images/bruxas/entidadePrin.png", 500, 20, 350, FIRE);
     WITCH* entidadeSec = initWitch("./images/bruxas/entidadeSec.png", 500, 20, 350, FIRE);
+    */
+
+    //init battle
+    BATTLE_MAP* battle_map = initBattleMap("./images/batalha_cenario/battle_background.png",
+        "./images/batalha_cenario/footer_background.png",
+        "./images/batalha_cenario/entity_shadow.png",
+        "./images/batalha_cenario/element_parchment.png",
+        "./images/batalha_cenario/mix_parchment.png");
+    BATTLE_PVE* battle_pve = initBattlePVE(player, bot, battle_map);
 
     //------------------------------------------------------------
     // Defina a nova largura e altura da imagem de fundo e display
@@ -56,6 +69,8 @@ int main() {
 
     // FPS e Fonts
     ALLEGRO_TIMER* timer = al_create_timer(1.0 / 30.0);
+    ALLEGRO_FONT* small_font = al_load_font("./fonts/PaytoneOne-Regular.ttf", 16, 0);
+    ALLEGRO_FONT* large_font = al_load_font("./fonts/PaytoneOne-Regular.ttf", 32, 0);
     ALLEGRO_FONT* font = al_create_builtin_font();
    
     //--------------------------------------------------------
@@ -110,6 +125,7 @@ int main() {
     int nbook = 1;//Numero que controla a troca das img do livro
     int play = 0; // disparo da animação do livro
 
+    bool redraw = false;
 
     while (running) {
 
@@ -119,14 +135,11 @@ int main() {
             running = false;
         }
 
-        al_clear_to_color(al_map_rgb(0, 0, 0));// Limpa a tela
+        if (event.type == ALLEGRO_EVENT_TIMER)
+            redraw = true;
 
         //MENU PRINCIPAL
         if (screen == MENU) {
-
-            //Menu completo img e livro -------------------------
-            menu->drawMenu(width, height, menu->backgroundImage);
-            menu->drawBookMenu(1050, 10, menu->bookMenuImage);
 
             //Movimenta a seta para cima e para baixo
             if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
@@ -158,23 +171,33 @@ int main() {
                 }
             }
 
-            //Movimenta a seta
-            if (nmenu == 1) {
-                menu->drawArrow(400, 415, menu->arrowImage);
+            
+            if (redraw && al_is_event_queue_empty(event_queue))
+            {
+                al_clear_to_color(al_map_rgb(0, 0, 0));// Limpa a tela
+
+                //Menu completo img e livro -------------------------
+                menu->drawMenu(width, height, menu->backgroundImage);
+                menu->drawBookMenu(1050, 10, menu->bookMenuImage);
+
+                //Movimenta a seta
+                if (nmenu == 1) {
+                    menu->drawArrow(400, 415, menu->arrowImage);
+                }
+                else if (nmenu == 2) {
+                    menu->drawArrow(400, 520, menu->arrowImage);
+                }
+                else if (nmenu == 3) {
+                    menu->drawArrow(980, 30, menu->arrowImage);
+                }
+
+                al_flip_display();
+                redraw = false;
             }
-            else if (nmenu == 2) {
-                menu->drawArrow(400, 520, menu->arrowImage);
-            }
-            else if (nmenu == 3) {
-                menu->drawArrow(980, 30, menu->arrowImage);
-            }
+            
         }
         else if (screen == MAPA){
           
-            //Desenho o mapa
-            mapa->drawMap(width, height, mapa->backgroundMap);
-            mapa->drawShadowPhase(width, height, mapa->unlockedPhase2Image, mapa->unlockedPhase3Image, phaseComplete);
-
             //Allegro event key down lê o teclado apenas uma vez
             if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
                 if (nphase == 3 && event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
@@ -195,16 +218,6 @@ int main() {
                 }
             }
 
-            if (nphase == 1) {
-                menu->drawArrow(365, 425, menu->arrowImage);
-            }
-            else if (nphase == 2) {
-                menu->drawArrow(810, 425, menu->arrowImage);
-            }
-            else if (nphase == 3) {
-                menu->drawArrow(580, 330, menu->arrowImage);
-            }
-
             if (event.keyboard.keycode == ALLEGRO_KEY_ENTER) {
                 if (nphase == 1) {
                     screen = FASE1; 
@@ -217,16 +230,29 @@ int main() {
                     nlore = 1;
                 }
             }
+            if (redraw && al_is_event_queue_empty(event_queue))
+            {
+                al_clear_to_color(al_map_rgb(0, 0, 0));// Limpa a tela
+
+                //Desenho o mapa
+                mapa->drawMap(width, height, mapa->backgroundMap);
+                mapa->drawShadowPhase(width, height, mapa->unlockedPhase2Image, mapa->unlockedPhase3Image, phaseComplete);
+
+                if (nphase == 1) {
+                    menu->drawArrow(365, 425, menu->arrowImage);
+                }
+                else if (nphase == 2) {
+                    menu->drawArrow(810, 425, menu->arrowImage);
+                }
+                else if (nphase == 3) {
+                    menu->drawArrow(580, 330, menu->arrowImage);
+                }
+
+                al_flip_display();
+                redraw = false;
+            }
         }
         else if (screen == LIVRO) {
-
-            //Menu completo img e livro -------------------------
-            menu->drawMenu(width, height, menu->backgroundImage);
-            menu->drawBookMenu(1050, 10, menu->bookMenuImage);
-
-            //Desenha o livro junto com a animação
-            tutorial->bookDraw(tutorial->bookAnimaR, tutorial->bookAnimaL, tutorial->book1, tutorial->book2, &play, nbook, 1095, 687, 80, 0);
-            al_draw_textf(font, al_map_rgb(255, 255, 255), 50, 100, ALLEGRO_ALIGN_CENTER, "%d", nbook);
 
             if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
                 if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
@@ -248,13 +274,24 @@ int main() {
                     }
                 }
             }
+            if (redraw && al_is_event_queue_empty(event_queue))
+            {
+                al_clear_to_color(al_map_rgb(0, 0, 0));// Limpa a tela
+
+                //Menu completo img e livro -------------------------
+                menu->drawMenu(width, height, menu->backgroundImage);
+                menu->drawBookMenu(1050, 10, menu->bookMenuImage);
+
+                //Desenha o livro junto com a animação
+                tutorial->bookDraw(tutorial->bookAnimaR, tutorial->bookAnimaL, tutorial->book1, tutorial->book2, &play, nbook, 1095, 687, 80, 0);
+                al_draw_textf(font, al_map_rgb(255, 255, 255), 50, 100, ALLEGRO_ALIGN_CENTER, "%d", nbook);
+
+                al_flip_display();
+                redraw = false;
+            }
         }
         else if (screen == TUTORIAL) { 
           
-            //Menu completo img e livro -------------------------
-            menu->drawMenu(width, height, menu->backgroundImage);
-            menu->drawBookMenu(1050, 10, menu->bookMenuImage);
-
             //Allegro event key down lê o teclado apenas uma vez
             if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
                 if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
@@ -274,33 +311,37 @@ int main() {
                 }
             }
 
-            //Desenha os cards do tutorial
-            tutorial->cardDraw(112, 0, tutorial->cardTutorial1, tutorial->cardTutorial2, tutorial->cardTutorial3,ntutorial);
+            if (redraw && al_is_event_queue_empty(event_queue))
+            {
+                al_clear_to_color(al_map_rgb(0, 0, 0));// Limpa a tela
 
+                //Menu completo img e livro -------------------------
+                menu->drawMenu(width, height, menu->backgroundImage);
+                menu->drawBookMenu(1050, 10, menu->bookMenuImage);
+
+                //Desenha os cards do tutorial
+                tutorial->cardDraw(112, 0, tutorial->cardTutorial1, tutorial->cardTutorial2, tutorial->cardTutorial3, ntutorial);
+                
+                al_flip_display();
+                redraw = false;
+            }
         }
         else if (screen == FASE1) {
-
-            fase1->drawFase1(width, height, fase1->backgroundFase1);
-            
-            entidadePrin->drawWitch(entidadePrin, 220, 296);
-            player->drawWitch(player,125,250);
-            bruxa1->drawWitch(bruxa1,160,292);
-
-            //Allegro event key down lê o teclado apenas uma vez
-            if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
-                if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
-                    phaseComplete = 1;
-                    screen = MAPA;
-                }
-            }
+            printf("\n\nFASE 1\n\n");
+            al_resize_display(display, DISPLAY_WIDTH, DISPLAY_HEIGHT);
+            battle_pve->play(event_queue, battle_pve, large_font);
+            al_resize_display(display, width, height);
+            phaseComplete = 1;
+            screen = MAPA;
+                
         }
         else if (screen == FASE2) { 
 
             fase2->drawFase2(width, height, fase2->backgroundFase2);
 
-            entidadePrin->drawWitch(entidadePrin, 220, 296);
+            //entidadePrin->drawWitch(entidadePrin, 220, 296);
             player->drawWitch(player,125,250);
-            bruxa2>drawWitch(bruxa2,205,296);
+            //bruxa2>drawWitch(bruxa2,205,296);
 
             //Allegro event key down lê o teclado apenas uma vez
             if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
@@ -316,9 +357,9 @@ int main() {
             tutorial->loreDraw(width, height, tutorial->cardEntidade1, tutorial->cardEntidade3, tutorial->cardEntidade4, tutorial->cardEntidade5, nlore);
 
             if (nlore > 4) {
-                entidadeSec->drawWitch(entidadeSec, 184, 294);
+                //entidadeSec->drawWitch(entidadeSec, 184, 294);
                 player->drawWitch(player, 125, 250);
-                inimigo3 > drawWitch(inimigo3,253,396);
+                //inimigo3 > drawWitch(inimigo3,253,396);
             }
 
             //Allegro event key down lê o teclado apenas uma vez
@@ -330,8 +371,7 @@ int main() {
                     nlore = nlore + 1;
                 }
             }
-        }     
-        al_flip_display();
+        }    
     }
     
     //--------------------------------------------------------
@@ -346,12 +386,10 @@ int main() {
     fase2->destroyFase2(fase2);
     fase3->destroyFase3(fase3);
 
-    player->destroyWitch(player);
-    inimigo3->destroyWitch(inimigo3);
-    bruxa1->destroyWitch(bruxa1);
-    bruxa2->destroyWitch(bruxa2);
-
-    //Padrão
+    //Padrão 
+    al_destroy_font(font);
+    al_destroy_font(small_font);
+    al_destroy_font(large_font);
     al_destroy_display(display);
     al_destroy_event_queue(event_queue);
     al_destroy_timer(timer);
