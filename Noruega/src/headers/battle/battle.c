@@ -34,9 +34,9 @@ void renderBattle(BATTLE_MAP* battle_map, int chosen_element, int round, int tim
 
 	//Pergaminho
 	if (checkElement >= 0) {
-		al_draw_textf(font, al_map_rgba_f(0, 0, 1, 1), 990, 500, ALLEGRO_ALIGN_CENTER, "A combinacao elementos ");
-		al_draw_textf(font, al_map_rgba_f(0, 0, 1, 1), 990, 530, ALLEGRO_ALIGN_CENTER, "%s com %s", nome[central_element], nome[checkElement]);
-		al_draw_textf(font, al_map_rgba_f(0, 0, 1, 1), 990, 560, ALLEGRO_ALIGN_CENTER, "Sera %s", resultado[typeResult]);
+		al_draw_textf(font, al_map_rgba_f(0, 0, 1, 1), 990, 650, ALLEGRO_ALIGN_CENTER, "A combinacao elementos ");
+		al_draw_textf(font, al_map_rgba_f(0, 0, 1, 1), 990, 680, ALLEGRO_ALIGN_CENTER, "%s com %s", nome[central_element], nome[checkElement]);
+		al_draw_textf(font, al_map_rgba_f(0, 0, 1, 1), 990, 710, ALLEGRO_ALIGN_CENTER, "Sera %s", resultado[typeResult]);
 	}
 
 	//Desenha o player, sua barra de vida e seus status
