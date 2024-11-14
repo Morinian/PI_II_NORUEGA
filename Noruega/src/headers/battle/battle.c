@@ -20,11 +20,18 @@ const char* resultado[6] = {
 	"compativel", "incompatibilidade acido base", "incompatibilidade redox", "incompatibilidade componentes toxicos", "reacao com agua", "reacao com metal"
 };
 
+//Variaveis
 int checkElement = -1;
 int typeResult = 0;
 
+int deck0;
+int deck1;
+int deck2;
+int deck3;
+
 void renderBattle(BATTLE_MAP* battle_map, int chosen_element, int round, int timer,
-	ALLEGRO_FONT* font, BATTLE_PVE* battle_pve, enum CHEMICAL_ELEMENTS central_element, int checkElement, int typeResult)
+	ALLEGRO_FONT* font, BATTLE_PVE* battle_pve, enum CHEMICAL_ELEMENTS central_element, 
+	ELEMENTO* elemento, int checkElement, int typeResult, int deck0, int deck1, int deck2, int deck3)
 {
 	al_clear_to_color(al_map_rgb(0, 0, 0));// Limpa a tela
 	battle_map->drawBattleMap(battle_map, chosen_element);
@@ -34,10 +41,19 @@ void renderBattle(BATTLE_MAP* battle_map, int chosen_element, int round, int tim
 
 	//Pergaminho
 	if (checkElement >= 0) {
-		al_draw_textf(font, al_map_rgba_f(0, 0, 1, 1), 990, 650, ALLEGRO_ALIGN_CENTER, "A combinacao elementos ");
-		al_draw_textf(font, al_map_rgba_f(0, 0, 1, 1), 990, 680, ALLEGRO_ALIGN_CENTER, "%s com %s", nome[central_element], nome[checkElement]);
-		al_draw_textf(font, al_map_rgba_f(0, 0, 1, 1), 990, 710, ALLEGRO_ALIGN_CENTER, "Sera %s", resultado[typeResult]);
+		al_draw_textf(font, al_map_rgba_f(0, 0, 1, 1), 990, 650-100, ALLEGRO_ALIGN_CENTER, "A combinacao elementos ");
+		al_draw_textf(font, al_map_rgba_f(0, 0, 1, 1), 990, 680-100, ALLEGRO_ALIGN_CENTER, "%s com %s", nome[central_element], nome[checkElement]);
+		al_draw_textf(font, al_map_rgba_f(0, 0, 1, 1), 990, 710-100, ALLEGRO_ALIGN_CENTER, "Sera %s", resultado[typeResult]);
 	}
+
+	ALLEGRO_BITMAP* elementoImage[15] = {
+		elemento->HCl,elemento->NaOH,elemento->H2SO4,elemento->KMnO4,elemento->H2O2,elemento->Cl2,elemento->NH3,elemento->NaClO,elemento->Na,elemento->Mg,elemento->Al,elemento->HNO3,elemento->Fe,elemento->Cu,elemento->Ag
+	};
+
+	al_draw_bitmap(elementoImage[deck0], 10, 480, 0);
+	al_draw_bitmap(elementoImage[deck1], 200, 480, 0);
+	al_draw_bitmap(elementoImage[deck2], 10, 580, 0);
+	al_draw_bitmap(elementoImage[deck3], 200, 580, 0);
 
 	//Desenha o player, sua barra de vida e seus status
 	float inicial_x_player_bar = 100;
@@ -63,8 +79,15 @@ void renderBattle(BATTLE_MAP* battle_map, int chosen_element, int round, int tim
 	al_flip_display();
 }
 
-void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve, ALLEGRO_FONT* font)
+void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve, ALLEGRO_FONT* font, ELEMENTO* elemento)
 {
+	//
+	deck0 = battle_pve->player->deck[0];
+	deck1 = battle_pve->player->deck[1];
+	deck2 = battle_pve->player->deck[2];
+	deck3 = battle_pve->player->deck[3];
+
+
 	//Cria a variavel que guarda o timer do round e o timer do round
 	int current_time;
 	ALLEGRO_TIMER* battle_timer = al_create_timer(1.0);
@@ -136,7 +159,8 @@ void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve, ALLEGRO_FONT
 			if (render && al_is_event_queue_empty(event_queue))
 			{
 				renderBattle(battle_pve->battle_map, chosen_deck_element_position,
-					battle_pve->round, current_time, font, battle_pve, central_element, checkElement, typeResult);
+					battle_pve->round, current_time, font, battle_pve, central_element,
+					elemento, checkElement, typeResult, deck0, deck1, deck2, deck3);
 				render = false;
 			}
 
