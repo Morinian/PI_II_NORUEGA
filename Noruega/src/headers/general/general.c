@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 const int DISPLAY_WIDTH = 1300;
-const int DISPLAY_HEIGHT = 850;
+const int DISPLAY_HEIGHT = 700;//850
 
 void must_init(bool test, const char* description)
 {

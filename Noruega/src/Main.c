@@ -14,6 +14,7 @@
 
 #include "./headers/mapa/mapa.h"
 #include "./headers/tutorial/tutorial.h"
+#include "./headers/element/element.h"
 #include "./headers/fases/fase1/fase1.h"
 #include "./headers/fases/fase2/fase2.h"
 #include "./headers/fases/fase3/fase3.h"
@@ -36,6 +37,7 @@ int main() {
     FASE1* fase1 = initFase1();
     FASE2* fase2 = initFase2();
     FASE3* fase3 = initFase3();
+    ELEMENTO* elemento = initElemento();
 
     //init Bruxas
     WITCH* player = initWitch("./images/bruxas/bruxa.png", 200, 340, 500, FIRE);
@@ -335,7 +337,7 @@ int main() {
             bot->sprite_frames[1] = 292;
 
             al_resize_display(display, DISPLAY_WIDTH, DISPLAY_HEIGHT);
-            battle_pve->play(event_queue, battle_pve, large_font);
+            battle_pve->play(event_queue, battle_pve, large_font, elemento);
             al_resize_display(display, width, height);
             phaseComplete = 1;
             screen = MAPA;
@@ -390,6 +392,7 @@ int main() {
     fase1->destroyFase1(fase1);
     fase2->destroyFase2(fase2);
     fase3->destroyFase3(fase3);
+    elemento->destroyElemento(elemento);
 
     //Padrão 
     al_destroy_font(font);

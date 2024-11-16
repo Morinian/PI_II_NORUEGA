@@ -16,14 +16,44 @@ const char* nome[15] = {
 	"HCl", "NaOH", "H2SO4", "KMnO4", "H2O2", "Cl2", "NH3", "NaClO", "Na", "Mg", "Al", "HNO3", "Fe", "Cu", "Ag"
 };
 
-void renderBattle(BATTLE_MAP* battle_map, int chosen_element, int round, int timer, 
-	ALLEGRO_FONT* font, BATTLE_PVE* battle_pve, enum CHEMICAL_ELEMENTS central_element)
+const char* resultado[6] = {
+	"compativel", "incompatibilidade acido base", "incompatibilidade redox", "incompatibilidade componentes toxicos", "reacao com agua", "reacao com metal"
+};
+
+//Variaveis
+int checkElement = -1;
+int typeResult = 0;
+
+int deck0;
+int deck1;
+int deck2;
+int deck3;
+
+void renderBattle(BATTLE_MAP* battle_map, int chosen_element, int round, int timer,
+	ALLEGRO_FONT* font, BATTLE_PVE* battle_pve, enum CHEMICAL_ELEMENTS central_element, 
+	ELEMENTO* elemento, int checkElement, int typeResult, int deck0, int deck1, int deck2, int deck3)
 {
 	al_clear_to_color(al_map_rgb(0, 0, 0));// Limpa a tela
 	battle_map->drawBattleMap(battle_map, chosen_element);
 
 	//Desenha o elemento da entidade
 	al_draw_textf(font, al_map_rgba_f(0, 0, 1, 0.5), 650, 250, ALLEGRO_ALIGN_CENTER, "%s", nome[central_element]);
+
+	//Pergaminho
+	if (checkElement >= 0) {
+		al_draw_textf(font, al_map_rgba_f(0, 0, 1, 1), 990, 650-100, ALLEGRO_ALIGN_CENTER, "A combinacao elementos ");
+		al_draw_textf(font, al_map_rgba_f(0, 0, 1, 1), 990, 680-100, ALLEGRO_ALIGN_CENTER, "%s com %s", nome[central_element], nome[checkElement]);
+		al_draw_textf(font, al_map_rgba_f(0, 0, 1, 1), 990, 710-100, ALLEGRO_ALIGN_CENTER, "Sera %s", resultado[typeResult]);
+	}
+
+	ALLEGRO_BITMAP* elementoImage[15] = {
+		elemento->HCl,elemento->NaOH,elemento->H2SO4,elemento->KMnO4,elemento->H2O2,elemento->Cl2,elemento->NH3,elemento->NaClO,elemento->Na,elemento->Mg,elemento->Al,elemento->HNO3,elemento->Fe,elemento->Cu,elemento->Ag
+	};
+
+	al_draw_bitmap(elementoImage[deck0], 10, 480, 0);
+	al_draw_bitmap(elementoImage[deck1], 200, 480, 0);
+	al_draw_bitmap(elementoImage[deck2], 10, 580, 0);
+	al_draw_bitmap(elementoImage[deck3], 200, 580, 0);
 
 	//Desenha o player, sua barra de vida e seus status
 	float inicial_x_player_bar = 100;
@@ -49,14 +79,21 @@ void renderBattle(BATTLE_MAP* battle_map, int chosen_element, int round, int tim
 	al_flip_display();
 }
 
-void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve, ALLEGRO_FONT* font) 
+void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve, ALLEGRO_FONT* font, ELEMENTO* elemento)
 {
+	//
+	deck0 = battle_pve->player->deck[0];
+	deck1 = battle_pve->player->deck[1];
+	deck2 = battle_pve->player->deck[2];
+	deck3 = battle_pve->player->deck[3];
+
+
 	//Cria a variavel que guarda o timer do round e o timer do round
 	int current_time;
 	ALLEGRO_TIMER* battle_timer = al_create_timer(1.0);
 	must_init(battle_timer, "battle timer");
 	al_register_event_source(event_queue, al_get_timer_event_source(battle_timer));
-	
+
 	//inicia o contador de rounds e flag que verifica se o round está acontecendo
 	battle_pve->round = 1;
 	bool in_game = false;
@@ -64,7 +101,7 @@ void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve, ALLEGRO_FONT
 	//flags de atack do player e bot
 	bool bot_atacked;
 	int bot_time_to_atack;
-	bool player_atacked; 
+	bool player_atacked;
 
 	//Elemento gerado pela entidade
 	enum ChemicalElement central_element;
@@ -74,10 +111,10 @@ void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve, ALLEGRO_FONT
 	int chosen_deck_element_position = 0;
 
 	ALLEGRO_EVENT event;
-	
+
 	while (battle_pve->player->health_points > 0 && battle_pve->bot->health_points > 0)
 	{
-		
+
 		//if (battle_pve->round > 1)
 		//{
 			//reporDeckElement(battle_pve->player->deck);
@@ -90,7 +127,7 @@ void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve, ALLEGRO_FONT
 		bot_time_to_atack = generateRandomIntInRange(true, 15);
 
 		//Gera um elemento da entidade para o novo round
-		central_element = (enum CHEMICAL_ELEMENTS) generateRandomIntInRange(false, ELEMENTS_AMOUNT);
+		central_element = (enum CHEMICAL_ELEMENTS)generateRandomIntInRange(false, ELEMENTS_AMOUNT);
 
 		//Inicializa flag de novo round, variavel de renderização e timer do round
 		in_game = true;
@@ -121,8 +158,9 @@ void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve, ALLEGRO_FONT
 			tem nenhum outro evento para ser processado*/
 			if (render && al_is_event_queue_empty(event_queue))
 			{
-				renderBattle(battle_pve->battle_map, chosen_deck_element_position, 
-					battle_pve->round, current_time, font, battle_pve, central_element);
+				renderBattle(battle_pve->battle_map, chosen_deck_element_position,
+					battle_pve->round, current_time, font, battle_pve, central_element,
+					elemento, checkElement, typeResult, deck0, deck1, deck2, deck3);
 				render = false;
 			}
 
@@ -171,6 +209,9 @@ void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve, ALLEGRO_FONT
 						
 							battle_pve->player->atack(battle_pve->player, battle_pve->bot, 
 								chosen_deck_element,central_element);
+
+							checkElement = chosen_deck_element;
+							typeResult = mixElements(chosen_deck_element, central_element);
 
 							printf_s("\nDEPOIS ---- Vida player: %i Mult: %f || Vida Bot: %i Mult: %f",
 								battle_pve->player->health_points, battle_pve->player->damage_received_multiplier,

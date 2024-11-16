@@ -1,6 +1,7 @@
 #ifndef BATTLE_H
 	#define BATTLE_H
-	
+		#include "../element/element.h"
+
 	typedef struct BATTLE_PVE BATTLE_PVE;
 
 	struct BATTLE_PVE
@@ -12,7 +13,7 @@
 		WITCH* bot;
 		// --- funções ---//
 		void (*destroyBattle)(BATTLE_PVE*);
-		void (*play)(ALLEGRO_EVENT_QUEUE*, BATTLE_PVE*, ALLEGRO_FONT*);
+		void (*play)(ALLEGRO_EVENT_QUEUE*, BATTLE_PVE*, ALLEGRO_FONT*, ELEMENTO*);
 	};
 
 	BATTLE_PVE* initBattlePVE(WITCH* player, WITCH* bot, BATTLE_MAP* battle_map);
