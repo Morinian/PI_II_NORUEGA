@@ -183,20 +183,11 @@ bool play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve, ALLEGRO_FONT
 							break;
 						case ALLEGRO_KEY_ENTER:
 							printf_s("\n\n\nPlayer Atacou");
-							printf_s("\nANTES ---- Vida player: %i Mult: %f || Vida Bot: %i Mult: %f",
-								battle_pve->player->health_points, battle_pve->player->damage_received_multiplier,
-								battle_pve->bot->health_points, battle_pve->bot->damage_received_multiplier);
-						
 							battle_pve->player->atack(battle_pve->player, battle_pve->bot, 
 								chosen_deck_element,central_element);
-
 							//Troca o elemento utilizado
 							chosen_deck_element = (enum CHEMICAL_ELEMENTS) generateRandomIntInRange(false, ELEMENTS_AMOUNT);
 							battle_pve->player->deck[chosen_deck_element_position] = chosen_deck_element;
-
-							printf_s("\nDEPOIS ---- Vida player: %i Mult: %f || Vida Bot: %i Mult: %f",
-								battle_pve->player->health_points, battle_pve->player->damage_received_multiplier,
-								battle_pve->bot->health_points, battle_pve->bot->damage_received_multiplier);
 							player_atacked = true;
 							break;
 						}

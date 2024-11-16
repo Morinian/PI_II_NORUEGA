@@ -41,7 +41,7 @@ int main() {
 
     //init Bruxas
     WITCH* player = initWitch("./images/bruxas/bruxa.png", 200, 340, 200, FIRE);
-    WITCH* bot = initWitch("./images/bruxas/inimigo1.png", 900, 340, 100, WATER);
+    WITCH* bot = initWitch("./images/bruxas/inimigo1.png", 900, 340, 1, WATER);
 
     /*
     WITCH* player = initWitch("./images/bruxas/bruxa.png", 230, 180, 350, FIRE);
@@ -345,19 +345,23 @@ int main() {
         }
         else if (screen == FASE2) { 
 
-            fase2->drawFase2(width, height, fase2->backgroundFase2);
-
-            //entidadePrin->drawWitch(entidadePrin, 220, 296);
-            //player->drawWitch(player,125,250);
-            //bruxa2>drawWitch(bruxa2,205,296);
-
-            //Allegro event key down lê o teclado apenas uma vez
-            if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
-                if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
-                    phaseComplete = 2;
-                    screen = MAPA;
-                }
-            }
+            bot->changeWitchSprite(bot, "./images/bruxas/inimigo2.png");
+            bot->health_points = bot->base_health;
+            bot->damage_received_multiplier = 1;
+            bot->type = FIRE;
+            bot->sprite_frames[0] = 205;
+            bot->sprite_frames[1] = 296;
+            bot->coordinate_y -= 50;
+            player->health_points = player->base_health;
+            player->damage_received_multiplier = 1;
+            
+            al_resize_display(display, DISPLAY_WIDTH, DISPLAY_HEIGHT);
+            //retorna true se o player venceu
+            if (battle_pve->play(event_queue, battle_pve, large_font, elemento))
+                phaseComplete = 2;
+            al_resize_display(display, width, height);
+            screen = MAPA;
+            
         }
         else if (screen == FASE3) { 
 

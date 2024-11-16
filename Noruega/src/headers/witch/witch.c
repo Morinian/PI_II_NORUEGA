@@ -86,6 +86,13 @@ ALLEGRO_BITMAP* initWitchSprite(char image_path[])
     return sprite;
 }
 
+void changeWitchSprite(WITCH * witch, char image_path[])
+{
+    if (witch->sprite)
+        al_destroy_bitmap(witch->sprite);
+    witch->sprite = initWitchSprite(image_path);
+}
+
 //ANIMAÇÃO bruxa
 float frame = 0.f;
 void drawWitch(WITCH* witch)
@@ -115,6 +122,7 @@ WITCH* initWitch(char image_path[], int coordinate_x, int coordinate_y, int heal
 
     witch->sprite_frames = sprite_frames;
     witch->sprite = initWitchSprite(image_path);
+    witch->changeWitchSprite = changeWitchSprite;
     witch->drawWitch = drawWitch;
     witch->destroyWitch = destroyWitch;
     witch->coordinate_x = coordinate_x;

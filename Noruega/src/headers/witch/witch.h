@@ -30,7 +30,8 @@
 		int coordinate_x;
 		int coordinate_y;
 		int* sprite_frames;
-		//-- Funções --// Criar função para mudar a imagem?
+		//-- Funções --// 
+		void (*changeWitchSprite)(WITCH*, char[]);
 		void (*drawWitch)(WITCH*);
 		void (*destroyWitch)(WITCH*);
 		// atack()
