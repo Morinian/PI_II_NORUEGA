@@ -74,9 +74,9 @@ void renderBattle(BATTLE_MAP* battle_map, int chosen_element, int round, int tim
 	al_flip_display();
 }
 
-void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve, ALLEGRO_FONT* font, ELEMENTO* elemento)
+//Retorna true se o player venceu 
+bool play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve, ALLEGRO_FONT* font, ELEMENTO* elemento)
 {
-	
 	//Cria a variavel que guarda o timer do round e o timer do round
 	int current_time;
 	ALLEGRO_TIMER* battle_timer = al_create_timer(1.0);
@@ -225,6 +225,10 @@ void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve, ALLEGRO_FONT
 	}
 	//Desaloca a memória do timer da batalha
 	al_destroy_timer(battle_timer);
+	//Verifica quem venceu o combate
+	if (battle_pve->player->health_points > battle_pve->bot->health_points)
+		return true;
+	return false;
 }
 
 void destroyBattle(BATTLE_PVE* battle_pve)

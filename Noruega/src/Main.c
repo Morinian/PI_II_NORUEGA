@@ -337,9 +337,10 @@ int main() {
             bot->sprite_frames[1] = 292;
 
             al_resize_display(display, DISPLAY_WIDTH, DISPLAY_HEIGHT);
-            battle_pve->play(event_queue, battle_pve, large_font, elemento);
+            //retorna true se o player venceu
+            if (battle_pve->play(event_queue, battle_pve, large_font, elemento))
+                phaseComplete = 1;
             al_resize_display(display, width, height);
-            phaseComplete = 1;
             screen = MAPA;
         }
         else if (screen == FASE2) { 
