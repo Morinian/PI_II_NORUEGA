@@ -12,7 +12,7 @@
 		WITCH* bot;
 		// --- funções ---//
 		void (*destroyBattle)(BATTLE_PVE*);
-		bool (*play)(ALLEGRO_EVENT_QUEUE*, BATTLE_PVE*, ALLEGRO_FONT*, ELEMENTO*);
+		bool (*play)(ALLEGRO_EVENT_QUEUE*, BATTLE_PVE*, ALLEGRO_FONT*, ALLEGRO_FONT*, ELEMENTO*);
 	};
 
 	BATTLE_PVE* initBattlePVE(WITCH* player, WITCH* bot, BATTLE_MAP* battle_map);

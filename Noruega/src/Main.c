@@ -40,8 +40,8 @@ int main() {
     ELEMENTO* elemento = initElemento();
 
     //init Bruxas
-    WITCH* player = initWitch("./images/bruxas/bruxa.png", 200, 340, 1, FIRE);
-    WITCH* bot = initWitch("./images/bruxas/inimigo1.png", 900, 340, 1, WATER);
+    WITCH* player = initWitch("./images/bruxas/bruxa.png", 200, 340, 500, FIRE);
+    WITCH* bot = initWitch("./images/bruxas/inimigo1.png", 900, 340, 300, WATER);
 
     /*
     WITCH* player = initWitch("./images/bruxas/bruxa.png", 230, 180, 350, FIRE);
@@ -73,6 +73,7 @@ int main() {
     // FPS e Fonts
     ALLEGRO_TIMER* timer = al_create_timer(1.0 / 30.0);
     ALLEGRO_FONT* small_font = al_load_font("./fonts/PaytoneOne-Regular.ttf", 16, 0);
+    ALLEGRO_FONT* medium_font = al_load_font("./fonts/PaytoneOne-Regular.ttf", 22, 0);
     ALLEGRO_FONT* large_font = al_load_font("./fonts/PaytoneOne-Regular.ttf", 32, 0);
     ALLEGRO_FONT* font = al_create_builtin_font();
    
@@ -338,7 +339,7 @@ int main() {
 
             al_resize_display(display, DISPLAY_WIDTH, DISPLAY_HEIGHT);
             //retorna true se o player venceu
-            if (battle_pve->play(event_queue, battle_pve, large_font, elemento))
+            if (battle_pve->play(event_queue, battle_pve, large_font, medium_font, elemento))
                 phaseComplete = 1;
             al_resize_display(display, width, height);
             screen = MAPA;
@@ -357,7 +358,7 @@ int main() {
             
             al_resize_display(display, DISPLAY_WIDTH, DISPLAY_HEIGHT);
             //retorna true se o player venceu
-            if (battle_pve->play(event_queue, battle_pve, large_font, elemento))
+            if (battle_pve->play(event_queue, battle_pve, large_font, medium_font, elemento))
                 phaseComplete = 2;
             al_resize_display(display, width, height);
             screen = MAPA;
@@ -390,7 +391,7 @@ int main() {
 
                 al_resize_display(display, DISPLAY_WIDTH, DISPLAY_HEIGHT);
                 //retorna true se o player venceu
-                if (battle_pve->play(event_queue, battle_pve, large_font, elemento))
+                if (battle_pve->play(event_queue, battle_pve, large_font, medium_font, elemento))
                     phaseComplete = 3;
                 al_resize_display(display, width, height);
                 screen = MAPA;

@@ -42,15 +42,15 @@ void drawBattleMap(BATTLE_MAP * battle_map, int chosen_element)
 		al_get_bitmap_width(battle_map->entity_shadow), al_get_bitmap_height(battle_map->entity_shadow),
 		DISPLAY_WIDTH * 0.25, 0, 500, 500, 0);
 
-	//Desenha 
+	//Desenha o pergaminho
 	al_draw_scaled_bitmap(battle_map->mix_parchment, 0, 0,
 		al_get_bitmap_width(battle_map->mix_parchment), al_get_bitmap_height(battle_map->mix_parchment),
-		DISPLAY_WIDTH - 600, DISPLAY_HEIGHT - 280, 600, 280, 0);
+		DISPLAY_WIDTH - 650, DISPLAY_HEIGHT - 270, 630, 280, 0);
 
 	//Desenha o deck no footer, se um elemento é escolhido, muda a opacidade
 	int deck_position_coordinates[4][4] = { 
-		{10, DISPLAY_HEIGHT - 250}, {180, DISPLAY_HEIGHT - 250},
-		{10, DISPLAY_HEIGHT - 130}, {180, DISPLAY_HEIGHT - 130}
+		{5, DISPLAY_HEIGHT - 250}, {230, DISPLAY_HEIGHT - 250},
+		{5, DISPLAY_HEIGHT - 130}, {230, DISPLAY_HEIGHT - 130}
 	};
 	for (int deck_position = 0; deck_position < DECK_SIZE; deck_position++)
 	{
@@ -60,13 +60,13 @@ void drawBattleMap(BATTLE_MAP * battle_map, int chosen_element)
 				al_get_bitmap_width(battle_map->element_parchment), al_get_bitmap_height(battle_map->element_parchment),
 				deck_position_coordinates[deck_position][0], 
 				deck_position_coordinates[deck_position][1],
-				160, 110, 0);
+				230, 120, 0);
 		else
 			al_draw_scaled_bitmap(battle_map->element_parchment, 0, 0,
 				al_get_bitmap_width(battle_map->element_parchment), al_get_bitmap_height(battle_map->element_parchment),
 				deck_position_coordinates[deck_position][0],
 				deck_position_coordinates[deck_position][1],
-				160, 110, 0);
+				230, 120, 0);
 	}
 }
 
