@@ -20,13 +20,9 @@ const char* resultado[6] = {
 	"compativel", "incompatibilidade acido base", "incompatibilidade redox", "incompatibilidade componentes toxicos", "reacao com agua", "reacao com metal"
 };
 
-//Variaveis
-int checkElement = -1;
-int typeResult = 0;
-
 void renderBattle(BATTLE_MAP* battle_map, int chosen_element, int round, int timer,
 	ALLEGRO_FONT* font, BATTLE_PVE* battle_pve, enum CHEMICAL_ELEMENTS central_element, 
-	ELEMENTO* elemento, int checkElement, int typeResult)
+	ELEMENTO* elemento)
 {
 	al_clear_to_color(al_map_rgb(0, 0, 0));// Limpa a tela
 	battle_map->drawBattleMap(battle_map, chosen_element);
@@ -35,11 +31,12 @@ void renderBattle(BATTLE_MAP* battle_map, int chosen_element, int round, int tim
 	al_draw_textf(font, al_map_rgba_f(0, 0, 1, 0.5), 650, 250, ALLEGRO_ALIGN_CENTER, "%s", nome[central_element]);
 
 	//Pergaminho
-	if (checkElement >= 0) {
-		al_draw_textf(font, al_map_rgba_f(0, 0, 1, 1), 990, 750-100, ALLEGRO_ALIGN_CENTER, "A combinacao elementos ");
-		al_draw_textf(font, al_map_rgba_f(0, 0, 1, 1), 990, 780-100, ALLEGRO_ALIGN_CENTER, "%s com %s", nome[central_element], nome[checkElement]);
-		al_draw_textf(font, al_map_rgba_f(0, 0, 1, 1), 990, 810-100, ALLEGRO_ALIGN_CENTER, "Sera %s", resultado[typeResult]);
-	}
+	al_draw_textf(font, al_map_rgba_f(0, 0, 1, 1), 990, 750-100, ALLEGRO_ALIGN_CENTER, "A combinacao elementos ");
+	al_draw_textf(font, al_map_rgba_f(0, 0, 1, 1), 990, 780-100, ALLEGRO_ALIGN_CENTER, "%s com %s", 
+		nome[central_element], nome[battle_pve->player->deck[chosen_element]]);
+	al_draw_textf(font, al_map_rgba_f(0, 0, 1, 1), 990, 810-100, ALLEGRO_ALIGN_CENTER, "Sera %s", 
+		resultado[mixElements(battle_pve->player->deck[chosen_element], central_element)]);
+
 
 	ALLEGRO_BITMAP* elementoImage[15] = {
 		elemento->HCl,elemento->NaOH,elemento->H2SO4,elemento->KMnO4,elemento->H2O2,elemento->Cl2,elemento->NH3,elemento->NaClO,elemento->Na,elemento->Mg,elemento->Al,elemento->HNO3,elemento->Fe,elemento->Cu,elemento->Ag
@@ -143,7 +140,7 @@ bool play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve, ALLEGRO_FONT
 			{
 				renderBattle(battle_pve->battle_map, chosen_deck_element_position,
 					battle_pve->round, current_time, font, battle_pve, central_element,
-					elemento, checkElement, typeResult);
+					elemento);
 				render = false;
 			}
 
@@ -192,9 +189,6 @@ bool play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve, ALLEGRO_FONT
 						
 							battle_pve->player->atack(battle_pve->player, battle_pve->bot, 
 								chosen_deck_element,central_element);
-
-							checkElement = chosen_deck_element;
-							typeResult = mixElements(chosen_deck_element, central_element);
 
 							//Troca o elemento utilizado
 							chosen_deck_element = (enum CHEMICAL_ELEMENTS) generateRandomIntInRange(false, ELEMENTS_AMOUNT);
