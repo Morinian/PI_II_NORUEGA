@@ -40,7 +40,7 @@ int main() {
     ELEMENTO* elemento = initElemento();
 
     //init Bruxas
-    WITCH* player = initWitch("./images/bruxas/bruxa.png", 200, 340, 200, FIRE);
+    WITCH* player = initWitch("./images/bruxas/bruxa.png", 200, 340, 1, FIRE);
     WITCH* bot = initWitch("./images/bruxas/inimigo1.png", 900, 340, 1, WATER);
 
     /*
@@ -365,21 +365,40 @@ int main() {
         }
         else if (screen == FASE3) { 
 
-            fase3->drawFase3(width, height, fase3->backgroundFase3);
-            tutorial->loreDraw(width, height, tutorial->cardEntidade1, tutorial->cardEntidade3, tutorial->cardEntidade4, tutorial->cardEntidade5, nlore);
+            if (redraw && al_is_event_queue_empty(event_queue))
+            {
+                al_clear_to_color(al_map_rgb(0, 0, 0));// Limpa a tela
+
+                //Desenha os cards do tutorial
+                tutorial->loreDraw(width, height, tutorial->cardEntidade1, tutorial->cardEntidade3, tutorial->cardEntidade4, tutorial->cardEntidade5, nlore);
+
+                al_flip_display();
+                redraw = false;
+            }
 
             if (nlore > 4) {
-                //entidadeSec->drawWitch(entidadeSec, 184, 294);
-                //player->drawWitch(player, 125, 250);
-                //inimigo3 > drawWitch(inimigo3,253,396);
+
+                bot->changeWitchSprite(bot, "./images/bruxas/inimigo3.png");
+                bot->health_points = bot->base_health;
+                bot->damage_received_multiplier = 1;
+                bot->type = GROUND;
+                bot->sprite_frames[0] = 253;
+                bot->sprite_frames[1] = 396;
+                bot->coordinate_y -= 100;
+                player->health_points = player->base_health;
+                player->damage_received_multiplier = 1;
+
+                al_resize_display(display, DISPLAY_WIDTH, DISPLAY_HEIGHT);
+                //retorna true se o player venceu
+                if (battle_pve->play(event_queue, battle_pve, large_font, elemento))
+                    phaseComplete = 3;
+                al_resize_display(display, width, height);
+                screen = MAPA;
             }
 
             //Allegro event key down lê o teclado apenas uma vez
             if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
-                if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
-                    screen = MAPA;
-                }
-                else if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
+                if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
                     nlore = nlore + 1;
                 }
             }
