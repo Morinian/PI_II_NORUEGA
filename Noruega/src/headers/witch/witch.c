@@ -39,8 +39,8 @@ void atack(WITCH* attacker, WITCH* target,
     {
         if (attacker->base_health > attacker->health_points)
         {
-            printf_s("\nO Atacante ganhou mais 15 de vida");
-            attacker->health_points += 15;
+            printf_s("\nO Atacante ganhou mais 10 de vida");
+            attacker->health_points += 10;
         }
         else
         {

@@ -40,8 +40,8 @@ int main() {
     ELEMENTO* elemento = initElemento();
 
     //init Bruxas
-    WITCH* player = initWitch("./images/bruxas/bruxa.png", 200, 340, 500, FIRE);
-    WITCH* bot = initWitch("./images/bruxas/inimigo1.png", 900, 340, 350, WATER);
+    WITCH* player = initWitch("./images/bruxas/bruxa.png", 200, 340, 200, FIRE);
+    WITCH* bot = initWitch("./images/bruxas/inimigo1.png", 900, 340, 100, WATER);
 
     /*
     WITCH* player = initWitch("./images/bruxas/bruxa.png", 230, 180, 350, FIRE);

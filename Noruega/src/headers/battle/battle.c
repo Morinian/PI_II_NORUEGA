@@ -36,19 +36,19 @@ void renderBattle(BATTLE_MAP* battle_map, int chosen_element, int round, int tim
 
 	//Pergaminho
 	if (checkElement >= 0) {
-		al_draw_textf(font, al_map_rgba_f(0, 0, 1, 1), 990, 650-100, ALLEGRO_ALIGN_CENTER, "A combinacao elementos ");
-		al_draw_textf(font, al_map_rgba_f(0, 0, 1, 1), 990, 680-100, ALLEGRO_ALIGN_CENTER, "%s com %s", nome[central_element], nome[checkElement]);
-		al_draw_textf(font, al_map_rgba_f(0, 0, 1, 1), 990, 710-100, ALLEGRO_ALIGN_CENTER, "Sera %s", resultado[typeResult]);
+		al_draw_textf(font, al_map_rgba_f(0, 0, 1, 1), 990, 750-100, ALLEGRO_ALIGN_CENTER, "A combinacao elementos ");
+		al_draw_textf(font, al_map_rgba_f(0, 0, 1, 1), 990, 780-100, ALLEGRO_ALIGN_CENTER, "%s com %s", nome[central_element], nome[checkElement]);
+		al_draw_textf(font, al_map_rgba_f(0, 0, 1, 1), 990, 810-100, ALLEGRO_ALIGN_CENTER, "Sera %s", resultado[typeResult]);
 	}
 
 	ALLEGRO_BITMAP* elementoImage[15] = {
 		elemento->HCl,elemento->NaOH,elemento->H2SO4,elemento->KMnO4,elemento->H2O2,elemento->Cl2,elemento->NH3,elemento->NaClO,elemento->Na,elemento->Mg,elemento->Al,elemento->HNO3,elemento->Fe,elemento->Cu,elemento->Ag
 	};
 
-	al_draw_bitmap(elementoImage[battle_pve->player->deck[0]], 10, 480, 0);
-	al_draw_bitmap(elementoImage[battle_pve->player->deck[1]], 200, 480, 0);
-	al_draw_bitmap(elementoImage[battle_pve->player->deck[2]], 10, 580, 0);
-	al_draw_bitmap(elementoImage[battle_pve->player->deck[3]], 200, 580, 0);
+	al_draw_bitmap(elementoImage[battle_pve->player->deck[0]], 10, 600, 0);
+	al_draw_bitmap(elementoImage[battle_pve->player->deck[1]], 200, 600, 0);
+	al_draw_bitmap(elementoImage[battle_pve->player->deck[2]], 10, 720, 0);
+	al_draw_bitmap(elementoImage[battle_pve->player->deck[3]], 200, 720, 0);
 
 	//Desenha o player, sua barra de vida e seus status
 	float inicial_x_player_bar = 100;
@@ -103,12 +103,6 @@ void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve, ALLEGRO_FONT
 
 	while (battle_pve->player->health_points > 0 && battle_pve->bot->health_points > 0)
 	{
-
-		//if (battle_pve->round > 1)
-		//{
-			//reporDeckElement(battle_pve->player->deck);
-			//reporDeckElement(battle_pve->bot->deck);
-		//}
 
 		//Inicia as flags de atack do player e do bot para o round
 		bot_atacked = false;
@@ -203,7 +197,7 @@ void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve, ALLEGRO_FONT
 							typeResult = mixElements(chosen_deck_element, central_element);
 
 							//Troca o elemento utilizado
-							chosen_deck_element = (enum CHEMICAL_ELEMENTS) generateRandomIntInRange(false, 15);
+							chosen_deck_element = (enum CHEMICAL_ELEMENTS) generateRandomIntInRange(false, ELEMENTS_AMOUNT);
 							battle_pve->player->deck[chosen_deck_element_position] = chosen_deck_element;
 
 							printf_s("\nDEPOIS ---- Vida player: %i Mult: %f || Vida Bot: %i Mult: %f",
@@ -217,9 +211,11 @@ void play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve, ALLEGRO_FONT
 				// Atack do Bot
 				if ((bot_time_to_atack == current_time || player_atacked) && !bot_atacked)
 				{
-					//Fazer o bot esperar para atacar, 2 segundos, caso o player tenha atacado antes
-					//battle_pve->bot->atack(battle_pve->player, central_element);
-					printf_s("\nBot Atacou");
+					printf_s("\n\nBot Atacou");
+					//O bot está pegando o elemento da mesma posição que o player escolheu
+					battle_pve->bot->atack(battle_pve->bot, battle_pve->player, 
+						battle_pve->bot->deck[chosen_deck_element_position], central_element);
+					battle_pve->bot->deck[chosen_deck_element_position] = (enum CHEMICAL_ELEMENTS)generateRandomIntInRange(false, ELEMENTS_AMOUNT);
 					bot_atacked = true;
 				}
 			}
