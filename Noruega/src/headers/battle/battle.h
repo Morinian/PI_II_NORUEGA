@@ -1,6 +1,5 @@
 #ifndef BATTLE_H
 	#define BATTLE_H
-		#include "../element/element.h"
 
 	typedef struct BATTLE_PVE BATTLE_PVE;
 

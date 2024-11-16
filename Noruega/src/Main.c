@@ -6,6 +6,7 @@
 #include <allegro5/allegro_primitives.h>
 #include <stdio.h>
 
+#include "./headers/element/element.h"
 #include "./headers/battle/battle_map/battle_map.h"
 #include "./headers/general/general.h"
 #include "./headers/menu/menu.h"
@@ -14,7 +15,6 @@
 
 #include "./headers/mapa/mapa.h"
 #include "./headers/tutorial/tutorial.h"
-#include "./headers/element/element.h"
 #include "./headers/fases/fase1/fase1.h"
 #include "./headers/fases/fase2/fase2.h"
 #include "./headers/fases/fase3/fase3.h"
