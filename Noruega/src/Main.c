@@ -341,6 +341,12 @@ int main() {
             //retorna true se o player venceu
             if (battle_pve->play(event_queue, battle_pve, large_font, medium_font, elemento))
                 phaseComplete = 1;
+            else {
+                bot->health_points = bot->base_health;
+                player->health_points = player->base_health;
+                nphase = 0;
+            }
+
             al_resize_display(display, width, height);
             screen = MAPA;
         }
@@ -358,8 +364,14 @@ int main() {
             
             al_resize_display(display, DISPLAY_WIDTH, DISPLAY_HEIGHT);
             //retorna true se o player venceu
-            if (battle_pve->play(event_queue, battle_pve, large_font, medium_font, elemento))
+            if (battle_pve->play(event_queue, battle_pve, large_font, medium_font, elemento)) {
                 phaseComplete = 2;
+            }
+            else {
+                bot->health_points = bot->base_health;
+                player->health_points = player->base_health;
+                nphase = 0;
+            }
             al_resize_display(display, width, height);
             screen = MAPA;
             
@@ -393,6 +405,11 @@ int main() {
                 //retorna true se o player venceu
                 if (battle_pve->play(event_queue, battle_pve, large_font, medium_font, elemento))
                     phaseComplete = 3;
+                else {
+                    bot->health_points = bot->base_health;
+                    player->health_points = player->base_health;
+                    nphase = 0;
+                }
                 al_resize_display(display, width, height);
                 screen = MAPA;
             }
