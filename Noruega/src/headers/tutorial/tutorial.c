@@ -39,7 +39,7 @@ ALLEGRO_BITMAP* initCardTutorial3()
 {
     // Carregar imagem de fundo
     ALLEGRO_BITMAP* cardTutorial3;
-    cardTutorial3 = al_load_bitmap("./images/tutorial/card3.png");
+    cardTutorial3 = al_load_bitmap("./images/tutorial/card4.png");
     if (!cardTutorial3)
     {
         printf_s("\nImagem de cardTutorial3 nao alocada");
