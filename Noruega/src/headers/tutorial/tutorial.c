@@ -268,19 +268,19 @@ void cardDraw(int width, int height, ALLEGRO_BITMAP* cardTutorial1, ALLEGRO_BITM
 {
 
     if (number == 1) {
-        al_draw_bitmap(cardTutorial1, width+65, height+30, 0);
+        al_draw_bitmap(cardTutorial1, width+65, height + 50, 0);
     }
     else if (number == 2) {
-        al_draw_bitmap(cardTutorial2, width+65, height+30, 0);
+        al_draw_bitmap(cardTutorial2, width+65, height + 50, 0);
     }
     else if (number == 3) {
-        al_draw_bitmap(cardTutorial3, width+65, height+30, 0);
+        al_draw_bitmap(cardTutorial3, width+65, height + 50, 0);
     }
     else if (number == 4) {
-        al_draw_bitmap(cardTutorial4, width + 65, height + 30, 0);
+        al_draw_bitmap(cardTutorial4, width + 65, height + 50, 0);
     }
     else if (number == 5) {
-        al_draw_bitmap(cardTutorial5, width + 65, height + 30, 0);
+        al_draw_bitmap(cardTutorial5, width + 65, height + 50, 0);
     }
 }
 
