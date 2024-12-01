@@ -41,7 +41,7 @@ int main() {
 
     //init Bruxas
     WITCH* player = initWitch("./images/bruxas/bruxa.png", 200, 340, 500, FIRE);
-    WITCH* bot = initWitch("./images/bruxas/inimigo1.png", 900, 340, 400, WATER);
+    WITCH* bot = initWitch("./images/bruxas/inimigo1.png", 900, 340, 1, WATER);
 
     /*
     WITCH* player = initWitch("./images/bruxas/bruxa.png", 230, 180, 350, FIRE);

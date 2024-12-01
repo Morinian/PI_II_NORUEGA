@@ -25,7 +25,8 @@ void renderBattle(BATTLE_MAP* battle_map, int chosen_element, int round, int tim
 	ELEMENTO* elemento)
 {
 	al_clear_to_color(al_map_rgb(0, 0, 0));// Limpa a tela
-	battle_map->drawBattleMap(battle_map, chosen_element);
+	battle_map->drawBattleMap(battle_map, battle_pve->player->damage_received_multiplier,
+		battle_pve->bot->damage_received_multiplier ,chosen_element);
 
 	//Desenha o elemento da entidade
 	al_draw_textf(font, al_map_rgba_f(0, 0, 1, 0.5), 650, 250, ALLEGRO_ALIGN_CENTER, "%s", nome[central_element]);
@@ -54,7 +55,6 @@ void renderBattle(BATTLE_MAP* battle_map, int chosen_element, int round, int tim
 	battle_pve->player->drawWitch(battle_pve->player);
 	al_draw_filled_rectangle(inicial_x_player_bar, 40, health_player_bar_size, 75, al_map_rgba_f(1, 0, 0, 0.5)); //barra de vida
 	al_draw_textf(font_medium, al_map_rgb(255, 255, 255), 220, 40, ALLEGRO_ALIGN_CENTER, "%d", battle_pve->player->health_points);
-	al_draw_textf(font, al_map_rgb(255, 255, 255), 100, 90, ALLEGRO_ALIGN_CENTER, "MDR - %.1f", battle_pve->player->damage_received_multiplier);
 	al_draw_bitmap(battle_map->cardLife, 20, 10, 0); //moldura da barra de vida
 	
 
@@ -64,7 +64,6 @@ void renderBattle(BATTLE_MAP* battle_map, int chosen_element, int round, int tim
 	battle_pve->bot->drawWitch(battle_pve->bot);
 	al_draw_filled_rectangle(inicial_x_bot_bar, 40, health_bot_bar_size, 75, al_map_rgba_f(1, 0, 0, 0.5));  //barra de vida
 	al_draw_textf(font_medium, al_map_rgb(255, 255, 255), 1080, 40, ALLEGRO_ALIGN_CENTER, "%d", battle_pve->bot->health_points);
-	al_draw_textf(font, al_map_rgb(255, 255, 255), 1200, 90, ALLEGRO_ALIGN_CENTER, "MDR - %.1f", battle_pve->bot->damage_received_multiplier);
 	al_draw_bitmap(battle_map->cardLife, 930, 10, ALLEGRO_FLIP_HORIZONTAL);//moldura da barra de vida
 
 

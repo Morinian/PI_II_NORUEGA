@@ -14,6 +14,8 @@ void destroyBattleMap(BATTLE_MAP * battle_map)
 	al_destroy_bitmap(battle_map->entity_shadow);
 	al_destroy_bitmap(battle_map->footer_background);
 	al_destroy_bitmap(battle_map->mix_parchment);
+	al_destroy_bitmap(battle_map->angelStatus);
+	al_destroy_bitmap(battle_map->evilStatus);
 	free(battle_map);
 }
 
@@ -39,7 +41,28 @@ ALLEGRO_BITMAP* initScenarioImage(char image_path[])
 	return image;
 }
 
-void drawBattleMap(BATTLE_MAP * battle_map, int chosen_element)
+//As posições estão fixas
+void renderStatus(BATTLE_MAP* battle_map, float damege_multiplayer, int x, int y, int sinal) {
+
+	if (damege_multiplayer > 1) {
+		for (float i = 1; i < damege_multiplayer; i += 0.2)
+		{
+			al_draw_scaled_bitmap(battle_map->evilStatus, 0, 0,
+				al_get_bitmap_width(battle_map->evilStatus), al_get_bitmap_height(battle_map->evilStatus),
+				x + (100 * i * sinal), y, 100, 100, 0);
+		}
+	}
+	else {
+		for (float i = 1; i < 1+(1-damege_multiplayer); i += 0.2)
+		{
+			al_draw_scaled_bitmap(battle_map->angelStatus, 0, 0,
+				al_get_bitmap_width(battle_map->angelStatus), al_get_bitmap_height(battle_map->angelStatus),
+				x + (100 * i * sinal), y, 100, 100, 0);
+		}
+	}
+}
+
+void drawBattleMap(BATTLE_MAP * battle_map, float player_status, float bot_status, int chosen_element)
 {
 	// Desenhar o fundo da batalha redimensionado 
 	al_draw_scaled_bitmap(battle_map->battle_background,
@@ -82,7 +105,10 @@ void drawBattleMap(BATTLE_MAP * battle_map, int chosen_element)
 				deck_position_coordinates[deck_position][1],
 				230, 120, 0);
 	}
+	renderStatus(battle_map, player_status, 0, 90, 1);
+	renderStatus(battle_map, bot_status, 1200, 90, -1);
 }
+
 
 BATTLE_MAP* initBattleMap(char battle_background[], char footer_background[],
 	char entity_shadow[], char element_parchment[], char mix_parchment[])
@@ -96,5 +122,8 @@ BATTLE_MAP* initBattleMap(char battle_background[], char footer_background[],
 	battle_map->mix_parchment = initScenarioImage(mix_parchment);
 	battle_map->destroyBattleMap = destroyBattleMap;
 	battle_map->drawBattleMap = drawBattleMap;
+	battle_map->renderStatus = renderStatus;
+	battle_map->angelStatus = initScenarioImage("./images/vida_status/escudo_bom.png");
+	battle_map->evilStatus = initScenarioImage("./images/vida_status/escudo_mal.png");
 	return battle_map;
 }
