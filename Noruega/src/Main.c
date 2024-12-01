@@ -41,7 +41,7 @@ int main() {
 
     //init Bruxas
     WITCH* player = initWitch("./images/bruxas/bruxa.png", 200, 340, 500, FIRE);
-    WITCH* bot = initWitch("./images/bruxas/inimigo1.png", 900, 340, 300, WATER);
+    WITCH* bot = initWitch("./images/bruxas/inimigo1.png", 900, 340, 400, WATER);
 
     /*
     WITCH* player = initWitch("./images/bruxas/bruxa.png", 230, 180, 350, FIRE);
@@ -85,6 +85,11 @@ int main() {
     al_register_event_source(event_queue, al_get_keyboard_event_source());
     al_start_timer(timer);
 
+    //-------------------------------------------------------
+    //imagens finais 
+    ALLEGRO_BITMAP* gameover = al_load_bitmap("./images/menu/img_game_over.png");
+    ALLEGRO_BITMAP* youwin = al_load_bitmap("./images/menu/img_you_win.png");
+    ALLEGRO_BITMAP* entidadeFinal = al_load_bitmap("./images/menu/entidade_final.png");
 
     //----------------------------------------------------
     // Variáveis de controle de tela
@@ -128,6 +133,7 @@ int main() {
     int nlore = 1; //Numero que controla a troca das img lore
     int nbook = 1;//Numero que controla a troca das img do livro
     int play = 0; // disparo da animação do livro
+    int timeFinal = 0;//time que conta para o jogo fechar
 
     bool redraw = false;
 
@@ -202,7 +208,7 @@ int main() {
             
         }
         else if (screen == MAPA){
-          
+
             //Allegro event key down lê o teclado apenas uma vez
             if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
                 if (nphase == 3 && event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
@@ -251,6 +257,40 @@ int main() {
                 }
                 else if (nphase == 3) {
                     menu->drawArrow(580, 330, menu->arrowImage);
+                }
+
+                //Tela de game over
+                if (nphase == -10) {
+                    al_draw_scaled_bitmap(gameover,
+                        0, 0, al_get_bitmap_width(gameover), al_get_bitmap_height(gameover),
+                        0, 0, width, height,
+                        0);
+                    timeFinal++;
+                    if (timeFinal == 40) {
+                        al_destroy_display(display);
+                        return -1;
+                    }
+                }
+
+                //tela de vitoria 
+                if (phaseComplete == 3) {
+                    al_draw_scaled_bitmap(entidadeFinal,
+                        0, 0, al_get_bitmap_width(entidadeFinal), al_get_bitmap_height(entidadeFinal),
+                        0, 0, width, height,
+                        0);
+                    timeFinal++;
+                    if (timeFinal >= 70) {
+                        al_draw_scaled_bitmap(youwin,
+                            0, 0, al_get_bitmap_width(youwin), al_get_bitmap_height(youwin),
+                            0, 0, width, height,
+                            0);
+
+                        if (timeFinal == 140) {
+                            al_destroy_display(display);
+                            return -1;
+                        }
+
+                    }
                 }
 
                 al_flip_display();
@@ -370,7 +410,7 @@ int main() {
             else {
                 bot->health_points = bot->base_health;
                 player->health_points = player->base_health;
-                nphase = 0;
+                nphase = -10;
             }
             al_resize_display(display, width, height);
             screen = MAPA;
@@ -404,11 +444,11 @@ int main() {
                 al_resize_display(display, DISPLAY_WIDTH, DISPLAY_HEIGHT);
                 //retorna true se o player venceu
                 if (battle_pve->play(event_queue, battle_pve, large_font, medium_font, elemento))
-                    phaseComplete = 3;
+                    phaseComplete = 3; //fala para o MAPA renderizar a img de vitoria
                 else {
                     bot->health_points = bot->base_health;
                     player->health_points = player->base_health;
-                    nphase = 0;
+                    nphase = -10; //fala para o MAPA renderizar a img de derrota
                 }
                 al_resize_display(display, width, height);
                 screen = MAPA;
@@ -436,6 +476,11 @@ int main() {
     fase3->destroyFase3(fase3);
     elemento->destroyElemento(elemento);
 
+    //imagens finais
+    al_destroy_bitmap(gameover);
+    al_destroy_bitmap(youwin);
+    al_destroy_bitmap(entidadeFinal);
+    
     //Padrão 
     al_destroy_font(font);
     al_destroy_font(small_font);
