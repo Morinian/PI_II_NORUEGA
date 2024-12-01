@@ -39,13 +39,39 @@ ALLEGRO_BITMAP* initCardTutorial3()
 {
     // Carregar imagem de fundo
     ALLEGRO_BITMAP* cardTutorial3;
-    cardTutorial3 = al_load_bitmap("./images/tutorial/card4.png");
+    cardTutorial3 = al_load_bitmap("./images/tutorial/card3.png");
     if (!cardTutorial3)
     {
         printf_s("\nImagem de cardTutorial3 nao alocada");
         exit(-1);
     }
     return cardTutorial3;
+}
+
+ALLEGRO_BITMAP* initCardTutorial4()
+{
+    // Carregar imagem de fundo
+    ALLEGRO_BITMAP* cardTutorial4;
+    cardTutorial4 = al_load_bitmap("./images/tutorial/card4.png");
+    if (!cardTutorial4)
+    {
+        printf_s("\nImagem de cardTutorial4 nao alocada");
+        exit(-1);
+    }
+    return cardTutorial4;
+}
+
+ALLEGRO_BITMAP* initCardTutorial5()
+{
+    // Carregar imagem de fundo
+    ALLEGRO_BITMAP* cardTutorial5;
+    cardTutorial5 = al_load_bitmap("./images/tutorial/card5.png");
+    if (!cardTutorial5)
+    {
+        printf_s("\nImagem de cardTutorial5 nao alocada");
+        exit(-1);
+    }
+    return cardTutorial5;
 }
 
 //IMAGENS PARA A LORE DA ENTIDADE -----------------------------
@@ -238,7 +264,7 @@ void bookDraw(ALLEGRO_BITMAP* bookAnimaR, ALLEGRO_BITMAP* bookAnimaL , ALLEGRO_B
 
 }
 
-void cardDraw(int width, int height, ALLEGRO_BITMAP* cardTutorial1, ALLEGRO_BITMAP* cardTutorial2, ALLEGRO_BITMAP* cardTutorial3, int number)
+void cardDraw(int width, int height, ALLEGRO_BITMAP* cardTutorial1, ALLEGRO_BITMAP* cardTutorial2, ALLEGRO_BITMAP* cardTutorial3, ALLEGRO_BITMAP* cardTutorial4, ALLEGRO_BITMAP* cardTutorial5, int number)
 {
 
     if (number == 1) {
@@ -249,6 +275,12 @@ void cardDraw(int width, int height, ALLEGRO_BITMAP* cardTutorial1, ALLEGRO_BITM
     }
     else if (number == 3) {
         al_draw_bitmap(cardTutorial3, width+65, height+30, 0);
+    }
+    else if (number == 4) {
+        al_draw_bitmap(cardTutorial4, width + 65, height + 30, 0);
+    }
+    else if (number == 5) {
+        al_draw_bitmap(cardTutorial5, width + 65, height + 30, 0);
     }
 }
 
@@ -287,6 +319,8 @@ void tutorialHeaderDestroy(TUTORIAL* tutorial)
     al_destroy_bitmap(tutorial->cardTutorial1);
     al_destroy_bitmap(tutorial->cardTutorial2);
     al_destroy_bitmap(tutorial->cardTutorial3);
+    al_destroy_bitmap(tutorial->cardTutorial4);
+    al_destroy_bitmap(tutorial->cardTutorial5);
 
     al_destroy_bitmap(tutorial->cardEntidade1);
     al_destroy_bitmap(tutorial->cardEntidade3);
@@ -317,6 +351,8 @@ TUTORIAL* initTutorial()
     tutorial->cardTutorial1 = initCardTutorial1();
     tutorial->cardTutorial2 = initCardTutorial2();
     tutorial->cardTutorial3 = initCardTutorial3();
+    tutorial->cardTutorial4 = initCardTutorial4();
+    tutorial->cardTutorial5 = initCardTutorial5();
 
     tutorial->cardEntidade1 = initCardEntidadeLore1();
     tutorial->cardEntidade3 = initCardEntidadeLore3();

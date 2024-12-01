@@ -301,7 +301,7 @@ int main() {
                 if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
                     screen = MENU;
                 }
-                else if (ntutorial == 3 && event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
+                else if (ntutorial == 5 && event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
                     ntutorial += 0;
                 }
                 else if (ntutorial == 1 && event.keyboard.keycode == ALLEGRO_KEY_LEFT) {
@@ -324,7 +324,7 @@ int main() {
                 menu->drawBookMenu(1050, 10, menu->bookMenuImage);
 
                 //Desenha os cards do tutorial
-                tutorial->cardDraw(112, 0, tutorial->cardTutorial1, tutorial->cardTutorial2, tutorial->cardTutorial3, ntutorial);
+                tutorial->cardDraw(112, 0, tutorial->cardTutorial1, tutorial->cardTutorial2, tutorial->cardTutorial3, tutorial->cardTutorial4, tutorial->cardTutorial5, ntutorial);
                 
                 al_flip_display();
                 redraw = false;
