@@ -7,10 +7,10 @@
 #include <stdio.h>
 
 #include "./headers/element/element.h"
-#include "./headers/battle/battle_map/battle_map.h"
 #include "./headers/general/general.h"
 #include "./headers/menu/menu.h"
 #include "./headers/witch/witch.h"
+#include "./headers/battle/battle_map/battle_map.h"
 #include "./headers/battle/battle.h"
 
 #include "./headers/mapa/mapa.h"

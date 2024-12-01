@@ -8,6 +8,10 @@
 		ALLEGRO_BITMAP* cardLife;
 		ALLEGRO_BITMAP* evilStatus;
 		ALLEGRO_BITMAP* angelStatus;
+		//Icones do tipo das bruxas
+		ALLEGRO_BITMAP* fire_icon;
+		ALLEGRO_BITMAP* water_icon;
+		ALLEGRO_BITMAP* ground_icon;
 		ALLEGRO_BITMAP* battle_background;
 		ALLEGRO_BITMAP* footer_background;
 		ALLEGRO_BITMAP* entity_shadow;

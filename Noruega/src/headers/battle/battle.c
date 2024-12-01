@@ -20,6 +20,20 @@ const char* resultado[6] = {
 	"Compativel", "Incompatibilidade acido base", "Incompatibilidade redox", "Incompatibilidade componentes toxicos", "Reacao com agua", "Reacao com metal"
 };
 
+ALLEGRO_BITMAP* returnWitchIcon(enum WITCH_TYPE type, BATTLE_MAP * battle_map) {
+	if (type == WATER)
+		return battle_map->water_icon;
+	else if (type == FIRE)
+		return battle_map->fire_icon;
+	else if (type == GROUND)
+		return battle_map->ground_icon;
+	else
+	{
+		printf("\nTipo de bruxa não encontrado, esse icone não existe");
+		exit(-1);
+	}
+}
+
 void renderBattle(BATTLE_MAP* battle_map, int chosen_element, int round, int timer,
 	ALLEGRO_FONT* font, ALLEGRO_FONT* font_medium, BATTLE_PVE* battle_pve, enum CHEMICAL_ELEMENTS central_element,
 	ELEMENTO* elemento)
@@ -56,6 +70,10 @@ void renderBattle(BATTLE_MAP* battle_map, int chosen_element, int round, int tim
 	al_draw_filled_rectangle(inicial_x_player_bar, 40, health_player_bar_size, 75, al_map_rgba_f(1, 0, 0, 0.5)); //barra de vida
 	al_draw_textf(font_medium, al_map_rgb(255, 255, 255), 220, 40, ALLEGRO_ALIGN_CENTER, "%d", battle_pve->player->health_points);
 	al_draw_bitmap(battle_map->cardLife, 20, 10, 0); //moldura da barra de vida
+	//Desenha o tipo do player
+	ALLEGRO_BITMAP* player_type_icon = returnWitchIcon(battle_pve->player->type, battle_map);
+	al_draw_scaled_bitmap(player_type_icon, 0, 0, al_get_bitmap_width(player_type_icon), 
+		al_get_bitmap_height(player_type_icon), 360, 0, 100, 100, 0);
 	
 
 	//Desenha o bot, sua barra de vida e seus status
@@ -65,7 +83,10 @@ void renderBattle(BATTLE_MAP* battle_map, int chosen_element, int round, int tim
 	al_draw_filled_rectangle(inicial_x_bot_bar, 40, health_bot_bar_size, 75, al_map_rgba_f(1, 0, 0, 0.5));  //barra de vida
 	al_draw_textf(font_medium, al_map_rgb(255, 255, 255), 1080, 40, ALLEGRO_ALIGN_CENTER, "%d", battle_pve->bot->health_points);
 	al_draw_bitmap(battle_map->cardLife, 930, 10, ALLEGRO_FLIP_HORIZONTAL);//moldura da barra de vida
-
+	//Desenha o tipo do player
+	ALLEGRO_BITMAP* bot_type_icon = returnWitchIcon(battle_pve->bot->type, battle_map);
+	al_draw_scaled_bitmap(bot_type_icon, 0, 0, al_get_bitmap_width(bot_type_icon),
+		al_get_bitmap_height(bot_type_icon), 842, 0, 100, 100, 0);
 
 	//Desenha o estado da partida (round e timer do round)
 	al_draw_textf(font, al_map_rgb(255, 255, 255), 650, 15, ALLEGRO_ALIGN_CENTER, "Round - %d", round);

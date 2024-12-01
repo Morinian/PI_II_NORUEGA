@@ -16,6 +16,9 @@ void destroyBattleMap(BATTLE_MAP * battle_map)
 	al_destroy_bitmap(battle_map->mix_parchment);
 	al_destroy_bitmap(battle_map->angelStatus);
 	al_destroy_bitmap(battle_map->evilStatus);
+	al_destroy_bitmap(battle_map->fire_icon);
+	al_destroy_bitmap(battle_map->water_icon);
+	al_destroy_bitmap(battle_map->ground_icon);
 	free(battle_map);
 }
 
@@ -125,5 +128,8 @@ BATTLE_MAP* initBattleMap(char battle_background[], char footer_background[],
 	battle_map->renderStatus = renderStatus;
 	battle_map->angelStatus = initScenarioImage("./images/vida_status/escudo_bom.png");
 	battle_map->evilStatus = initScenarioImage("./images/vida_status/escudo_mal.png");
+	battle_map->fire_icon = initScenarioImage("./images/bruxas/tipos/tipo_fogo.png");
+	battle_map->water_icon = initScenarioImage("./images/bruxas/tipos/tipo_agua.png");
+	battle_map->ground_icon = initScenarioImage("./images/bruxas/tipos/tipo_terra.png");
 	return battle_map;
 }
