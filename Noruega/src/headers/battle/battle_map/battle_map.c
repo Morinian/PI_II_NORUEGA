@@ -8,12 +8,26 @@
 
 void destroyBattleMap(BATTLE_MAP * battle_map)
 {
+	al_destroy_bitmap(battle_map->cardLife);
 	al_destroy_bitmap(battle_map->battle_background);
 	al_destroy_bitmap(battle_map->element_parchment);
 	al_destroy_bitmap(battle_map->entity_shadow);
 	al_destroy_bitmap(battle_map->footer_background);
 	al_destroy_bitmap(battle_map->mix_parchment);
 	free(battle_map);
+}
+
+ALLEGRO_BITMAP* initCardLife()
+{
+	// Carregar imagem de fundo
+	ALLEGRO_BITMAP* cardLife;
+	cardLife = al_load_bitmap("./images/vida_status/barra_de_vida.png");
+	if (!cardLife)
+	{
+		printf_s("\nImagem de initCardLife nao alocada");
+		exit(-1);
+	}
+	return cardLife;
 }
 
 ALLEGRO_BITMAP* initScenarioImage(char image_path[])
@@ -74,6 +88,7 @@ BATTLE_MAP* initBattleMap(char battle_background[], char footer_background[],
 	char entity_shadow[], char element_parchment[], char mix_parchment[])
 {
 	BATTLE_MAP* battle_map = malloc(sizeof(BATTLE_MAP));
+	battle_map->cardLife = initCardLife();
 	battle_map->battle_background = initScenarioImage(battle_background);
 	battle_map->footer_background = initScenarioImage(footer_background);
 	battle_map->entity_shadow = initScenarioImage(entity_shadow);

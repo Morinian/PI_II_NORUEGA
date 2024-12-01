@@ -5,6 +5,7 @@
 
 	struct BATTLE_MAP
 	{
+		ALLEGRO_BITMAP* cardLife;
 		ALLEGRO_BITMAP* battle_background;
 		ALLEGRO_BITMAP* footer_background;
 		ALLEGRO_BITMAP* entity_shadow;

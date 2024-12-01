@@ -52,17 +52,21 @@ void renderBattle(BATTLE_MAP* battle_map, int chosen_element, int round, int tim
 	float inicial_x_player_bar = 100;
 	float health_player_bar_size = inicial_x_player_bar + (250.0 * (battle_pve->player->health_points / (float)battle_pve->player->base_health));
 	battle_pve->player->drawWitch(battle_pve->player);
-	al_draw_textf(font, al_map_rgb(255, 255, 255), 50, 15, ALLEGRO_ALIGN_CENTER, "%d", battle_pve->player->health_points);
-	al_draw_textf(font, al_map_rgb(255, 255, 255), 100, 75, ALLEGRO_ALIGN_CENTER, "MDR - %.1f", battle_pve->player->damage_received_multiplier);
-	al_draw_filled_rectangle(inicial_x_player_bar, 15, health_player_bar_size, 50, al_map_rgba_f(1, 0, 0, 0.5));
+	al_draw_filled_rectangle(inicial_x_player_bar, 40, health_player_bar_size, 75, al_map_rgba_f(1, 0, 0, 0.5)); //barra de vida
+	al_draw_textf(font_medium, al_map_rgb(255, 255, 255), 220, 40, ALLEGRO_ALIGN_CENTER, "%d", battle_pve->player->health_points);
+	al_draw_textf(font, al_map_rgb(255, 255, 255), 100, 90, ALLEGRO_ALIGN_CENTER, "MDR - %.1f", battle_pve->player->damage_received_multiplier);
+	al_draw_bitmap(battle_map->cardLife, 20, 10, 0); //moldura da barra de vida
+	
 
 	//Desenha o bot, sua barra de vida e seus status
 	float inicial_x_bot_bar = 950;
 	float health_bot_bar_size = 950 + (250.0 * (battle_pve->bot->health_points / (float)battle_pve->bot->base_health));
 	battle_pve->bot->drawWitch(battle_pve->bot);
-	al_draw_textf(font, al_map_rgb(255, 255, 255), 1250, 15, ALLEGRO_ALIGN_CENTER, "%d", battle_pve->bot->health_points);
-	al_draw_textf(font, al_map_rgb(255, 255, 255), 1200, 75, ALLEGRO_ALIGN_CENTER, "MDR - %.1f", battle_pve->bot->damage_received_multiplier);
-	al_draw_filled_rectangle(inicial_x_bot_bar, 15, health_bot_bar_size, 50, al_map_rgba_f(1, 0, 0, 0.5));
+	al_draw_filled_rectangle(inicial_x_bot_bar, 40, health_bot_bar_size, 75, al_map_rgba_f(1, 0, 0, 0.5));  //barra de vida
+	al_draw_textf(font_medium, al_map_rgb(255, 255, 255), 1080, 40, ALLEGRO_ALIGN_CENTER, "%d", battle_pve->bot->health_points);
+	al_draw_textf(font, al_map_rgb(255, 255, 255), 1200, 90, ALLEGRO_ALIGN_CENTER, "MDR - %.1f", battle_pve->bot->damage_received_multiplier);
+	al_draw_bitmap(battle_map->cardLife, 930, 10, ALLEGRO_FLIP_HORIZONTAL);//moldura da barra de vida
+
 
 	//Desenha o estado da partida (round e timer do round)
 	al_draw_textf(font, al_map_rgb(255, 255, 255), 650, 15, ALLEGRO_ALIGN_CENTER, "Round - %d", round);
