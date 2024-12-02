@@ -151,6 +151,7 @@
     <ClCompile Include="src\headers\mapa\mapa.c" />
     <ClCompile Include="src\headers\menu\menu.c" />
     <ClCompile Include="src\headers\tutorial\tutorial.c" />
+    <ClCompile Include="src\headers\witch\deck\deck.c" />
     <ClCompile Include="src\headers\witch\witch.c" />
     <ClCompile Include="src\Main.c" />
   </ItemGroup>
@@ -166,6 +167,7 @@
     <ClInclude Include="src\headers\mapa\mapa.h" />
     <ClInclude Include="src\headers\menu\menu.h" />
     <ClInclude Include="src\headers\tutorial\tutorial.h" />
+    <ClInclude Include="src\headers\witch\deck\deck.h" />
     <ClInclude Include="src\headers\witch\witch.h" />
   </ItemGroup>
   <ItemGroup>

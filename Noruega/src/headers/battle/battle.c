@@ -11,6 +11,7 @@
 #include "../battle/battle.h"
 #include "../random/random.h"
 #include "../general/general.h";
+#include "../witch/deck/deck.h"
 
 //Resultados das reações quimicas
 const char* nome[15] = {
@@ -168,6 +169,11 @@ bool play(ALLEGRO_EVENT_QUEUE* event_queue, BATTLE_PVE* battle_pve, ALLEGRO_FONT
 
 		//Zera a variavel que guarda o timer do round, para o inicio de um novo round
 		current_time = 0;
+
+		//Gera um padrão de deck para o player e bot
+		generateDeck(central_element, generateRandomIntInRange(false, 6), battle_pve->player);
+		chosen_deck_element = battle_pve->player->deck[chosen_deck_element_position];
+		generateDeck(central_element, generateRandomIntInRange(false, 6), battle_pve->bot);
 
 		while (in_game)
 		{
