@@ -12,12 +12,25 @@
 #include "../random/random.h"
 #include "../general/general.h";
 
+//Resultados das reações quimicas
 const char* nome[15] = {
 	"HCl", "NaOH", "H2SO4", "KMnO4", "H2O2", "Cl2", "NH3", "NaClO", "Na", "Mg", "Al", "HNO3", "Fe", "Cu", "Ag"
 };
 
 const char* resultado[6] = {
 	"Compativel", "Incompatibilidade acido base", "Incompatibilidade redox", "Incompatibilidade componentes toxicos", "Reacao com agua", "Reacao com metal"
+};
+
+
+//Resultados sobre cada tipo
+const char* resulAgua[6] = {
+	"Curar vida", "Ataque Super Efetivo", "Ataque Normal", "Não Efetivo", "Aumentar defesa", "Diminui a defesa do oponente"
+};
+const char* resulFire[6] = {
+	"Curar vida", "Ataque Normal", "Ataque Super Efetivo", "Ataque Super Efetivo", "Aumentar defesa", "Diminui a defesa do oponente"
+};
+const char* resulGround[6] = {
+	"Curar vida", "Não Efetivo", "Nao Efetivo", "Ataque Normal", "Aumentar defesa", "Diminui a defesa do oponente"
 };
 
 ALLEGRO_BITMAP* returnWitchIcon(enum WITCH_TYPE type, BATTLE_MAP * battle_map) {
@@ -46,11 +59,25 @@ void renderBattle(BATTLE_MAP* battle_map, int chosen_element, int round, int tim
 	al_draw_textf(font, al_map_rgba_f(0, 0, 1, 0.5), 650, 250, ALLEGRO_ALIGN_CENTER, "%s", nome[central_element]);
 
 	//Pergaminho
-	al_draw_textf(font_medium, al_map_rgba_f(0, 0, 0, 1), 970, 670, ALLEGRO_ALIGN_CENTER, "A combinacao elementos ");
-	al_draw_textf(font_medium, al_map_rgba_f(0, 0, 0, 1), 970, 698, ALLEGRO_ALIGN_CENTER, "%s com %s",
+	al_draw_textf(font_medium, al_map_rgba_f(0, 0, 0, 1), 970, 670-15, ALLEGRO_ALIGN_CENTER, "A combinacao elementos ");
+	al_draw_textf(font_medium, al_map_rgba_f(0, 0, 0, 1), 970, 698-15, ALLEGRO_ALIGN_CENTER, "%s com %s",
 		nome[central_element], nome[battle_pve->player->deck[chosen_element]]);
-	al_draw_textf(font_medium, al_map_rgba_f(0, 0, 0, 1), 970, 725, ALLEGRO_ALIGN_CENTER, "%s",
+	al_draw_textf(font_medium, al_map_rgba_f(0, 0, 0, 1), 970, 725-15, ALLEGRO_ALIGN_CENTER, "%s",
 		resultado[mixElements(battle_pve->player->deck[chosen_element], central_element)]);
+
+	if (battle_pve->bot->type == WATER) {
+		al_draw_textf(font_medium, al_map_rgba_f(0, 0, 0, 1), 970, 752-15, ALLEGRO_ALIGN_CENTER, "%s",
+			resulAgua[mixElements(battle_pve->player->deck[chosen_element], central_element)]);
+	}
+	else if (battle_pve->bot->type == FIRE) {
+		al_draw_textf(font_medium, al_map_rgba_f(0, 0, 0, 1), 970, 752 - 15, ALLEGRO_ALIGN_CENTER, "%s",
+			resulFire[mixElements(battle_pve->player->deck[chosen_element], central_element)]);
+	}
+	else if (battle_pve->bot->type == GROUND) {
+		al_draw_textf(font_medium, al_map_rgba_f(0, 0, 0, 1), 970, 752 - 15, ALLEGRO_ALIGN_CENTER, "%s",
+			resulGround[mixElements(battle_pve->player->deck[chosen_element], central_element)]);
+	}
+
 
 	//Array dos ponteiros das iamgens dos elementos
 	ALLEGRO_BITMAP* elementoImage[15] = {
