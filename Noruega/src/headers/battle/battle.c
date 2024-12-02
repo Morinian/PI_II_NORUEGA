@@ -24,11 +24,11 @@ const char* resultado[6] = {
 
 //Resultados sobre cada tipo
 const char* resulAgua[6] = {
-	"Curar vida", "Ataque Super Efetivo", "Ataque Normal", "Não Efetivo", "Aumentar defesa", "Diminui a defesa do oponente"
-};
-const char* resulFire[6] = {
 	"Curar vida", "Ataque Normal", "Ataque Super Efetivo", "Ataque Super Efetivo", "Aumentar defesa", "Diminui a defesa do oponente"
 };
+const char* resulFire[6] = {
+	"Curar vida", "Ataque Super Efetivo", "Ataque Normal", "Não Efetivo", "Aumentar defesa", "Diminui a defesa do oponente"
+}; 
 const char* resulGround[6] = {
 	"Curar vida", "Não Efetivo", "Nao Efetivo", "Ataque Normal", "Aumentar defesa", "Diminui a defesa do oponente"
 };
