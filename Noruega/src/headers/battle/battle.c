@@ -40,7 +40,7 @@ void renderBattle(BATTLE_MAP* battle_map, int chosen_element, int round, int tim
 {
 	al_clear_to_color(al_map_rgb(0, 0, 0));// Limpa a tela
 	battle_map->drawBattleMap(battle_map, battle_pve->player->damage_received_multiplier,
-		battle_pve->bot->damage_received_multiplier ,chosen_element);
+		battle_pve->bot->damage_received_multiplier, chosen_element, font);
 
 	//Desenha o elemento da entidade
 	al_draw_textf(font, al_map_rgba_f(0, 0, 1, 0.5), 650, 250, ALLEGRO_ALIGN_CENTER, "%s", nome[central_element]);

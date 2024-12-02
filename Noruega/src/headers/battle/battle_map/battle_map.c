@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
 #include "../../general/general.h"
 #include "battle_map.h"
 #include "../../witch/witch.h"
@@ -45,7 +47,8 @@ ALLEGRO_BITMAP* initScenarioImage(char image_path[])
 }
 
 //As posições estão fixas
-void renderStatus(BATTLE_MAP* battle_map, float damege_multiplayer, int x, int y, int sinal) {
+void renderStatus(BATTLE_MAP* battle_map, float damege_multiplayer, int x, int y, 
+	int sinal, ALLEGRO_FONT* font) {
 
 	if (damege_multiplayer > 1) {
 		for (float i = 1; i < damege_multiplayer; i += 0.2)
@@ -63,9 +66,12 @@ void renderStatus(BATTLE_MAP* battle_map, float damege_multiplayer, int x, int y
 				x + (100 * i * sinal), y, 100, 100, 0);
 		}
 	}
+	if (damege_multiplayer < 0.3 || damege_multiplayer >  1.7) //Esses números pela imprecisão do float
+		al_draw_text(font, al_map_rgb(255, 0, 0), x + (215*sinal), y + 45, ALLEGRO_ALIGN_LEFT, "max");
 }
 
-void drawBattleMap(BATTLE_MAP * battle_map, float player_status, float bot_status, int chosen_element)
+void drawBattleMap(BATTLE_MAP * battle_map, float player_status, float bot_status, 
+	int chosen_element, ALLEGRO_FONT* font)
 {
 	// Desenhar o fundo da batalha redimensionado 
 	al_draw_scaled_bitmap(battle_map->battle_background,
@@ -108,8 +114,8 @@ void drawBattleMap(BATTLE_MAP * battle_map, float player_status, float bot_statu
 				deck_position_coordinates[deck_position][1],
 				230, 120, 0);
 	}
-	renderStatus(battle_map, player_status, 0, 90, 1);
-	renderStatus(battle_map, bot_status, 1200, 90, -1);
+	renderStatus(battle_map, player_status, 0, 90, 1, font);
+	renderStatus(battle_map, bot_status, 1200, 90, -1, font);
 }
 
 
