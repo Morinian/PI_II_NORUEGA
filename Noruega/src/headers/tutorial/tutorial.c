@@ -230,7 +230,6 @@ ALLEGRO_BITMAP* initBookAnimaL()
 //FUNÇÕES DE DRAW ---------------------------------------------
 void bookDraw(ALLEGRO_BITMAP* bookAnimaR, ALLEGRO_BITMAP* bookAnimaL , ALLEGRO_BITMAP* book1, ALLEGRO_BITMAP* book2, ALLEGRO_BITMAP* book3, ALLEGRO_BITMAP* book4, ALLEGRO_BITMAP* book5, int *play, int nbook, int frame_width, int frame_height,int coordinate_x, int coordinate_y)
 {
-    printf("%d", nbook);
     if (*play == 0) {
 
         if (nbook == 1) {

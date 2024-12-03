@@ -15,9 +15,6 @@
 
 #include "./headers/mapa/mapa.h"
 #include "./headers/tutorial/tutorial.h"
-#include "./headers/fases/fase1/fase1.h"
-#include "./headers/fases/fase2/fase2.h"
-#include "./headers/fases/fase3/fase3.h"
 #include "./headers/witch/witch.h"
 
 
@@ -34,9 +31,6 @@ int main() {
     MENU* menu = initMenu();
     MAPA* mapa = initMapa();
     TUTORIAL* tutorial = initTutorial();
-    FASE1* fase1 = initFase1();
-    FASE2* fase2 = initFase2();
-    FASE3* fase3 = initFase3();
     ELEMENTO* elemento = initElemento();
 
     //init Bruxas
@@ -225,7 +219,7 @@ int main() {
                 }
                 else if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
                     screen = MENU;
-                    nphase = -1;
+                    nphase = 0;
                 }
             }
 
@@ -471,9 +465,6 @@ int main() {
     menu->destroyMenu(menu);
     mapa->destroyMap(mapa);
     tutorial->destroyMap(tutorial);
-    fase1->destroyFase1(fase1);
-    fase2->destroyFase2(fase2);
-    fase3->destroyFase3(fase3);
     elemento->destroyElemento(elemento);
 
     //imagens finais
