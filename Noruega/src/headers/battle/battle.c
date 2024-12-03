@@ -28,10 +28,10 @@ const char* resulAgua[6] = {
 	"Curar vida", "Ataque Normal", "Ataque Super Efetivo", "Ataque Super Efetivo", "Aumentar defesa", "Diminui a defesa do oponente"
 };
 const char* resulFire[6] = {
-	"Curar vida", "Ataque Super Efetivo", "Ataque Normal", "Não Efetivo", "Aumentar defesa", "Diminui a defesa do oponente"
+	"Curar vida", "Ataque Super Efetivo", "Ataque Normal", "Nao Efetivo", "Aumentar defesa", "Diminui a defesa do oponente"
 }; 
 const char* resulGround[6] = {
-	"Curar vida", "Não Efetivo", "Nao Efetivo", "Ataque Normal", "Aumentar defesa", "Diminui a defesa do oponente"
+	"Curar vida", "Nao Efetivo", "Nao Efetivo", "Ataque Normal", "Aumentar defesa", "Diminui a defesa do oponente"
 };
 
 ALLEGRO_BITMAP* returnWitchIcon(enum WITCH_TYPE type, BATTLE_MAP * battle_map) {
@@ -47,6 +47,47 @@ ALLEGRO_BITMAP* returnWitchIcon(enum WITCH_TYPE type, BATTLE_MAP * battle_map) {
 		exit(-1);
 	}
 }
+
+ALLEGRO_COLOR get_color_by_type_and_element(enum WITCH_TYPE type, int chosen_element) {
+	switch (type) {
+	case WATER:
+		switch (chosen_element) {
+		case 0: return al_map_rgb_f(0, 0.8, 0);
+		case 1: return al_map_rgb_f(0.6, 0, 0);
+		case 2: return al_map_rgb_f(0.9 , 0, 0);
+		case 3: return al_map_rgb_f(0.9, 0, 0);
+		case 4: return al_map_rgb_f(0, 0, 1);
+		case 5: return al_map_rgb_f(0, 0, 0.4);
+		default: return al_map_rgb_f(0, 0, 0); // Preto padrão
+		}
+
+	case FIRE:
+		switch (chosen_element) {
+		case 0: return al_map_rgb_f(0, 0.8, 0);
+		case 1: return al_map_rgb_f(0.9, 0, 0);
+		case 2: return al_map_rgb_f(0.6, 0, 0);
+		case 3: return al_map_rgb_f(0.2, 0, 0);
+		case 4: return al_map_rgb_f(0, 0, 1);
+		case 5: return al_map_rgb_f(0, 0, 0.4);
+		default: return al_map_rgb_f(0, 0, 0); // Preto padrão
+		}
+
+	case GROUND:
+		switch (chosen_element) {
+		case 0: return al_map_rgb_f(0, 0.8, 0);
+		case 1: return al_map_rgb_f(0.2, 0, 0);
+		case 2: return al_map_rgb_f(0.3, 0, 0);
+		case 3: return al_map_rgb_f(0.6, 0, 0);
+		case 4: return al_map_rgb_f(0, 0, 1);
+		case 5: return al_map_rgb_f(0, 0, 0.4);
+		default: return al_map_rgb_f(0, 0, 0); // Preto padrão
+		}
+
+	default:
+		return al_map_rgb_f(0, 0, 0); // Preto padrão 
+	}
+}
+
 
 void renderBattle(BATTLE_MAP* battle_map, int chosen_element, int round, int timer,
 	ALLEGRO_FONT* font, ALLEGRO_FONT* font_medium, BATTLE_PVE* battle_pve, enum CHEMICAL_ELEMENTS central_element,
@@ -66,16 +107,17 @@ void renderBattle(BATTLE_MAP* battle_map, int chosen_element, int round, int tim
 	al_draw_textf(font_medium, al_map_rgba_f(0, 0, 0, 1), 970, 725-15, ALLEGRO_ALIGN_CENTER, "%s",
 		resultado[mixElements(battle_pve->player->deck[chosen_element], central_element)]);
 
+
 	if (battle_pve->bot->type == WATER) {
-		al_draw_textf(font_medium, al_map_rgba_f(0, 0, 0, 1), 970, 752-15, ALLEGRO_ALIGN_CENTER, "%s",
+		al_draw_textf(font_medium, get_color_by_type_and_element(battle_pve->bot->type, mixElements(battle_pve->player->deck[chosen_element], central_element)), 970, 752 - 15, ALLEGRO_ALIGN_CENTER, "%s",
 			resulAgua[mixElements(battle_pve->player->deck[chosen_element], central_element)]);
 	}
 	else if (battle_pve->bot->type == FIRE) {
-		al_draw_textf(font_medium, al_map_rgba_f(0, 0, 0, 1), 970, 752 - 15, ALLEGRO_ALIGN_CENTER, "%s",
+		al_draw_textf(font_medium, get_color_by_type_and_element(battle_pve->bot->type, mixElements(battle_pve->player->deck[chosen_element], central_element)), 970, 752 - 15, ALLEGRO_ALIGN_CENTER, "%s",
 			resulFire[mixElements(battle_pve->player->deck[chosen_element], central_element)]);
 	}
 	else if (battle_pve->bot->type == GROUND) {
-		al_draw_textf(font_medium, al_map_rgba_f(0, 0, 0, 1), 970, 752 - 15, ALLEGRO_ALIGN_CENTER, "%s",
+		al_draw_textf(font_medium, get_color_by_type_and_element(battle_pve->bot->type, mixElements(battle_pve->player->deck[chosen_element], central_element)), 970, 752 - 15, ALLEGRO_ALIGN_CENTER, "%s",
 			resulGround[mixElements(battle_pve->player->deck[chosen_element], central_element)]);
 	}
 

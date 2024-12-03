@@ -40,8 +40,8 @@ int main() {
     ELEMENTO* elemento = initElemento();
 
     //init Bruxas
-    WITCH* player = initWitch("./images/bruxas/bruxa.png", 200, 340, 500, FIRE);
-    WITCH* bot = initWitch("./images/bruxas/inimigo1.png", 900, 340, 1, WATER);
+    WITCH* player = initWitch("./images/bruxas/bruxa.png", 200, 340, 200, FIRE);
+    WITCH* bot = initWitch("./images/bruxas/inimigo1.png", 900, 340, 200, WATER);
 
     /*
     WITCH* player = initWitch("./images/bruxas/bruxa.png", 230, 180, 350, FIRE);
@@ -410,7 +410,7 @@ int main() {
             else {
                 bot->health_points = bot->base_health;
                 player->health_points = player->base_health;
-                nphase = -10;
+                nphase = 0;
             }
             al_resize_display(display, width, height);
             screen = MAPA;
